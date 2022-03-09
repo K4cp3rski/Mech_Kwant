@@ -29,9 +29,15 @@
 
 \newcommand{\ind}[1]{{\color{blue} #1\index{#1}}}
 
+\newcommand{\subind}[2]{{\color{blue} #1\index{#2}}}
+
 \newcommand{\com}[1]{{\color{red} #1}}
 
 \newcommand{\link}[2]{{\color{cyan} \href{#1}{#2}}}
+
+\newcommand{\uwaga}[1]{{\color{violet} Uwaga:} #1}
+
+\newcommand{\phys}{\stackrel{\text{F}}{\equiv}}
 
 \newcommand{\E}{\mathcal{E}}
 
@@ -39,10 +45,26 @@
 
 \newcommand{\T}{\mathcal{T}}
 
+\newcommand{\HS}{\mathcal{H}}
+
+\newcommand{\CS}{\mathcal{C}}
+
 \renewcommand{\emph}{\textbf}
 
 \newenvironment{lecture}[1][]{\par\medskip
    \noindent\chapter \rmfamily}{\medskip}
+   
+\newenvironment{emph_box}[1]
+    {\begin{center}
+    \begin{tabular}{|p{0.9\textwidth}|}
+    \hline
+    \begin{center} \textbf{#1} \end{center}\\[1ex]
+    }
+    { 
+    \\\\\hline
+    \end{tabular} 
+    \end{center}
+    }
 
 \begin{document}
 
@@ -178,7 +200,7 @@ Polecane podręczniki:
     
     Teraz aby zrozumieć jak w takim układzie zachowuje się foton musimy odejść od klasycznego myślenia, że leci on jakąś drogą, a musimy przejść do myślenia o jego drodze jako \emph{nieokreślonej}, tj. do momentu wykonania pomiaru (wejścia w interakcję z nim) podąża on jednocześnie wszyskimi możliwymi dla siebie trajektoriami, tym samym przyjmując właściwości falowe. Da to efekt jak ten widoczny na Rysunku \ref{fig:lec_1:interferometer_phi_0}.
     
-    Od teraz ten stan 'obierania wszystkich możliwości na raz' przez foton będziemy określać jako \ind{stan fotonu} oznaczany $\ket{\Psi}$. Tłumaczy się to na funkcję gęstości prawdopodobieństwa znalezienia fotonu w jego możliwych trajektoriach.
+    Od teraz ten stan 'obierania wszystkich możliwości na raz' przez foton będziemy określać jako \subind{stan fotonu}{Stan!fotonu} oznaczany $\ket{\Psi}$. Tłumaczy się to na funkcję gęstości prawdopodobieństwa znalezienia fotonu w jego możliwych trajektoriach.
     
     W szczególności w opisywanym wyżej przypadku stan $\ket{\Psi}$ będzie opisywany przez \emph{superpozycję} stanów 1 i 2 odpowiadających pójściem drogą odpowiednio górną i dolną, tj. $\ket{\Psi} = \mqty[\Psi_1 \\ \Psi_2]$ gdzie $\Psi_i$ - aplituda prawdopodobieństwa obrania ścieżki $i$, a $p_i = \qty|\Psi_i|^2$ - prawdopodobieństwo, że foton leci i-tą trajektorią.
     
@@ -198,12 +220,118 @@ Polecane podręczniki:
         \qty|\Psi_i|^2 \sim \qty|\E_i|^2 \sim I_i
     \]
     
+\section{Hipoteza De Broigle'a}
+{\it Side note 1}: W naszych rozważaniach nie będzie mieć znaczenia faza całkowita, znaczenie będzie mieć tylko faza względna między ramionami, tj. $\E_i \to e^{i \xi} \E_i$. Innymi słowy, 'globalna faza' {\color{brown} nie istnieje!.}
+
+Wyszliśmy w naszych dywagacjach od myślenia o fotonach jako o obiektach falowych, ale nie można zapomnieć o tym, że fotony mają również właściwości korpuskularne, więc sugeruje to, że dla materii też to powinno działać. W związku z tym \ind{Hipoteza De Broigle'a} odpowiadać nam będzie za opisanie 'fal materii', gdzie ich długość fali to będzie:
+\[
+    \lambda = \frac{h}{p}
+\]
+Co dla światła ma interpretację:
+\[
+    p = \frac{E}{c} = \frac{h \cdot \mu}{c} = \frac{h}{\lambda}
+\]
+Gdzie $E$ - Energia.
+    
     Further reading: 
     \begin{itemize}
         \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/wyklad1-foton.pdf}{Notatki Demko do tego wykładu}
         \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia1.pdf}{Zadanka na ćwiczenia 1}
         \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia1.pdf}{Zadanka na ćwiczenia 2}
     \end{itemize}
+\end{lecture}
+
+% ------------------------------------------------------------------------
+% Wykład 04.03.2022
+
+\begin{lecture}
+
+\section{Stany i pomiary kwantowe}
+W tym wykładzie zajmiemy się powoli formalizowaniem intuicji nabywanej na poprzednim wykładzie. Zdefiniujmy $\ket{i}$ - pewne stany rozróżnialne (istnieje pomiar dający róne wyniki dla różnych stanów).
+
+\begin{emph_box}{\subind{Zasada superpozycji}{Zasada!superpozycji}}
+\color{orange}
+Jeśli $\ket{1}$ i $\ket{2}$ są dopusczalnymi stanami układu, to "$\ket{1}\oplus\ket{2}$"\footnote{rozumiemy to jako "jednocześnie $\ket{1}$ i $\ket{2}$"} też musi być dopuszczalnym stanem układu
+\end{emph_box}
+
+Matematyczna struktura odpowiednia dla superpozycji to:
+\begin{itemize}
+    \item Przestrzeń Hilberta $\HS$ nad $\CS$
+    \item $\HS$ - przestrzeń wektorowa nad $\CS$ z iloczynem skalarnym $\braket{\Psi}{\phi}$, $\ket{\Psi} \in \HS$\footnote{wektor reprezentuje stan}, zupełna\footnote{każdy ciąg Cauchy zbiega do elementu $\HS$}
+    \item \uwaga{każda skończenie wymiarowa przestrzeń Hilberta (dim $\HS = d$) jest izomorficzna z $\CS^d$}.
+\end{itemize}
+
+\subind{Stan Kwantowy}{Stan!kwantowy}:
+Niech $\ket{\Psi} \in \HS$, $\braket{\Psi} = 1$. \uwaga{$\ket{\Psi} \phys e^{i \xi} \ket{\Psi} \implies \ket{\Psi} \phys z \cdot \ket{\Psi}$\footnote{Symbol $\phys$ oznacza 'w interpretacji fizycznej ...'}}\\
+Stanem kwantowym nazwiemy też promień w przestrzeni Hilberta $\HS$
+
+\ind{Pomiary kwantowe}:
+W przestrzeni Hilberta $\HS$ bierzemy sobie wektory $\ket{a_i} \in \HS$, tworzące bazę ortonormalną w $\HS$. Bedzie to zespół rozróżnialnych stanów różniących się pewną obserwowalną wielkością ficzyną $A$. Czyli przyjmujemy:\\
+$\ket{a_i}$ - mają dobrze określoną wartośc wielkości fizycznej $A$. Zawsze jak je mierzymy to dostajemy $a_i$.\\
+Innymi słowy, jak mamy kilka wielkości fizycznych $A, B, C, \dots$, to w ogólności {\color{red} nie będziemy mogli znaleźć jednej bazy ortonormalnej} $\ket{a_i, b_i, c_i, \dots}$. Jest to esencja mechaniki kwantowej, że różne wialkości fizyczne związane są z różnymi, niekompatybilnymi wobec siebie bazami, które opisują każdą z osobna.\footnote{Czyli pomiar$\neq$zaglądanie do garnka /sprawdzanie stanu który jest zdeterminowany/}
+
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.8\linewidth]{Wyk_2_Rys_1.jpeg}
+        \caption{Porównanie podejść \com{dopracuj opis}}
+        \label{fig:lec_2:porownianie}
+    \end{figure}
+    
+
+\begin{emph_box}{\ind{Postulat pomiarowy}}
+    \color{orange} Jeśli $\ket{\Psi}$ jest dowolnym stanem, na którym chcemy zmierzyć wielkość fizyczną $A$, z którą stowarzyszona jest baza $\qty{\ket{a_i}}$. Możemy napisać:
+    \[\ket{\Psi} = \sum_i \alpha_i\ket{a_i}\]
+    Wtedy uzyskany wynik $a_i$ z prawdopodobieństwem $p_i = \qty|\alpha_i|^2 = \qty|\braket{a_i}{\Psi}|^2$. Tym samym stan po pomiarze ma dobrze określone wielkości $a_i$, tj. jest $\ket{\Psi} = \ket{a_i}$.
+\end{emph_box}
+ Czyli też jak już raz dokonamy pomiaru na stanie kwantowym to on już nie wróci do możliwości interferencji, i za każdym kolejnym pomiarem już będziemy obserwować ten sam stan, tj. zacznie się zachowywać jakby był klasyczny.
+    
+\ind{Observabl-a}:
+Z pomiarem wielkości A $\qty(\qty{\ket{a_i}})$ stowarzyszamy operator 
+\[
+    \hat{A} = \sum_i a_i \ketbra{a_i}
+\]
+gdzie $\hat{A}$ jest operatorem Hermitowskim\footnote{Operator hermitowski - $A^\dagger = A$} czyli w szczególności mając $\hat{A}$ możemy też znaleźć $\qty{\ket{a_i}}$ robiąc rozkład własny.
+
+\begin{align*}
+\hline \hline
+\end{align*}
+
+{\it Crash course z notacji Diraca:}\\
+\textbf{ket}:
+\[
+    \ket{a} = \mqty[a_1 \\ a_2 \\ \vdots \\ a_n] = \vb{v}
+\]
+\textbf{bra}:
+\[
+    \bra{a} = \ket{a}^\dagger = \mqty[a_1, a_2, \cdots, a_n]^\ast = \vb{v}^\dagger
+\]
+Czyli jak je połączymy dostajemy \textbf{braket}:
+\[
+    \braket{a}{b} = \mqty[a_1, a_2, \cdots, a_n]^\ast \cdot \mqty[b_1 \\ b_2 \\ \vdots \\ b_n] = \vb{v} \cdot \vb{v}^\ast = liczba\footnote{Iloczyn skalarny}
+\]
+Zaś z kolei jak pomnożymy w odwrotnej koleności mamy \textbf{ketbra}:
+\[
+    \ketbra{a}{b} =  \mqty[a_1 \\ a_2 \\ \vdots \\ a_n] \cdot \mqty[a_1, a_2, \cdots, a_n]^\ast = M \in M(\CS)_n^n
+\] co rozumiemy też jako operator rzutowy.
+
+\begin{align*}
+\hline \hline
+\end{align*}
+
+Obserwable jest wygodniej liczyć jako wartości oczekiwane z jakichś rozkłądów prawdopodobieństw:\\
+\[
+    \expval{A} = \sum_i p_i a_i = \sum_i \qty|\braket{a_i}{\Psi}|^2 \cdot a_i
+\]
+Gdzie wiemy, że człon $\qty|\braket{a_i}{\Psi}|^2$ możemy rozpisać jako:
+\[
+    \qty|\braket{a_i}{\Psi}|^2 = \qty|\braket{\Psi}{a_i}|^2 = \braket{\Psi}{a_i}\braket{a_i}{\Psi} = \bra{\Psi} \quad \ketbra{a_i} \quad \ket{\Psi}
+\]
+W związku z tym możemy dalej rozpisać $\expval{A}$ jako:
+\[
+    \expval{A} = \bra{\Psi} \quad \sum_i a_i \ketbra{a_i} \quad \ket{\Psi} =\footnote{${\color{blue} \sum_i a_i \ketbra{a_i} = \hat{A}}$} \ev{\hat{A}}{\Psi}
+\]
+
+
 \end{lecture}
 
 
