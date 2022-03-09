@@ -53,6 +53,18 @@
 
 \newenvironment{lecture}[1][]{\par\medskip
    \noindent\chapter \rmfamily}{\medskip}
+   
+\newenvironment{emph_box}[1]
+    {\begin{center}
+    \begin{tabular}{|p{0.9\textwidth}|}
+    \hline
+    \begin{center} \textbf{#1} \end{center}\\[1ex]
+    }
+    { 
+    \\\\\hline
+    \end{tabular} 
+    \end{center}
+    }
 
 \begin{document}
 
@@ -237,10 +249,10 @@ Gdzie $E$ - Energia.
 \section{Stany i pomiary kwantowe}
 W tym wykładzie zajmiemy się powoli formalizowaniem intuicji nabywanej na poprzednim wykładzie. Zdefiniujmy $\ket{i}$ - pewne stany rozróżnialne (istnieje pomiar dający róne wyniki dla różnych stanów).
 
-\com{zdefiniuj ładne środowisko na ramki z ważnymi rzeczami (to co na pomarańczowo}
-
-\subind{Zasada superpozycji}{Zasada!superpozycji}:
-{\color{orange} jeśli $\ket{1}$ i $\ket{2}$ są dopusczalnymi stanami układu, to "$\ket{1}\oplus\ket{2}$"\footnote{rozumiemy to jako "jednocześnie $\ket{1}$ i $\ket{2}$"} też musi być dopuszczalnym stanem układu}
+\begin{emph_box}{\subind{Zasada superpozycji}{Zasada!superpozycji}}
+\color{orange}
+Jeśli $\ket{1}$ i $\ket{2}$ są dopusczalnymi stanami układu, to "$\ket{1}\oplus\ket{2}$"\footnote{rozumiemy to jako "jednocześnie $\ket{1}$ i $\ket{2}$"} też musi być dopuszczalnym stanem układu
+\end{emph_box}
 
 Matematyczna struktura odpowiednia dla superpozycji to:
 \begin{itemize}
@@ -265,8 +277,13 @@ Innymi słowy, jak mamy kilka wielkości fizycznych $A, B, C, \dots$, to w ogól
         \label{fig:lec_2:porownianie}
     \end{figure}
     
-\ind{Postulat pomiarowy}:
-{\color{orange} Jeśli $\ket{\Psi}$ jest dowolnym stanem, na którym chcemy zmierzyć wielkość fizyczną $A$, z którą stowarzyszona jest baza $\qty{\ket{a_i}}$. Możemy napisać:\\ \[\ket{\Psi} = \sum_i \alpha_i\ket{a_i}\]Wtedy uzyskany wynik $a_i$ z prawdopodobieństwem $p_i = \qty|\alpha_i|^2 = \qty|\braket{a_i}{\Psi}|^2$. Tym samym stan po pomiarze ma dobrze określone wielkości $a_i$, tj. jest $\ket{\Psi} = \ket{a_i}$.} Czyli też jak już raz dokonamy pomiaru na stanie kwantowym to on już nie wróci do możliwości interferencji, i za każdym kolejnym pomiarem już będziemy obserwować ten sam stan, tj. zacznie się zachowywać jakby był klasyczny.
+
+\begin{emph_box}{\ind{Postulat pomiarowy}}
+    \color{orange} Jeśli $\ket{\Psi}$ jest dowolnym stanem, na którym chcemy zmierzyć wielkość fizyczną $A$, z którą stowarzyszona jest baza $\qty{\ket{a_i}}$. Możemy napisać:
+    \[\ket{\Psi} = \sum_i \alpha_i\ket{a_i}\]
+    Wtedy uzyskany wynik $a_i$ z prawdopodobieństwem $p_i = \qty|\alpha_i|^2 = \qty|\braket{a_i}{\Psi}|^2$. Tym samym stan po pomiarze ma dobrze określone wielkości $a_i$, tj. jest $\ket{\Psi} = \ket{a_i}$.
+\end{emph_box}
+ Czyli też jak już raz dokonamy pomiaru na stanie kwantowym to on już nie wróci do możliwości interferencji, i za każdym kolejnym pomiarem już będziemy obserwować ten sam stan, tj. zacznie się zachowywać jakby był klasyczny.
     
 \ind{Observabl-a}:
 Z pomiarem wielkości A $\qty(\qty{\ket{a_i}})$ stowarzyszamy operator 
@@ -305,6 +322,15 @@ Obserwable jest wygodniej liczyć jako wartości oczekiwane z jakichś rozkł�
 \[
     \expval{A} = \sum_i p_i a_i = \sum_i \qty|\braket{a_i}{\Psi}|^2 \cdot a_i
 \]
+Gdzie wiemy, że człon $\qty|\braket{a_i}{\Psi}|^2$ możemy rozpisać jako:
+\[
+    \qty|\braket{a_i}{\Psi}|^2 = \qty|\braket{\Psi}{a_i}|^2 = \braket{\Psi}{a_i}\braket{a_i}{\Psi} = \bra{\Psi} \quad \ketbra{a_i} \quad \ket{\Psi}
+\]
+W związku z tym możemy dalej rozpisać $\expval{A}$ jako:
+\[
+    \expval{A} = \bra{\Psi} \quad \sum_i a_i \ketbra{a_i} \quad \ket{\Psi} =\footnote{${\color{blue} \sum_i a_i \ketbra{a_i} = \hat{A}}$} \ev{\hat{A}}{\Psi}
+\]
+
 
 \end{lecture}
 
