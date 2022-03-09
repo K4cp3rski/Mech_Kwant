@@ -334,6 +334,121 @@ W związku z tym możemy dalej rozpisać $\expval{A}$ jako:
 
 \end{lecture}
 
+% --------------------------------------------------------
+% Wykład 09.03.2022
+
+\begin{lecture}
+\section{Ewolucja stanów kwantowych}
+Będziemy brać teraz pod uwagę tylko \emph{układy izolowane}! Tutaj rozumiemy, że \ind{Układ izolowany} - układ który nie oddziaływuje z otoczeniem i brak pomiarów.\\
+Formalnie napiszemy, że (póki co bez żadnych założeń) $\ket{\Psi(0)}$ - stan w chwili początkowej, $\ket{\Psi(t)}$ - stan po czasie. Teraz chcemy wiedzieć, jaki będzie $\ket{\Psi(t)}$?
+Otóż:
+\[
+    \ket{\Psi(0)} = \mathcal(U)(t)\qty[\ket{\Psi(0)}]
+\]
+Tj. tak jak w mechanice klasycznej - założymy, że nasza ewolucja w czasie jest odwracalna. Wynika z tego, że 
+\begin{itemize}
+    \item \emph{stany rozróżnialne\footnote{Ortogonalne} muszą pozostać rozróżnialne.} Możemy na to patrzeć jako na \emph{zachowanie informacji}.
+    \[
+        \braket{\Psi(0)} = 0 \qc \braket{\Psi(t)} = 0
+    \]
+    \item Stopień rozróżnialności tych stanów zależeć będzie od ich iloczynu skalarnego. Chcemy, żeby pozostał on stały $$\implies \braket{\Psi(0)} = \braket{\Psi(t)}$$
+\end{itemize}
+
+\newcommand{\psket}[1]{\ket{\Psi(#1)}}
+
+{\color{teal} Fakt}: $U(t)$ jest liniowe.\\
+Sprawdźmy go. Także rozważmy $$\ket{\xi} = U(t)\qty[a \ket{\Psi(0)} + b \ket{\Psi(0)}] - a U(t)\qty[\ket{\Psi(0)}] - b U(t)\qty[\ket{\Psi(0)}]$$
+Teraz obliczmy:
+\begin{align*}
+    \braket{\xi} &= \qty(U(t) \qty[a \psket{0} + b \psket{0}])^\dagger \qty( U(t) \qty[a \ket{\Psi(0)} + b \ket{\Psi(0)}] - a U(t) \qty[\ket{\Psi(0)}] - b U(t) \qty[\ket{\Psi(0)}])\\
+    &- \qty(a U(t) \qty[\psket{0}])^\dagger \qty(-||-)\\
+    &- \qty(a U(t) \qty[\psket{0}])^\dagger \qty(-||-)
+\end{align*}
+Czyli $\qty(U(t)\ket{\Psi})^\dagger (U(t) \ket{\Psi}) = \braket{\Psi} = 0$, bo można 'usunąć' wszystkie $U(t)$. Wynika z tego, że $U(t)$ \emph{jest liniowe.}
+
+{\color{teal} Wnioski}: $U(t)$ jest liniowa (w skończenie wymiarowych przestrzeniach reprezentowanych przez macierz\footnote{Bo $(AB)^\dagger = A^\dagger B^\dagger$}) i zachowuje iloczyn skalarny.
+\[
+    \implies \psket{0} = U(t) \cdot \psket{0}
+\]
+
+Teraz ciągnąc to rozumowanie dalej:
+\[
+    \forall_{\ket{\Psi(0)}, \ket{\varphi(0)}} = \braket{\Psi(0)}{\varphi(0)} = \mel{\Psi(0)}{U^\dagger(t) U(t)}{\varphi(0)} = \braket{\Psi(0)}{\varphi(0)}
+\]
+Wynikać z tego będzie, że $U(t)^\dagger U(t) = 1$. Wiedząc, że pracujemy w skończenie wymiarowej przestrzeni wnioskujemy, że $U(t)$ jest \emph{Unitarne}. Oznacza to też, że $U^{-1}(t) = U(t)^\dagger$. Teraz fizycznym argumentem, że $U^{-1}(t)$ istnieje będzie to, że powinno być $U^{-1}(t) = U(-t)$.\\
+
+\newcommand{\Id}{Id}
+
+Idziemy dalej. Wiemy, że $U(t=0) = \Id$. Rozważmy pierwsze (liniowe) rozwinięcie $U(t)$ w czasie:
+\[
+    U(dt) = \Id + \qty(- \frac{i}{\hbar} H \dd{t} + O(\dd{t}^2))
+\]
+\[
+1 = U(\dd{t})^\dagger U(\dd{t}) = \qty(\Id + \frac{i}{\hbar} H^\dagger \dd{t} + O(\dd{t}^2)) \qty(\Id - \frac{i}{\hbar} H^\dagger \dd{t} + O(\dd{t}^2)) = \Id + \frac{i}{\hbar} (H^\dagger - H) \dd{t} + O(\dd{t}^2)
+\]
+Czyli widzimy, że $H^\dagger = H$ - jest Hermitowskie.
+
+\[
+    \psket{\dd{t}} = U(\dd{t}) \psket{0} = \psket{0} - \frac{i}{\hbar} H \dd{t} \psket{0} + O(\dd{t^2}) = \psket{0} + \dv{\psket{t}}{t}\eval_{t=0} + \order{\dd{t^2}}
+\]
+\[
+    \dv{\psket{t}}{t}\eval_{t=0} = - \frac{i}{\hbar} H \psket{0} \implies i \hbar \dv{\psket{t}}{t}\eval_{t=0} = H \psket{0}
+\]Ale zamiast pisać $\psket{\dd{t}} = U(\dd{t}) \psket{0}$ można ogólniej powiedzieć: $\psket{t + \dd{t}} = U(\dd{t}) \psket{t}$.\\
+Dostajemy:
+\[
+    
+\]
+\com{Przepisz ze zdjęcia}
+
+\section{Argument za naturą fizyczną H}
+Rozważmy obserwablę $A$ i jej wartość oczekiwaną na stanie $\psket{t}$.
+Wtedy:
+\[
+    \ev{A}_t = \ev{A}{\Psi(t)}
+\]
+\begin{align*}
+    \dv{\ev{A}_t}{t} &= \dv{\bra{\Psi(t)}}{t} A \psket{t} + \ev{A}{\Psi(t)} = \frac{i}{\hbar} \ev{H\cdot A - A \cdot H}{\Psi(t)}\\
+    &= \frac{i}{\hbar} \ev{\qty[H, A]}{\Psi(t)} = - \frac{i}{\hbar} \ev{\qty[A, H]}{\Psi(t)}
+\end{align*}
+
+Jeśli wybierzemy $A = H \implies \dv{\ev{H}}{t} = 0$ czyli H jest związany z wielkością fizyczną zachowaną w czasie ewolucji $\implies$ w
+pierwsza myśl, że ma coś wspólnego z energią.
+
+\begin{emph_box}{Analogia z Mechaniką Klasyczną}
+$$A(q, p) \qc \dv{A}{t} = \qty{A, H} = \sum_i \dv{A}{q_i} \dv{H}{p_i} - \dv{A}{p_i}\dv{H}{q_i}$$
+Formalna recepta wiążąca mechanikę klasyczną z kwantową: $$\qty{\cdot, \cdot} \to =\frac{i}{\hbar} \qty[\cdot , \cdot]$$. Jest to dodatkowy argument na to, że H ma coś wspólnego z energią.
+\end{emph_box}
+
+To teraz dochodzimy do równań:
+\[
+    \dv{\psket{t}}{t} = - \frac{i}{\hbar} H \psket{t} \implies \psket{t} = U(t) \psket(0)
+\]
+Gdzie $U(t) = e^{- \frac{i}{\hbar}H \cdot  t}$
+Gdzie wreszcie piszemy, że H - Hamiltonian.
+
+\section{Wyznaczenie ewolucji stanu w praktyce}
+
+Mamy $H$, robimy jego rozkład własny, tj. $H = \sum_k E_k\footnote{Wartości własne (energie)}\ketbra{E_k}$. $H\ket{E_k} = E_k\ket{E_k}$
+
+Jeśli:\\
+$\psket{0} = \ket{E_k}, \qq{stan o dobrze określonej energii}$\\
+$\psket{t} = e^{- \frac{i}{\hbar}H \cdot  t} \ket{E_k} = e^{- \frac{i}{\hbar}E_k \cdot  t} \ket{E_k}$\\
+Czyli energia stanu o dobrze określonej energii zmienia tylko globalną fazę, czyli fizycznie stan się nie zmienia.\\
+Ogólnie jeśli mamy dowolny stan początkowy $\psket{0}$, to możemy go rozłożyć w bazie $\qty{\ket{E_k}}$. W takim razie widzimy, że zajdzie:\\
+$\psket{0} = \sum_k c_k\footnote{$c_k = \braket{E_k}{\Psi(0)}$} \ket{E_k}$, z liniowości $\psket{t} = \sum_k c_k U(t)\ket{E_k} = \sum_k c_k e^{- \frac{i}{\hbar}E_k \cdot t} \ket{E_k}$\\
+\emph{Uogólnienie} W modelach gdy $H$ zależy jawnie od czasu (czyli de facto bierzemy układ izolowany) możemy te układy wciąż opisywać jakby były izolowane, ale musimy dopuścić $H = H(t)$. Wtedy jedyna zmiana jaka się pojawia, to:
+\[
+    \dv{\psket{t}}{t} = - \frac{i}{\hbar} H(t) \psket(t) \implies U(t) \approx e^{- \frac{i}{\hbar} (t - \Delta t) \Delta t} \dots e^{- \frac{i}{\hbar} (\Delta t) \Delta t} e^{- \frac{i}{\hbar} (0) \Delta t}
+\]
+\[
+    U(t) \approx
+    \begin{cases}
+        U(t) = e^{- \frac{i}{\hbar} \int_0^t H(t) \dd{t}}, \qq{jeśli H(t) komutują ze sobą w różnych chwilach czasu}\\
+        U(t) = \tau\footnote{uporządkowanie czasowe} \qty[e^{- \frac{i}{\hbar} \int_0^t H(t) \dd{t}},]
+    \end{cases}
+\]
+\end{lecture}
+
 
 \tableofcontents
 
