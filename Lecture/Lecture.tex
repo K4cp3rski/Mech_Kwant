@@ -2,9 +2,13 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{fontspec}
-\usepackage[polish]{babel}
 \usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[polish]{babel}
 \usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{bbold}
 \usepackage[table,xcdraw]{xcolor}
 \usepackage{hhline}
 \usepackage{placeins}
@@ -48,6 +52,10 @@
 \newcommand{\HS}{\mathcal{H}}
 
 \newcommand{\CS}{\mathcal{C}}
+
+\newcommand{\psket}[1]{\ket{\Psi(#1)}}
+
+\newcommand{\Id}{\mathbb{1}}
 
 \renewcommand{\emph}{\textbf}
 
@@ -354,8 +362,6 @@ Tj. tak jak w mechanice klasycznej - założymy, że nasza ewolucja w czasie jes
     \item Stopień rozróżnialności tych stanów zależeć będzie od ich iloczynu skalarnego. Chcemy, żeby pozostał on stały $$\implies \braket{\Psi(0)} = \braket{\Psi(t)}$$
 \end{itemize}
 
-\newcommand{\psket}[1]{\ket{\Psi(#1)}}
-
 {\color{teal} Fakt}: $U(t)$ jest liniowe.\\
 Sprawdźmy go. Także rozważmy $$\ket{\xi} = U(t)\qty[a \ket{\Psi(0)} + b \ket{\Psi(0)}] - a U(t)\qty[\ket{\Psi(0)}] - b U(t)\qty[\ket{\Psi(0)}]$$
 Teraz obliczmy:
@@ -377,8 +383,6 @@ Teraz ciągnąc to rozumowanie dalej:
 \]
 Wynikać z tego będzie, że $U(t)^\dagger U(t) = 1$. Wiedząc, że pracujemy w skończenie wymiarowej przestrzeni wnioskujemy, że $U(t)$ jest \emph{Unitarne}. Oznacza to też, że $U^{-1}(t) = U(t)^\dagger$. Teraz fizycznym argumentem, że $U^{-1}(t)$ istnieje będzie to, że powinno być $U^{-1}(t) = U(-t)$.\\
 
-\newcommand{\Id}{Id}
-
 Idziemy dalej. Wiemy, że $U(t=0) = \Id$. Rozważmy pierwsze (liniowe) rozwinięcie $U(t)$ w czasie:
 \[
     U(dt) = \Id + \qty(- \frac{i}{\hbar} H \dd{t} + O(\dd{t}^2))
@@ -395,9 +399,6 @@ Czyli widzimy, że $H^\dagger = H$ - jest Hermitowskie.
     \dv{\psket{t}}{t}\eval_{t=0} = - \frac{i}{\hbar} H \psket{0} \implies i \hbar \dv{\psket{t}}{t}\eval_{t=0} = H \psket{0}
 \]Ale zamiast pisać $\psket{\dd{t}} = U(\dd{t}) \psket{0}$ można ogólniej powiedzieć: $\psket{t + \dd{t}} = U(\dd{t}) \psket{t}$.\\
 Dostajemy:
-\[
-    
-\]
 \com{Przepisz ze zdjęcia}
 
 \section{Argument za naturą fizyczną H}
@@ -447,6 +448,94 @@ $\psket{0} = \sum_k c_k\footnote{$c_k = \braket{E_k}{\Psi(0)}$} \ket{E_k}$, z li
         U(t) = \tau\footnote{uporządkowanie czasowe} \qty[e^{- \frac{i}{\hbar} \int_0^t H(t) \dd{t}},]
     \end{cases}
 \]
+\end{lecture}
+
+% --------------------------------------
+% 11.03.22
+
+\renewcommand{\psket}[1]{\ket{\Psi(#1)}}
+
+\begin{lecture}
+\section{Schizofreniczna Ewolucja}
+
+\begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\linewidth]{Wyk_4_Rys_1.jpeg}
+        \caption{Schizofreniczna Ewolucja}
+        \label{lec_4:fig:tabelka}
+\end{figure}
+
+\section{Kwantowy Efekt Zenona (z Elei)}
+Formułował wiele paradoksów - miał dobrą intuicję. Jeden z bardziej znanych - \emph{paradoks strzały}\\
+\textit{Paradoks strzały} - Skoro strzała w każdej chwili spoczywa, to ruch jest niemożliwy.
+
+Rozważmy układ kwantowy, którego ewolucja jest opisana Hamiltonianem $\HS$.
+\begin{itemize}
+    \item Stan początkowy $\psket{0}$ nie będzie stanem własnym $\HS$ (żeby ewoluował nietrywialnie).
+    \item Wtedy ewolucja po czasie $t$: $\psket{t} = e^{- \frac{i\HS t}{\hbar}}\psket{0}$ i sprawdzamy, czy układ wciąż jest w stanie $\psket{0}$ \footnote{Czyli wykonujemy pomiar w bazie ortonormalnej, której jednym z wektorów jest $\psket{0}$}
+    \item Prawdopodobieństwo, że stan pozostał niezmieniony: \\$p(t) = \qty|\braket{\Psi(0)}{\Psi(t)}|^2 = \braket{\Psi(0)}{\Psi(t)}\braket{\Psi(t)}{\Psi(0)} = \ev{e^{- \frac{i\HS t}{\hbar}}}{\Psi(0)} = \ev{e^{\frac{i\HS t}{\hbar}}}{\Psi(0)}$\\
+    Wtedy po rozwinięciu dla małych $t$ \footnote{$e^x \approx 1 + x + \frac{x^2}{2} + \order{x^3}$}:
+    \begin{align*}
+        p(t) &= 1 + t \cdot \qty[\ev{- \frac{i\HS}{\hbar}}{\Psi(0)} \braket{\Psi(0)} + \braket{\Psi(0)} \ev{\frac{i\HS}{\hbar}}{\Psi(0)} ] + \\
+        &- t^2\cdot \qty[\ev{\frac{\HS^2}{\hbar^2}}{\Psi(0)} \braket{\Psi(0)} + \frac{1}{2} \braket{\Psi(0)} \ev{\frac{\HS^2}{\hbar^2}}{\Psi(0)} - \ev{\frac{\HS}{\hbar}}{\Psi(0)}\ev{\frac{\HS}{\hbar}}{\Psi(0)}] + \order{t^3} \\
+        &= 1 + \frac{t^2}{\hbar^2} \underbrace{(\ev{\HS^2}{\Psi(0)} - \ev{\HS}{\Psi(0)}^2)}_{\Delta^2 \HS\footnotemark} + \order{t^3}
+    \end{align*}
+    \footnotetext{Stan ewoluuje 'tym szybciej' im ma większą ma wariancję $\HS$}
+    Czyli wyobrażamy sobie, że mierzymy stan coraz częściej, czyli n razy co czas $\frac{t}{n}$, pytamy jakie jest prawdopodobieństwo , że we wszystkich $n$ pomiarach okaże się, że stan pozostaje $\psket{0}$
+    \item Czyli finalnie to prawdopodobieństwo, to:
+    $p_n = \qty(\qty|\braket{\Psi(0)}{\Psi(t)}|^2)^n = \qty[1 - \frac{\Delta^2\HS}{\hbar^2} (\frac{t}{n})^2 + \order{t^3}]^n$\\
+    $p_n \stackrel{n\to\infty}{\approx} 1 - \frac{\Delta^2\HS t^2}{\hbar^2} \cdot \frac{1}{n} \order{\frac{1}{n^2}} \stackrel{n\to\infty}{\approx} 1$
+    \item Rozumiemy to tak, że bardzo częsty pomiar 'zamraża' ewolucję stanu.
+\end{itemize}
+    
+\section{Równanie Schrodingera (na koszulkach)}
+\com{Zmień to potem na tytuł wykładu}
+
+Nierelatywistyczna, punktowa cząstka kwantowa mogąca się poruszać w przestzeni. Dla uproszczenia myślimy na razie o 1D.\\
+Jeśli przestrzeń byłaby fundamentalnie zdyskretyzowana, tj. $x_i\footnote{\text{Dopuszczalne położenia}} \in \qty{\dots, -2\Delta, -\Delta, 0,  \Delta, 2 \Delta, \dots}$, $\ket{x_i}$ - stany położeniowe (rozróżnialne) reprezentujące, że cząstka znajduje się w punkcie $x_i$.\\
+Ogólny stan: $\ket{\Psi} = \sum_i \Psi_i \ket{x_i} \qc \sum_i \qty|\Psi_i|^2 = 1 \qc \braket{x_i}{x_j} = \delta_{ij}$\\
+Wygodnie jest rozważyć granicę \emph{ciągłą}:
+\[
+    \ket{\Psi} = \int \dd{x} \Psi(x) \ket{x}
+\]
+Gdzie $\qty|\Psi(x)|^2$ - gęstość prawdopodobieństwa znalezienia cząstki w punkcie $x$. \\
+Skoro chcemy, żeby $\braket{\Psi} = 1^{(i)} \implies \int \dd{x} \qty|\Psi(x)|^2 = 1^{(ii)}$. Czyli:\\
+$\braket{\Psi} = \int \dd{x} \Psi^\ast(x) \bra{x} \int \dd{x} \Psi(x') \ket{x'} \implies \int \dd{x} \dd{x'} \Psi^\ast(x) \Psi(x) \braket{x}{x'} \stackrel{(i), (ii)}{\implies} \braket{x}{x'} = \delta(x-x')\footnote{Czyli o $\ket{x}$ można myśleć jako o pewnej bazie ortogonalnej, ale nie unormowanej, bo $\braket{x} = \infty$}$.
+\ind{Funkcja falowa} - funkcja gęstości prawdopodobieństwa $\Psi(x)$ o amplitudzie $\qty|\Psi(x)|^2$. Jest ona reprezentacją położeniową stanu $\ket{\Psi}$\\
+Zauważmy: $\ket{Psi} = \int \dd{x} \Psi \ket{x}$, $\ket{\varphi} = \int \dd{x'} \varphi(x') \ket{x'}$
+\[
+    \braket{\Psi}{\varphi} = \int \dd{x} \dd{x'} \Psi^\ast(x) \varphi(x') \underbrace{\braket{x}{x'}}_{\delta(x-x')} = \int \dd{x} \Psi^\ast(x) \varphi(x)
+\]
+Możemy teraz zdefiniować operator (\subind{Obserwabla Położenia}{Obserwabla!Położenia}):
+\[
+    \hat{x} = \int \dd{x} x \ketbra{x} \qc \hat{x} \ket{x} - \int \dd{x'} x' \ketbra{x'} \ket{x} = x \ket{x}
+\]
+Teraz zauważmy, że warunkiem zupełności bazy będą:
+{\color{orange} (Fakt)} $\underbrace{\int \dd{x} \ketbra{x}}_C = \Id$\\
+
+{\color{orange} (Dowód)} Weźmy dwa dowolne $\ket{x'}, \ket{x''}$
+\[
+    \mel{x'}{C}{x''} = \int \dd{x} \braket{x'}{x} \underbrace{\braket{x}{x''}}_{\delta(x-x'')} = \braket{x'}{x''} = \mel{x'}{\Id}{x''} \implies C= 1 \Box
+\]
+Czyli:
+\[
+    \ket{\Psi} = \int \dd{x'} \Psi{x'} \ket{x'} \implies \Psi(x) = \braket{x}{\Psi}
+\]
+Pamiętamy, że $ i \hbar \dv{\psket{t}}{t} = \HS \psket{t}$. Teraz żeby napisać $\HS$ kwantowo potrzebujemy $\hat{p}$
+\[
+    \HS = \frac{p^2}{2m} + V(x) \qq{kwantowo} \to \hat{\HS} = \frac{\hat{p}}{2m} + V(\hat{x})
+\]
+
+\emph{Operator Pędu}:\\
+Intuicja falowa (świetlna), fale płaskie (stany o dobrze określonej energii i pędzie)
+\[
+    \Psi(x, t) \sim e^{i (kx - \omega t)}
+\]
+Hipoteza Plancka/ De Broigle'a $E = \hbar \omega$,  $p = \frac{h}{\lambda} = \hbar \cdot k$\\
+żeby $\hat{p} \Psi(x, t) = p \Psi(x, t) = \hbar k \Psi(x, t)$ trzeba wziąć $\hat{p} = \frac{\hbar}{i}$
+
+
+
 \end{lecture}
 
 
