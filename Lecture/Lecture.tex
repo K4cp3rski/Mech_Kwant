@@ -2,20 +2,26 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{fontspec}
-\usepackage[polish]{babel}
 \usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[polish]{babel}
 \usepackage{graphicx}
-\usepackage[table,xcdraw]{xcolor}
+\usepackage{amssymb}
+\usepackage{bbold}
+\usepackage[table,xcdraw, dvipsnames]{xcolor}
 \usepackage{hhline}
 \usepackage{placeins}
 \usepackage[margin=0.6in]{geometry}
 \usepackage{appendix}
+\usepackage{caption}
 \usepackage{colortbl}
 \usepackage{physics}
 \usepackage{float}
 \usepackage{datetime}
 \usepackage{makeidx}
 \usepackage{hyperref}
+\usepackage[normalem]{ulem}
 
 \title{Mechanika Kwantowa R 2021/2022}
 \author{Kacper Cybiński}
@@ -49,21 +55,28 @@
 
 \newcommand{\CS}{\mathcal{C}}
 
+\newcommand{\psket}[1]{\ket{\Psi(#1)}}
+
+\newcommand{\Id}{\mathbb{1}}
+
 \renewcommand{\emph}{\textbf}
 
-\newenvironment{lecture}[1][]{\par\medskip
-   \noindent\chapter \rmfamily}{\medskip}
+\newenvironment{lecture}[1]{\par\medskip
+   \noindent\chapter{#1} \rmfamily}{\medskip}
    
 \newenvironment{emph_box}[1]
-    {\begin{center}
+    {\begin{center}\color{BrickRed}
     \begin{tabular}{|p{0.9\textwidth}|}
     \hline
-    \begin{center} \textbf{#1} \end{center}\\[1ex]
+    \begin{center} \color{Dandelion}{\textbf{#1}} \end{center}
+    \begin{center}
     }
-    { 
+    {
+    \end{center}
     \\\\\hline
     \end{tabular} 
     \end{center}
+    \color{black}
     }
 
 \begin{document}
@@ -92,7 +105,7 @@ Polecane podręczniki:
     \item L. Susskind \textit{Quantum Mechanics (Do ogarnięcia koncepcyjnego)}
 \end{itemize}
 
-\begin{lecture}
+\begin{lecture}{Krótka historia fizyki i wstęp do kwantów}
     \section{Krótka historia fizyki}
     \begin{itemize}
         \item {\bf Arystoteles} - Jeden absolutny układ odniesienia, więc nie ma sensu pojęcie \textit{obserwatora}
@@ -244,13 +257,12 @@ Gdzie $E$ - Energia.
 % ------------------------------------------------------------------------
 % Wykład 04.03.2022
 
-\begin{lecture}
+\begin{lecture}{Stany i pomiary kwantowe}
 
 \section{Stany i pomiary kwantowe}
 W tym wykładzie zajmiemy się powoli formalizowaniem intuicji nabywanej na poprzednim wykładzie. Zdefiniujmy $\ket{i}$ - pewne stany rozróżnialne (istnieje pomiar dający róne wyniki dla różnych stanów).
 
 \begin{emph_box}{\subind{Zasada superpozycji}{Zasada!superpozycji}}
-\color{orange}
 Jeśli $\ket{1}$ i $\ket{2}$ są dopusczalnymi stanami układu, to "$\ket{1}\oplus\ket{2}$"\footnote{rozumiemy to jako "jednocześnie $\ket{1}$ i $\ket{2}$"} też musi być dopuszczalnym stanem układu
 \end{emph_box}
 
@@ -273,13 +285,13 @@ Innymi słowy, jak mamy kilka wielkości fizycznych $A, B, C, \dots$, to w ogól
     \begin{figure}[!ht]
         \centering
         \includegraphics[width=0.8\linewidth]{Wyk_2_Rys_1.jpeg}
-        \caption{Porównanie podejść \com{dopracuj opis}}
+        \caption{Porównanie podejść myślenia o kwantu - deterministyczny i niedeterministyczny}
         \label{fig:lec_2:porownianie}
     \end{figure}
     
 
 \begin{emph_box}{\ind{Postulat pomiarowy}}
-    \color{orange} Jeśli $\ket{\Psi}$ jest dowolnym stanem, na którym chcemy zmierzyć wielkość fizyczną $A$, z którą stowarzyszona jest baza $\qty{\ket{a_i}}$. Możemy napisać:
+    Jeśli $\ket{\Psi}$ jest dowolnym stanem, na którym chcemy zmierzyć wielkość fizyczną $A$, z którą stowarzyszona jest baza $\qty{\ket{a_i}}$. Możemy napisać:
     \[\ket{\Psi} = \sum_i \alpha_i\ket{a_i}\]
     Wtedy uzyskany wynik $a_i$ z prawdopodobieństwem $p_i = \qty|\alpha_i|^2 = \qty|\braket{a_i}{\Psi}|^2$. Tym samym stan po pomiarze ma dobrze określone wielkości $a_i$, tj. jest $\ket{\Psi} = \ket{a_i}$.
 \end{emph_box}
@@ -331,8 +343,357 @@ W związku z tym możemy dalej rozpisać $\expval{A}$ jako:
     \expval{A} = \bra{\Psi} \quad \sum_i a_i \ketbra{a_i} \quad \ket{\Psi} =\footnote{${\color{blue} \sum_i a_i \ketbra{a_i} = \hat{A}}$} \ev{\hat{A}}{\Psi}
 \]
 
+Further reading:
+\begin{itemize}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/wyklad2-stanypomiary.pdf}{Notatki Demko do wykładu}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia2.pdf}{Zadania na ćwiczenia 2}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia2-sol.pdf}{Rozwiązania z ćwiczeń 2}
+\end{itemize}
+\end{lecture}
+
+% --------------------------------------------------------
+% Wykład 09.03.2022
+
+\begin{lecture}{Ewolucja stanów kwantowych i Hamiltonian}
+\section{Ewolucja stanów kwantowych}
+Będziemy brać teraz pod uwagę tylko \emph{układy izolowane}! Tutaj rozumiemy, że \ind{Układ izolowany} - układ który nie oddziaływuje z otoczeniem i brak pomiarów.\\
+Formalnie napiszemy, że (póki co bez żadnych założeń) $\ket{\Psi(0)}$ - stan w chwili początkowej, $\ket{\Psi(t)}$ - stan po czasie. Teraz chcemy wiedzieć, jaki będzie $\ket{\Psi(t)}$?
+Otóż:
+\[
+    \ket{\Psi(0)} = \mathcal(U)(t)\qty[\ket{\Psi(0)}]
+\]
+Tj. tak jak w mechanice klasycznej - założymy, że nasza ewolucja w czasie jest odwracalna. Wynika z tego, że 
+\begin{itemize}
+    \item \emph{stany rozróżnialne\footnote{Ortogonalne} muszą pozostać rozróżnialne.} Możemy na to patrzeć jako na \emph{zachowanie informacji}.
+    \[
+        \braket{\Psi(0)} = 0 \qc \braket{\Psi(t)} = 0
+    \]
+    \item Stopień rozróżnialności tych stanów zależeć będzie od ich iloczynu skalarnego. Chcemy, żeby pozostał on stały $$\implies \braket{\Psi(0)} = \braket{\Psi(t)}$$
+\end{itemize}
+
+{\color{teal} Fakt}: $U(t)$ jest liniowe.\\
+Sprawdźmy go. Także rozważmy $$\ket{\xi} = U(t)\qty[a \ket{\Psi(0)} + b \ket{\Psi(0)}] - a U(t)\qty[\ket{\Psi(0)}] - b U(t)\qty[\ket{\Psi(0)}]$$
+Teraz obliczmy:
+\begin{align*}
+    \braket{\xi} &= \qty(U(t) \qty[a \psket{0} + b \psket{0}])^\dagger \qty( U(t) \qty[a \ket{\Psi(0)} + b \ket{\Psi(0)}] - a U(t) \qty[\ket{\Psi(0)}] - b U(t) \qty[\ket{\Psi(0)}])\\
+    &- \qty(a U(t) \qty[\psket{0}])^\dagger \qty(-||-)\\
+    &- \qty(a U(t) \qty[\psket{0}])^\dagger \qty(-||-)
+\end{align*}
+Czyli $\qty(U(t)\ket{\Psi})^\dagger (U(t) \ket{\Psi}) = \braket{\Psi} = 0$, bo można 'usunąć' wszystkie $U(t)$. Wynika z tego, że $U(t)$ \emph{jest liniowe.}
+
+{\color{teal} Wnioski}: $U(t)$ jest liniowa (w skończenie wymiarowych przestrzeniach reprezentowanych przez macierz\footnote{Bo $(AB)^\dagger = A^\dagger B^\dagger$}) i zachowuje iloczyn skalarny.
+\[
+    \implies \psket{0} = U(t) \cdot \psket{0}
+\]
+
+Teraz ciągnąc to rozumowanie dalej:
+\[
+    \forall_{\ket{\Psi(0)}, \ket{\varphi(0)}} = \braket{\Psi(0)}{\varphi(0)} = \mel{\Psi(0)}{U^\dagger(t) U(t)}{\varphi(0)} = \braket{\Psi(0)}{\varphi(0)}
+\]
+Wynikać z tego będzie, że $U(t)^\dagger U(t) = 1$. Wiedząc, że pracujemy w skończenie wymiarowej przestrzeni wnioskujemy, że $U(t)$ jest \emph{Unitarne}. Oznacza to też, że $U^{-1}(t) = U(t)^\dagger$. Teraz fizycznym argumentem, że $U^{-1}(t)$ istnieje będzie to, że powinno być $U^{-1}(t) = U(-t)$.\\
+
+Idziemy dalej. Wiemy, że $U(t=0) = \Id$. Rozważmy pierwsze (liniowe) rozwinięcie $U(t)$ w czasie:
+\[
+    U(dt) = \Id + \qty(- \frac{i}{\hbar} H \dd{t} + O(\dd{t}^2))
+\]
+\[
+1 = U(\dd{t})^\dagger U(\dd{t}) = \qty(\Id + \frac{i}{\hbar} H^\dagger \dd{t} + O(\dd{t}^2)) \qty(\Id - \frac{i}{\hbar} H^\dagger \dd{t} + O(\dd{t}^2)) = \Id + \frac{i}{\hbar} (H^\dagger - H) \dd{t} + O(\dd{t}^2)
+\]
+Czyli widzimy, że $H^\dagger = H$ - jest Hermitowskie.
+
+\[
+    \psket{\dd{t}} = U(\dd{t}) \psket{0} = \psket{0} - \frac{i}{\hbar} H \dd{t} \psket{0} + O(\dd{t^2}) = \psket{0} + \dv{\psket{t}}{t}\eval_{t=0} + \order{\dd{t^2}}
+\]
+\[
+    \dv{\psket{t}}{t}\eval_{t=0} = - \frac{i}{\hbar} H \psket{0} \implies i \hbar \dv{\psket{t}}{t}\eval_{t=0} = H \psket{0}
+\]Ale zamiast pisać $\psket{\dd{t}} = U(\dd{t}) \psket{0}$ można ogólniej powiedzieć: $\psket{t + \dd{t}} = U(\dd{t}) \psket{t}$.\\
+Dostajemy krypto \ind{Równanie Schrödingera}:
+\begin{equation}
+    i \hbar \dv{\psket{t}}{t} = H \psket{t}
+    \label{eq:lec_3:krypto_schrodinger}
+\end{equation}
+(Krypto, bo nie znamy natury $H$)
+
+\section{Argument za naturą fizyczną H}
+Rozważmy obserwablę $A$ i jej wartość oczekiwaną na stanie $\psket{t}$.
+Wtedy:
+\[
+    \ev{A}_t = \ev{A}{\Psi(t)}
+\]
+\begin{align*}
+    \dv{\ev{A}_t}{t} &= \dv{\bra{\Psi(t)}}{t} A \psket{t} + \ev{A}{\Psi(t)} = \frac{i}{\hbar} \ev{H\cdot A - A \cdot H}{\Psi(t)}\\
+    &= \frac{i}{\hbar} \ev{\qty[H, A]}{\Psi(t)} = - \frac{i}{\hbar} \ev{\qty[A, H]}{\Psi(t)}
+\end{align*}
+
+Jeśli wybierzemy $A = H \implies \dv{\ev{H}}{t} = 0$ czyli H jest związany z wielkością fizyczną zachowaną w czasie ewolucji $\implies$ w
+pierwsza myśl, że ma coś wspólnego z energią.
+
+\begin{emph_box}{Analogia z Mechaniką Klasyczną}
+$$A(q, p) \qc \dv{A}{t} = \qty{A, H} = \sum_i \dv{A}{q_i} \dv{H}{p_i} - \dv{A}{p_i}\dv{H}{q_i}$$
+Formalna recepta wiążąca mechanikę klasyczną z kwantową: $$\qty{\cdot, \cdot} \to =-\frac{i}{\hbar} \qty[\cdot , \cdot]$$
+Jest to dodatkowy argument na to, że H ma coś wspólnego z energią.
+\end{emph_box}
+
+To teraz dochodzimy do równań:
+\[
+    \dv{\psket{t}}{t} = - \frac{i}{\hbar} H \psket{t} \implies \psket{t} = U(t) \psket(0)
+\]
+Gdzie $U(t) = e^{- \frac{i}{\hbar}H \cdot  t}$
+Gdzie wreszcie piszemy, że H - Hamiltonian.
+
+\section{Wyznaczenie ewolucji stanu w praktyce}
+
+Mamy $H$, robimy jego rozkład własny, tj. $H = \sum_k E_k\footnote{Wartości własne (energie)}\ketbra{E_k}$. $H\ket{E_k} = E_k\ket{E_k}$
+
+Jeśli:\\
+$\psket{0} = \ket{E_k}, \qq{stan o dobrze określonej energii}$\\
+$\psket{t} = e^{- \frac{i}{\hbar}H \cdot  t} \ket{E_k} = e^{- \frac{i}{\hbar}E_k \cdot  t} \ket{E_k}$\\
+Czyli energia stanu o dobrze określonej energii zmienia tylko globalną fazę, czyli fizycznie stan się nie zmienia.\\
+Ogólnie jeśli mamy dowolny stan początkowy $\psket{0}$, to możemy go rozłożyć w bazie $\qty{\ket{E_k}}$. W takim razie widzimy, że zajdzie:\\
+$\psket{0} = \sum_k c_k\footnote{$c_k = \braket{E_k}{\Psi(0)}$} \ket{E_k}$, z liniowości $\psket{t} = \sum_k c_k U(t)\ket{E_k} = \sum_k c_k e^{- \frac{i}{\hbar}E_k \cdot t} \ket{E_k}$\\
+\emph{Uogólnienie} W modelach gdy $H$ zależy jawnie od czasu (czyli de facto bierzemy układ izolowany) możemy te układy wciąż opisywać jakby były izolowane, ale musimy dopuścić $H = H(t)$. Wtedy jedyna zmiana jaka się pojawia, to:
+\[
+    \dv{\psket{t}}{t} = - \frac{i}{\hbar} H(t) \psket(t) \implies U(t) \approx e^{- \frac{i}{\hbar} (t - \Delta t) \Delta t} \dots e^{- \frac{i}{\hbar} (\Delta t) \Delta t} e^{- \frac{i}{\hbar} (0) \Delta t}
+\]
+\[
+    U(t) \approx
+    \begin{cases}
+        U(t) = e^{- \frac{i}{\hbar} \int_0^t H(t) \dd{t}}, \qq{jeśli H(t) komutują ze sobą w różnych chwilach czasu}\\
+        U(t) = \tau\footnote{uporządkowanie czasowe} \qty[e^{- \frac{i}{\hbar} \int_0^t H(t) \dd{t}},]
+    \end{cases}
+\]
+\end{lecture}
+
+% --------------------------------------
+% 11.03.22
+
+\renewcommand{\psket}[1]{\ket{\Psi(#1)}}
+
+\begin{lecture}{Równanie Schrodingera (na koszulkach)}
+\section{Schizofreniczna Ewolucja}
+
+\begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\linewidth]{Wyk_4_Rys_1.jpeg}
+        \caption{Schizofreniczna Ewolucja}
+        \label{lec_4:fig:tabelka}
+\end{figure}
+
+\section{Kwantowy Efekt Zenona (z Elei)}
+Formułował wiele paradoksów - miał dobrą intuicję. Jeden z bardziej znanych - \emph{paradoks strzały}\\
+\textit{Paradoks strzały} - Skoro strzała w każdej chwili spoczywa, to ruch jest niemożliwy.
+
+Rozważmy układ kwantowy, którego ewolucja jest opisana Hamiltonianem $\HS$.
+\begin{itemize}
+    \item Stan początkowy $\psket{0}$ nie będzie stanem własnym $\HS$ (żeby ewoluował nietrywialnie).
+    \item Wtedy ewolucja po czasie $t$: $\psket{t} = e^{- \frac{i\HS t}{\hbar}}\psket{0}$ i sprawdzamy, czy układ wciąż jest w stanie $\psket{0}$ \footnote{Czyli wykonujemy pomiar w bazie ortonormalnej, której jednym z wektorów jest $\psket{0}$}
+    \item Prawdopodobieństwo, że stan pozostał niezmieniony: \\$p(t) = \qty|\braket{\Psi(0)}{\Psi(t)}|^2 = \braket{\Psi(0)}{\Psi(t)}\braket{\Psi(t)}{\Psi(0)} = \ev{e^{- \frac{i\HS t}{\hbar}}}{\Psi(0)} = \ev{e^{\frac{i\HS t}{\hbar}}}{\Psi(0)}$\\
+    Wtedy po rozwinięciu dla małych $t$ \footnote{$e^x \approx 1 + x + \frac{x^2}{2} + \order{x^3}$}:
+    \begin{align*}
+        p(t) &= 1 + t \cdot \qty[\ev{- \frac{i\HS}{\hbar}}{\Psi(0)} \braket{\Psi(0)} + \braket{\Psi(0)} \ev{\frac{i\HS}{\hbar}}{\Psi(0)} ] + \\
+        &- t^2\cdot \qty[\ev{\frac{\HS^2}{\hbar^2}}{\Psi(0)} \braket{\Psi(0)} + \frac{1}{2} \braket{\Psi(0)} \ev{\frac{\HS^2}{\hbar^2}}{\Psi(0)} - \ev{\frac{\HS}{\hbar}}{\Psi(0)}\ev{\frac{\HS}{\hbar}}{\Psi(0)}] + \order{t^3} \\
+        &= 1 + \frac{t^2}{\hbar^2} \underbrace{(\ev{\HS^2}{\Psi(0)} - \ev{\HS}{\Psi(0)}^2)}_{\Delta^2 \HS\footnotemark} + \order{t^3}
+    \end{align*}
+    \footnotetext{Stan ewoluuje 'tym szybciej' im ma większą ma wariancję $\HS$}
+    Czyli wyobrażamy sobie, że mierzymy stan coraz częściej, czyli n razy co czas $\frac{t}{n}$, pytamy jakie jest prawdopodobieństwo , że we wszystkich $n$ pomiarach okaże się, że stan pozostaje $\psket{0}$
+    \item Czyli finalnie to prawdopodobieństwo, to:
+    $p_n = \qty(\qty|\braket{\Psi(0)}{\Psi(t)}|^2)^n = \qty[1 - \frac{\Delta^2\HS}{\hbar^2} (\frac{t}{n})^2 + \order{t^3}]^n$\\
+    $p_n \stackrel{n\to\infty}{\approx} 1 - \frac{\Delta^2\HS t^2}{\hbar^2} \cdot \frac{1}{n} \order{\frac{1}{n^2}} \stackrel{n\to\infty}{\approx} 1$
+    \item Rozumiemy to tak, że bardzo częsty pomiar 'zamraża' ewolucję stanu.
+\end{itemize}
+    
+\section{Równanie Schrodingera (na koszulkach)}
+
+Nierelatywistyczna, punktowa cząstka kwantowa mogąca się poruszać w przestzeni. Dla uproszczenia myślimy na razie o 1D.\\
+Jeśli przestrzeń byłaby fundamentalnie zdyskretyzowana, tj. $x_i\footnote{\text{Dopuszczalne położenia}} \in \qty{\dots, -2\Delta, -\Delta, 0,  \Delta, 2 \Delta, \dots}$, $\ket{x_i}$ - stany położeniowe (rozróżnialne) reprezentujące, że cząstka znajduje się w punkcie $x_i$.\\
+Ogólny stan: $\ket{\Psi} = \sum_i \Psi_i \ket{x_i} \qc \sum_i \qty|\Psi_i|^2 = 1 \qc \braket{x_i}{x_j} = \delta_{ij}$\\
+Wygodnie jest rozważyć granicę \emph{ciągłą}:
+\[
+    \ket{\Psi} = \int \dd{x} \Psi(x) \ket{x}
+\]
+Gdzie $\qty|\Psi(x)|^2$ - gęstość prawdopodobieństwa znalezienia cząstki w punkcie $x$. \\
+Skoro chcemy, żeby $\braket{\Psi} = 1^{(i)} \implies \int \dd{x} \qty|\Psi(x)|^2 = 1^{(ii)}$. Czyli:\\
+$\braket{\Psi} = \int \dd{x} \Psi^\ast(x) \bra{x} \int \dd{x} \Psi(x') \ket{x'} \implies \int \dd{x} \dd{x'} \Psi^\ast(x) \Psi(x) \braket{x}{x'} \stackrel{(i), (ii)}{\implies} \braket{x}{x'} = \delta(x-x')\footnote{Czyli o $\ket{x}$ można myśleć jako o pewnej bazie ortogonalnej, ale nie unormowanej, bo $\braket{x} = \infty$}$.
+\ind{Funkcja falowa} - funkcja gęstości prawdopodobieństwa $\Psi(x)$ o amplitudzie $\qty|\Psi(x)|^2$. Jest ona reprezentacją położeniową stanu $\ket{\Psi}$\\
+Zauważmy: $\ket{Psi} = \int \dd{x} \Psi \ket{x}$, $\ket{\varphi} = \int \dd{x'} \varphi(x') \ket{x'}$
+\[
+    \braket{\Psi}{\varphi} = \int \dd{x} \dd{x'} \Psi^\ast(x) \varphi(x') \underbrace{\braket{x}{x'}}_{\delta(x-x')} = \int \dd{x} \Psi^\ast(x) \varphi(x)
+\]
+Możemy teraz zdefiniować operator (\subind{Obserwabla Położenia}{Obserwabla!Położenia}):
+\[
+    \hat{x} = \int \dd{x} x \ketbra{x} \qc \hat{x} \ket{x} - \int \dd{x'} x' \ketbra{x'} \ket{x} = x \ket{x}
+\]
+Teraz zauważmy, że warunkiem zupełności bazy będą:
+{\color{orange} (Fakt)} $\underbrace{\int \dd{x} \ketbra{x}}_C = \Id$\\
+
+{\color{orange} (Dowód)} Weźmy dwa dowolne $\ket{x'}, \ket{x''}$
+\[
+    \mel{x'}{C}{x''} = \int \dd{x} \braket{x'}{x} \underbrace{\braket{x}{x''}}_{\delta(x-x'')} = \braket{x'}{x''} = \mel{x'}{\Id}{x''} \implies C= 1 \quad \Box
+\]
+Czyli:
+\[
+    \ket{\Psi} = \int \dd{x'} \Psi{x'} \ket{x'} \implies \Psi(x) = \braket{x}{\Psi}
+\]
+Pamiętamy, że $ i \hbar \dv{\psket{t}}{t} = \HS \psket{t}$. Teraz żeby napisać $\HS$ kwantowo potrzebujemy $\hat{p}$
+\[
+    \HS = \frac{p^2}{2m} + V(x) \qq{kwantowo} \to \hat{\HS} = \frac{\hat{p}^2}{2m} + V(\hat{x})
+\]
+
+\emph{Operator Pędu}:\\
+Intuicja falowa (świetlna), fale płaskie (stany o dobrze określonej energii i pędzie)
+\[
+    \Psi(x, t) \sim e^{i (kx - \omega t)}
+\]
+Hipoteza Plancka/ De Broigle'a $E = \hbar \omega$,  $p = \frac{h}{\lambda} = \hbar \cdot k$\\
+żeby $\hat{p} \Psi(x, t) = p \Psi(x, t) = \hbar k \Psi(x, t)$ trzeba wziąć $\hat{p} = \frac{\hbar}{i}$\\
+
+Further reading:
+\begin{itemize}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/wyklad3-ewolucja.pdf}{Notatki Demko do wykładu}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia3.pdf}{Zadania na ćwiczenia 3}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia3-sol.pdf}{Rozwiązania z ćwiczeń 3}
+\end{itemize}
 
 \end{lecture}
+
+% ------------------------------------------------------------------
+% Wykład 16.03.2022
+
+
+\begin{lecture}{Równanie Schrödingera, propagator i całki po trajektoriach et al.}
+
+\section{Powtórka z poprzedniego wykładu}
+
+\subsection{Reprezentacja położeniowa a pędowa}
+
+W reprezentacji położeniowej:\\
+\[
+    \hat{x} \ket{x} = x \ket{x} \qc \hat{x} \ket{\Psi} = \hat{x} \int \dd{x} \Psi(x) \ket{x} = \int \dd{x} \Psi(x) \hat{x} \ket{x} = \int \dd{x} \underbrace{\Psi(x) x}_{\footnotemark} \ket{x}
+\]
+\footnotetext{Efektywne działanie $\hat{x}$ w reprezentacji położeniowej}
+Czyli widzimy, że zachodzi $\ket{\Psi} \stackrel{\hat{x}}{\to} \hat{x} \ket{\Psi} \equiv \Psi(x) \to x \cdot \ket{\Psi}$\\
+Zachodzi również:
+\begin{itemize}
+    \item $\qty{ \cdot, \cdot} \to - \frac{i}{\hbar} \qty[\cdot , \cdot]$
+    \item $\qty[\hat{x}, \hat{p}] = i \hbar \cdot \Id$
+    \item $\qty[\hat{x}, \hat{p}] \ket{\Psi} = i \hbar \ket{\Psi}$ w reprezentacji położeniowej.
+    \item $(x \cdot \hat{p} - \hat{p} \cdot x) \Psi(x) = i \hbar \Psi(x)$\\
+    $x \underbrace{\hat{p}[\Psi(x)]}_{\footnotemark} - \hat{p} \qty[x \cdot \Psi(x)] = i \hbar \Psi(x)$
+\end{itemize}
+\footnotetext{Działanie $\hat{p}$ w reprezentacji położeniowej}
+
+\section{Równanie Schrödingera}
+
+\begin{emph_box}{\ind{Równanie Schrödingera}}
+\begin{equation}
+    i \hbar \pdv{\Psi(x, t)}{t} = - \frac{\hbar^2}{2m} \pdv[2]{x} \Psi(x) + V(x) \Psi(x, t)
+    \label{eq:lec_5:schrodinger}
+\end{equation}
+\end{emph_box}
+
+Wiemy, że ogólnie ewolucję liczymy:
+\begin{align*}
+    \psket{t} = \sum_k \braket{E_k}{\Psi(0)} e^{- \frac{i E_k t}{\hbar}} \ket{E_k}\\
+    \braket{x}{\Psi(x)} = \sum_k e^{- \frac{i E_k t}{\hbar}} \braket{E_k}{\Psi(0)}  \braket{x}{E_k}\\
+    \Psi(x) = \sum_k \braket{E_k}{\Psi(0)} e^{- \frac{i E_k t}{\hbar}}  \underbrace{\phi_{E_k}(x)}_{\footnotemark}
+\end{align*}
+\footnotetext{Funkcja falowa stanu własnego $\hat{\HS}$ (stan stacjonarny)}
+Czyli wystarczy zmienić $\phi_{E_k}(x)$ i $E_k$, żeby znaleźć ewolucję $\hat{\HS} \qty[\phi_{E_k}(x)] = E_k \phi_{E_k}(x)$ co daje nam:
+\begin{emph_box}{\subind{Równanie Schrödingera bez czasu}{Równanie Schrödingera!bez czasu}}
+\begin{equation}
+    \qty[- \frac{\hbar^2}{2m} \dv[2]{x} + V(x)] \phi_{E_k}(x) = E_k \phi_{E_k} (x)
+    \label{eq:lec_5:schrodinger_nzal_czas}
+\end{equation}
+    Ta niezależna od czasu reprezentacja równania schrödingera de facto jest problemem szukania stanów własnych Hamiltonianu. Czyli rozwiązując ewolucję Hamiltonianu w czasie najpierw rozwiązujemy problem znajdywania stanów, a dopiero potem szukamy jego ewolucji czasowej, tj zgodnie z równaniem \eqref{eq:lec_5:schrodinger}.
+\end{emph_box}
+\subsection{Cząstka swobodna}
+Gdzie dla cząstki swobodnej wygląda to tak, że $V(x) = 0$:
+\begin{align*}
+    - \frac{\hbar^2}{2m} \dv[2]{x} \Psi(x) &= E \Psi(x)\\
+    \dv[2]{x} \Psi(x) &= - \frac{2m E}{\hbar^2} \Psi(x)\\
+    \text{Gdzie rozwiązania to kombinacje liniowe  } &e^{\pm i \frac{2 m E}{\hbar^2}} \text{tj. Fale płaskie będące jednocześnie stanami własnymi }\hat{p}\\
+    \implies \hat{p} e^{i px/\hbar} &= \frac{\hbar}{i} \dv{x} e^{i p x/ \hbar} = p \cdot e^{i p x / \hbar}\\
+    \text{Czyli będziemy rozkładać na } &\text{stany własne w reprezentacji pędowej:}\\
+    \Psi_p(x) = \frac{1}{\sqrt{2 \pi \hbar}} e^{i p x /\hbar} &\qc p = \pm \sqrt{2 m E}\\
+    \text{Wtedy widzimy, że }&\text{ewolucja prosta:}\\
+    \Psi_p(x, t) &= \Psi_p(x) e^{- \frac{i E t}{\hbar}} = \Psi_p(x) e^{- \frac{i p^2 t}{2 m \hbar}} \\
+    \text{Czyli ewolucja }&\text{ogólnego stanu:}\\
+    \Psi(x,t) &= \frac{1}{\sqrt{2 \pi \hbar}} \int \dd{p} \underbrace{\braket{p}{\Psi(0)}}_{\footnotemark} \cdot e^{- \frac{i p x}{\hbar} - \frac{i p^2 t}{2 m \hbar}}
+\end{align*}
+\footnotetext{Rozkład na stany własne pędu$ = \tilde{\Psi}(p, 0)$ - reprezentacja pędowa}
+
+\section{Historia rozwoju Mechaniki Kwantowej}
+Były dwie szkoły \sout{Falenicka i Otwocka} Heisenberga i Schrödingera:
+\begin{itemize}
+    \item Schrödinger - Mechanika falowa opis poprzez funkcje falowe.
+    \item Heisenberg - Mechanika Macierzowa, opis poprzez obserwable
+\end{itemize}
+\section{Obraz Schrödingera i obraz Heisenberga}
+\emph{Obraz Schrödingera}:\\
+$\ket{\Psi} = U(t) \psket{0}\qc U(t) = e^{- \frac{i \HS t}{\hbar}}$. Jeśli liczymy wartość oczekiwaną obserwabli w czasie $t$: $\ev{A}_t = \ev{\hat{A}}{\Psi(t)} = \ev{U^\dagger(t) \hat{A} U(t)}{\Psi(0)}$\\
+Możemy jednak spojrzeć na to jak na sytuację, gdzie stan układu nam się nie zmienia, a zmieniają się obserwable. Daje nam to:\\
+\emph{Obraz Heisenberga}:\\
+$\ket{\Psi^{(H)}(t)} = \psket{0} \qc \hat{A}^{(H)} := U^\dagger (t) \hat{A} U(t)\qc \ev{A}_t = \ev{A^{(H)}(t)}{\Psi(0)}$\\
+Ewolucja obserwabli jest opisana przez równanie Heisenberga:\\
+\[
+    \dv{t} \hat{A}^{(H)}(t) = \qty(\dv{t} U^\dagger (t)) \hat{A} U(t) + U^\dagger(t) \hat(A) \dv{t} U(t) = \frac{i}{\hbar} \qty[U^\dagger(t) \hat{\HS} \hat{A} U(t) - U^\dagger \hat{A} \hat{\HS} U(t)] = \frac{i}{\hbar} \qty[\hat{\HS}\hat{A}^{(H)} - \hat{A}^{(H)}\hat{\HS}]
+\]
+Czyli finalnie dostajemy:
+
+\begin{emph_box}{\ind{Równanie Heisenberga}}
+    \begin{equation}
+        \dv{\hat{A}^{(H)}(t)}{t} = \frac{i}{\hbar} \qty[\hat{\HS}, \hat{A}^{(H)}(t)]
+        \label{eq:lec_5:heisenberg}
+    \end{equation}
+\end{emph_box}
+
+\section{Propagator i całki po trajektoriach}
+Ewolucja w reprezentacji położeniowej:
+\[
+    \overbrace{\braket{x}{\Psi(t)}}^{\Psi(x,t)} = \sum_k e^{- \frac{i E_k (t- t_0)}{\hbar}} \bra{E_k} \underbrace{\Id}_{\int \dd{x_0} \ketbra{x_0}} \ket{\Psi(t_0)} \braket{x}{E_k} = \int \dd{x_0} \sum_k e^{- \frac{i E_k (t- t_0)}{\hbar}} \underbrace{\braket{E_k}{x_o}}_{\phi^\ast_k(x_0)} \overbrace{\braket{x_0}{\Psi(t_0)}}^{\Psi(x_0, t_0)} \underbrace{\braket{x}{E_k}}_{\phi_k(x)}
+\]
+\[
+    \Psi(x, t) = \int \dd{x_0} \qty(\sum_k \phi_k(x) \phi_k^\ast(x_0) e^{- \frac{i E_k (t-t_0)}{\hbar}}) \Psi(x_0, t_0)
+\]
+\begin{emph_box}{\ind{Propagator} \index{Funkcja Greena}}
+Możemy powiedzieć, że $K(x, t, x_0, t_0)$ to \emph{Propagator}
+\begin{equation}
+    K(x, t, x_0, t_0) = \sum_k \phi_k(x) \phi_k^\ast(x_0) e^{- \frac{i E_k (t-t_0)}{\hbar}}
+    \label{eq:lec_5:propagator}
+\end{equation}
+Jak można łatwo zauważyć, propagator kwacze jak kaczka, chodzi jak kaczka, wygląda jak kaczka, więc jest to szukana \emph{Funkcja Greena}\footnotemark.\\
+
+Ważna własność propagatora:
+\[
+    K(x, t_0, x_0, t_0) = \sum_k \phi_k(x) \phi_k^\ast(x_0)\footnotemark = \delta(x-x_0)
+\]
+\end{emph_box}
+\addtocounter{footnote}{-1}
+\footnotetext{Oh no... PTSD activated}
+\refstepcounter{footnote}
+\footnotetext{Pamiętamy, że $\sum_k \phi_k(x) \phi^\ast_k(x) = \sum_k \braket{x}{E_k}\braket{E_k}{x} = \mel{x}{\delta(x-x_0)}{x_0}$}
+\emph{Przykład}: Propagator cząstki swobodnej\\
+\[
+    K(x, t, x_0, t_0) = \frac{1}{2 \pi \hbar} \int \dd{p} e^{\frac{i p x}{\hbar} - \frac{i (t - t_0)}{2 m \hbar}p^2}
+\]
+Co mając w głowie \emph{bardzo przyjemną własność matematyczną}:
+\[
+    \int_{-\infty}^{\infty} \dd{x} e^{-ax^2 + bx} = \sqrt{\frac{\pi}{a}} e^{\frac{b^2}{4 a}} \qq{co działa nawet dla liczb zespolonych, gdy }\Re(a)\geq0
+\]
+Dostajemy:
+\[
+    K(x, t, x_0, t_0) \stackrel{\Re(a) = 0\footnotemark}{=} \sqrt{\frac{m}{2 \pi \hbar \qty|y - y_0|}} e^{\frac{i}{\hbar} \frac{m (x - x_0)^2}{2 \qty|t-t_0|}}
+\]
+\footnotetext{W sensie dystrybucyjnym}
+
+Further reading:
+\begin{itemize}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/wyklad4-schroedinger.pdf}{Notatki Demko do wykładu}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia4.pdf}{Zadania na ćwiczenia 4}
+    \item Tu będą Rozwiązania z ćwiczeń 4
+\end{itemize}
+\end{lecture}
+
 
 
 \tableofcontents
@@ -340,5 +701,20 @@ W związku z tym możemy dalej rozpisać $\expval{A}$ jako:
 \listoffigures
 
 \printindex
+
+\begin{center}
+    \chapter*{Załączniki}
+\end{center}
+
+\appendix
+\setcounter{table}{0}
+\captionsetup[table]{name=Załącznik}
+\captionsetup[figure]{name=Załącznik}
+\captionsetup[section]{name=Lecture}
+
+\chapter{Długaśne wyprowadzenia wzorów}
+
+\section{Lecture 6}
+
 
 \end{document}
