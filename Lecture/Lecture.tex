@@ -9,7 +9,7 @@
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{bbold}
-\usepackage[table,xcdraw]{xcolor}
+\usepackage[table,xcdraw, dvipsnames]{xcolor}
 \usepackage{hhline}
 \usepackage{placeins}
 \usepackage[margin=0.6in]{geometry}
@@ -65,15 +65,18 @@
    \noindent\chapter{#1} \rmfamily}{\medskip}
    
 \newenvironment{emph_box}[1]
-    {\begin{center}
+    {\begin{center}\color{BrickRed}
     \begin{tabular}{|p{0.9\textwidth}|}
     \hline
-    \begin{center} \textbf{#1} \end{center}\\[1ex]
+    \begin{center} \color{Dandelion}{\textbf{#1}} \end{center}
+    \begin{center}
     }
-    { 
+    {
+    \end{center}
     \\\\\hline
     \end{tabular} 
     \end{center}
+    \color{black}
     }
 
 \begin{document}
@@ -260,7 +263,6 @@ Gdzie $E$ - Energia.
 W tym wykładzie zajmiemy się powoli formalizowaniem intuicji nabywanej na poprzednim wykładzie. Zdefiniujmy $\ket{i}$ - pewne stany rozróżnialne (istnieje pomiar dający róne wyniki dla różnych stanów).
 
 \begin{emph_box}{\subind{Zasada superpozycji}{Zasada!superpozycji}}
-\color{orange}
 Jeśli $\ket{1}$ i $\ket{2}$ są dopusczalnymi stanami układu, to "$\ket{1}\oplus\ket{2}$"\footnote{rozumiemy to jako "jednocześnie $\ket{1}$ i $\ket{2}$"} też musi być dopuszczalnym stanem układu
 \end{emph_box}
 
@@ -283,13 +285,13 @@ Innymi słowy, jak mamy kilka wielkości fizycznych $A, B, C, \dots$, to w ogól
     \begin{figure}[!ht]
         \centering
         \includegraphics[width=0.8\linewidth]{Wyk_2_Rys_1.jpeg}
-        \caption{Porównanie podejść \com{dopracuj opis}}
+        \caption{Porównanie podejść myślenia o kwantu - deterministyczny i niedeterministyczny}
         \label{fig:lec_2:porownianie}
     \end{figure}
     
 
 \begin{emph_box}{\ind{Postulat pomiarowy}}
-    \color{orange} Jeśli $\ket{\Psi}$ jest dowolnym stanem, na którym chcemy zmierzyć wielkość fizyczną $A$, z którą stowarzyszona jest baza $\qty{\ket{a_i}}$. Możemy napisać:
+    Jeśli $\ket{\Psi}$ jest dowolnym stanem, na którym chcemy zmierzyć wielkość fizyczną $A$, z którą stowarzyszona jest baza $\qty{\ket{a_i}}$. Możemy napisać:
     \[\ket{\Psi} = \sum_i \alpha_i\ket{a_i}\]
     Wtedy uzyskany wynik $a_i$ z prawdopodobieństwem $p_i = \qty|\alpha_i|^2 = \qty|\braket{a_i}{\Psi}|^2$. Tym samym stan po pomiarze ma dobrze określone wielkości $a_i$, tj. jest $\ket{\Psi} = \ket{a_i}$.
 \end{emph_box}
@@ -341,7 +343,12 @@ W związku z tym możemy dalej rozpisać $\expval{A}$ jako:
     \expval{A} = \bra{\Psi} \quad \sum_i a_i \ketbra{a_i} \quad \ket{\Psi} =\footnote{${\color{blue} \sum_i a_i \ketbra{a_i} = \hat{A}}$} \ev{\hat{A}}{\Psi}
 \]
 
-
+Further reading:
+\begin{itemize}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/wyklad2-stanypomiary.pdf}{Notatki Demko do wykładu}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia2.pdf}{Zadania na ćwiczenia 2}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia2-sol.pdf}{Rozwiązania z ćwiczeń 2}
+\end{itemize}
 \end{lecture}
 
 % --------------------------------------------------------
@@ -400,8 +407,12 @@ Czyli widzimy, że $H^\dagger = H$ - jest Hermitowskie.
 \[
     \dv{\psket{t}}{t}\eval_{t=0} = - \frac{i}{\hbar} H \psket{0} \implies i \hbar \dv{\psket{t}}{t}\eval_{t=0} = H \psket{0}
 \]Ale zamiast pisać $\psket{\dd{t}} = U(\dd{t}) \psket{0}$ można ogólniej powiedzieć: $\psket{t + \dd{t}} = U(\dd{t}) \psket{t}$.\\
-Dostajemy:
-\com{Przepisz ze zdjęcia}
+Dostajemy krypto \ind{Równanie Schrödingera}:
+\begin{equation}
+    i \hbar \dv{\psket{t}}{t} = H \psket{t}
+    \label{eq:lec_3:krypto_schrodinger}
+\end{equation}
+(Krypto, bo nie znamy natury $H$)
 
 \section{Argument za naturą fizyczną H}
 Rozważmy obserwablę $A$ i jej wartość oczekiwaną na stanie $\psket{t}$.
@@ -419,7 +430,8 @@ pierwsza myśl, że ma coś wspólnego z energią.
 
 \begin{emph_box}{Analogia z Mechaniką Klasyczną}
 $$A(q, p) \qc \dv{A}{t} = \qty{A, H} = \sum_i \dv{A}{q_i} \dv{H}{p_i} - \dv{A}{p_i}\dv{H}{q_i}$$
-Formalna recepta wiążąca mechanikę klasyczną z kwantową: $$\qty{\cdot, \cdot} \to =-\frac{i}{\hbar} \qty[\cdot , \cdot]$$. Jest to dodatkowy argument na to, że H ma coś wspólnego z energią.
+Formalna recepta wiążąca mechanikę klasyczną z kwantową: $$\qty{\cdot, \cdot} \to =-\frac{i}{\hbar} \qty[\cdot , \cdot]$$
+Jest to dodatkowy argument na to, że H ma coś wspólnego z energią.
 \end{emph_box}
 
 To teraz dochodzimy do równań:
@@ -533,7 +545,16 @@ Intuicja falowa (świetlna), fale płaskie (stany o dobrze określonej energii i
     \Psi(x, t) \sim e^{i (kx - \omega t)}
 \]
 Hipoteza Plancka/ De Broigle'a $E = \hbar \omega$,  $p = \frac{h}{\lambda} = \hbar \cdot k$\\
-żeby $\hat{p} \Psi(x, t) = p \Psi(x, t) = \hbar k \Psi(x, t)$ trzeba wziąć $\hat{p} = \frac{\hbar}{i}$
+żeby $\hat{p} \Psi(x, t) = p \Psi(x, t) = \hbar k \Psi(x, t)$ trzeba wziąć $\hat{p} = \frac{\hbar}{i}$\\
+
+Further reading:
+\begin{itemize}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/wyklad3-ewolucja.pdf}{Notatki Demko do wykładu}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia3.pdf}{Zadania na ćwiczenia 3}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia3-sol.pdf}{Rozwiązania z ćwiczeń 3}
+\end{itemize}
+
+\end{lecture}
 
 % ------------------------------------------------------------------
 % Wykład 16.03.2022
@@ -583,7 +604,7 @@ Czyli wystarczy zmienić $\phi_{E_k}(x)$ i $E_k$, żeby znaleźć ewolucję $\ha
     \qty[- \frac{\hbar^2}{2m} \dv[2]{x} + V(x)] \phi_{E_k}(x) = E_k \phi_{E_k} (x)
     \label{eq:lec_5:schrodinger_nzal_czas}
 \end{equation}
-    Ta niezależna od czasu reprezentacja równania schrödingera de facto jest problemem szukania stanów własnych Hamiltonianu. Czyli rozwiązując ewolucję Hamiltonianu w czasie najpierw rozwiązujemy problem znajdywania stanów, a dopiero potem szukamy jego ewolucji czasowej, tj zgodnie z równaniem (\ref{eq:lec_5:schrodinger}).
+    Ta niezależna od czasu reprezentacja równania schrödingera de facto jest problemem szukania stanów własnych Hamiltonianu. Czyli rozwiązując ewolucję Hamiltonianu w czasie najpierw rozwiązujemy problem znajdywania stanów, a dopiero potem szukamy jego ewolucji czasowej, tj zgodnie z równaniem \eqref{eq:lec_5:schrodinger}.
 \end{emph_box}
 \subsection{Cząstka swobodna}
 Gdzie dla cząstki swobodnej wygląda to tak, że $V(x) = 0$:
@@ -622,6 +643,7 @@ Czyli finalnie dostajemy:
 \begin{emph_box}{\ind{Równanie Heisenberga}}
     \begin{equation}
         \dv{\hat{A}^{(H)}(t)}{t} = \frac{i}{\hbar} \qty[\hat{\HS}, \hat{A}^{(H)}(t)]
+        \label{eq:lec_5:heisenberg}
     \end{equation}
 \end{emph_box}
 
@@ -635,9 +657,10 @@ Ewolucja w reprezentacji położeniowej:
 \]
 \begin{emph_box}{\ind{Propagator} \index{Funkcja Greena}}
 Możemy powiedzieć, że $K(x, t, x_0, t_0)$ to \emph{Propagator}
-\[
+\begin{equation}
     K(x, t, x_0, t_0) = \sum_k \phi_k(x) \phi_k^\ast(x_0) e^{- \frac{i E_k (t-t_0)}{\hbar}}
-\] 
+    \label{eq:lec_5:propagator}
+\end{equation}
 Jak można łatwo zauważyć, propagator kwacze jak kaczka, chodzi jak kaczka, wygląda jak kaczka, więc jest to szukana \emph{Funkcja Greena}\footnotemark.\\
 
 Ważna własność propagatora:
@@ -662,9 +685,15 @@ Dostajemy:
     K(x, t, x_0, t_0) \stackrel{\Re(a) = 0\footnotemark}{=} \sqrt{\frac{m}{2 \pi \hbar \qty|y - y_0|}} e^{\frac{i}{\hbar} \frac{m (x - x_0)^2}{2 \qty|t-t_0|}}
 \]
 \footnotetext{W sensie dystrybucyjnym}
+
+Further reading:
+\begin{itemize}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/wyklad4-schroedinger.pdf}{Notatki Demko do wykładu}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia4.pdf}{Zadania na ćwiczenia 4}
+    \item Tu będą Rozwiązania z ćwiczeń 4
+\end{itemize}
 \end{lecture}
 
-\end{lecture}
 
 
 \tableofcontents
@@ -685,25 +714,7 @@ Dostajemy:
 
 \chapter{Długaśne wyprowadzenia wzorów}
 
-\com{Dopisz komendy na to}
-
-\section{Lecture 1}
-
-\section{Lecture 2}
-
-\section{Lecture 3}
-
-% \begin{figure}[!ht]
-%     \centering
-%     \includegraphics[width=\linewidth]{Wyk_5_Rys_2.JPG}
-%     \caption{Wyprowadzenie wzoru na maksymalizację entropii}
-%     \label{fig:lec_5:app:maksymalizacja_entropii}
-% \end{figure}
-\com{Wklej zdjęcie notatek Tomka, lub przepisz. Idc, zrób coś}
-
-\section{Lecture 4}
-
-\section{Lecture 5}
+\section{Lecture 6}
 
 
 \end{document}
