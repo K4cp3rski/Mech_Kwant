@@ -132,7 +132,7 @@ Polecane podręczniki:
     Zdefiniował to jako:
     \begin{equation}
         E = h \cdot \nu = \hbar \cdot \omega
-        \label{lec_1:eq:E_planck}
+        \label{eq:lec_1:E_planck}
     \end{equation}
     \[\hbar = \frac{h}{2 \pi}, \omega = 2 \pi \nu\]
     gdzie h - \subind{Stała Plancka}{Stała!Plancka}, $h = 6.2626070150 \cdot 10^{-34} J\cdot s$, $\nu$ - częstotliwość promieniowania 
@@ -140,14 +140,14 @@ Polecane podręczniki:
         \centering
         \includegraphics[width=\linewidth]{Wyk_1_Rys_5.png}
         \caption{Wykres promieniowania ciała doskonale czarnego}
-        \label{lec_1:fig:cialo_doskonale_czarne}
+        \label{fig:lec_1:cialo_doskonale_czarne}
     \end{figure}
     
     \begin{figure}[!ht]
         \centering
         \includegraphics[width=\linewidth]{Wyk_1_Rys_6.png}
         \caption{Porównanie hipotezy Plancka z prawem Rayleigha-Jeansa i rozkładem Wiena. Further reading o 'Katastrofie w nadfiolecie'  na \link{https://pl.wikipedia.org/wiki/Ciało_doskonale_czarne}{Wikipedii o ciele doskonale czarnym}}
-        \label{lec_1:fig:cialo_doskonale_czarne_porownanie}
+        \label{fig:lec_1:cialo_doskonale_czarne_porownanie}
     \end{figure}
     
     \subsection{Efekt Fotoelektryczny}
@@ -168,7 +168,7 @@ Polecane podręczniki:
         \centering
         \includegraphics[width=\linewidth]{Wyk_1_Rys_1.jpeg}
         \caption{Demonstracja działania płytki półprzepusczalnej.}
-        \label{lec_1:fig:plytka_polprzepuszczalna}
+        \label{fig:lec_1:plytka_polprzepuszczalna}
     \end{figure}
     
     \ind{Teoria parametrów ukrytych} - Teoria, że w kwantach energii występują nierejestrowane przez nas parametry, które jednakowoż zawsze determinują rozróżnienie kwantów energii. Parafrazując Drażana, dodawanie fotonom(kwantom) "włosów", "ogonów" itp - elementów rozróżniających je.\\
@@ -780,6 +780,143 @@ Co pozwala nam wyznaczyć stałą $const$. Będzie ona miała interpretację mia
 Zmierzamy do równania Schrödingera. \com{Dopisz potem z ostatnich paru minut wykładu}
 \end{lecture}
 
+% ----------------------------------------------------------------------
+% Wykład 23.03.2022
+
+
+\begin{lecture}{Zasady nieoznaczoności}
+\section{Off to propafator once more}
+    Jak pamiętamy propagator zdefiniowaliśmy jak w równaniu \eqref{eq:lec_5:propagator}, tj.
+    \[
+        K(x, t, x_0, t_0) = const \sum_{x(\tau)} e^{iS[x(\tau)]} = \int D\qty[x(\tau)] e^{i S[x(\tau)]}\qq{, gdzie } S\qty[x(\tau)] = \int_{t_0}^t \dd{\tau} L(\dot{x}(\tau), x(\tau))\footnote{Gdzie $x(t_0) = x_0$ i $x(t) = x$}
+    \]
+    Weźmy sobie przykład, \ind{kwantowy oscylator harmoniczny}:
+    \[
+        V(x) = \frac12 m \omega^2 x^2\qc L = \frac{m \dot{v}^2}{2} - \frac12 m \omega^2 x^2
+    \]
+    Z tym, że zdefiniujmy sobie:
+    \[
+        x(\tau) = \bar{x}(\tau) + y(\tau)\qc 
+        \mqty{\bar{x}(t_0) = x_0 & y(t_0) = 0\\
+        \bar{x}(t) = x & y(t) = t}
+    \]
+    Wtedy nasz Lagrangian przyjmuje postać:
+    \[
+        L = \frac{m (\bar{x} + y)^2}{2} - \frac12 m \omega^2 (\bar{x} + y)^2 = \frac{m \dot{\bar{x}}^2}{2} - \frac12 m \omega^2 \bar{x}^2 + \frac{m \dot{y}^2}{2} - \frac12 m \omega^2 y^2 + m \dot{\bar{x}} \dot{y} - m \omega^2 \bar{x} y
+    \]
+    Dlatego działanie by wyglądało:
+    \[
+        S[x(\tau)] = S[x(\tau)] + S[y(\tau)] + \underbrace{\int_{t_0}^t \dd{\tau} m \dot{\bar{x}} \dot{y} - m \omega^2 \bar{x} y}_{\int_{t_0}^t \dd{t} \qty\underbrace{[- \dv{t}(m \ddot{\bar{x}} - m \omega^2 \bar{x})]}_{=0\footnotemark}y}
+    \]
+    \footnotetext{Klasyczne równanie ruchu}
+    Odwołujemy się tu do wyprowadzenia równań Eulera-Lagrange'a:
+    \[
+        \dv{t} \dv{L}{\dot{x}} - \pdv{L}{x} = 0\qc\int_{t_0}^t \dd{\tau} \pdv{L}{\dot{x}} \delta \dot{x} + \pdv{L}{x} \delta\dot{x} = \footnote{Przez części} \int \dd{\tau} \underbrace{\qty[\qty(- \dv{t} \pdv{L}{\dot{x}}) + \pdv{L}{x}]}_{=0} \delta{x}
+    \]
+    Czyli efektywnie sobie rozdzielamy trajektorię klasyczną (do której w granicy skali makro będzie zbiegać nasza trajektoria) od trajektorii kwantowej, do której stosujemy całkę po trajektoriach
+    \[
+        K(x, t, x_0, t_0) = \exp(i \int_{t_0}^t \dd{\tau} L(\dot{\bar{x}}, \bar{x})) \cdot \int D\qty[y(\tau)] \exp(i \int_{t_0}^t \dd{\tau} L(\dot{y}, y))
+    \]
+    Czyli:
+    \[
+        K(x, t, x_0, t_0) = f(t, t_0) \exp(i \int_{t_0}^t \dd{\tau} L(\dot{\bar{x}}, \bar{x}))\footnote{Działanie na klasycznej trajektorii, zależność tylko od $x$, $x_0$}
+    \]
+    Gdzie klasyczna trajektoria oscylatora harmonicznego wygląda:
+    \[
+        \bar{x}(\tau) = \bar{x}(t_0) \cos(\omega\tau - t_0) + \frac{\dot{\bar{x}}(t_0)}{\omega} \sin(\omega \tau - t_0)\qc\dot{\bar{x}}(\tau) = - \omega \bar{x}(t_0) \sin(\omega \tau - t_0) + \dot{\bar{x}}(t_0) \cos(\omega \tau - t_0)
+    \]
+    A działanie:
+    \[
+        S\qty[\bar{x}(\tau)] = \int_{t_0}^t \dd{\tau}\qty( \frac{m \dot{\bar{x}}^2(\tau)}{2} - \frac12 m \omega^2 \bar{x}^2(\tau)) = \dots = h(\bar{x}(t_0), \dot{\bar{x}}(t_0), t, t_0)
+    \]
+    Co po wyrażeniu $\dot{x}(t_0)$ poprzez $\bar{x}(t_0) = x_0$ i $\bar{x}(t) = x$:
+    \[
+    \implies \dot{\bar{x}}(t_0) = \frac{\bar{x}(t) - \bar{x}(t_0) \cos \omega (t - t_0)}{\sin \omega (t - t_0)} \cdot \omega = \omega \cdot \frac{x - x_0\cos\omega(t - t_0)}{\sin \omega (t - t_0)}
+    \]
+    Co po wstawieniu do $h$ daje:
+    \[
+        S[\bar{x}(\tau)] = \frac{m \omega}{2 \sin\qty[\omega (t-t_0)]} \qty[(x^2 + x_0^2) \cos\omega(t-t_0) - 2 x x_0]
+    \]
+    I wstawieniu wyżej:
+    \[
+        K(x, t, x_0, t_0) = f(t, t_0) \exp\qty(\frac{m \omega}{2 \sin\qty[\omega (t-t_0)]} \qty[(x^2 + x_0^2) \cos\omega(t-t_0) - 2 x x_0])
+    \]
+    Zaś aby wyznaczyć $f(t, t_0)$ wystarczy przepropagować dowolny stan (np. gaussowski) i należy nałożyć watunek zachowania normalizacji. Tym sposobem uciekamy od problemu całki po trajektoriach i dostajemy wynik:
+    \[
+        f(t, t_0) = \sqrt{
+        \frac{m \omega
+        }{2 \pi i \hbar \sin\omega(t-t_0)
+        }}
+    \]
+    Co po wzięciu $\omega\to0$ powinno nam odtworzyć propagator dla cząstki swobodnej:
+    \[
+        K_{\omega = 0}(x, t, x_0, t_0) = \sqrt{\frac{m}{2 \pi i \hbar(t-t_0)}}
+    \]
+    
+    \section{Zasada niezoaczoności Heisenberga-Robertsona}
+    Przypomnijmy sobie paczkę Gaussowską:
+    \[
+        \Psi(x) = \frac{1}{(2 \pi \sigma^2)^{\frac14}} e^{- \frac{(x - x_0)^2}{4 \sigma^2} + \frac{i p_0 x}{\hbar}}
+    \]
+    A na ćwiczeniach wyszło nam dla paczki Gaussowskiej:
+    \[
+        \mqty{\Delta^2 x = \sigma^2 \\
+        \Delta^2 p = \frac{\hbar^2}{4 \sigma^2}}
+    \]
+    Czyli im lepiej określone położenie, tym gorzej określony pęd. Daje to znaną postać \subind{Zasady nieoznaczoności Heisenberga}{Zasada Nieoznaczoności!Heisenberga}:
+    \begin{equation}
+        \Delta^2 x \Delta^2 p \geq \frac{\hbar^2}{4}
+        \label{eq:lec_7:heisenberg}
+    \end{equation}
+    Co jest szczególnym przypadkiem zasady sformułowanej dla dowolnych dwóch niekomutujących obserwabli $\hat{A}, \hat{B}$ i stanu $\ket{\Psi}$.
+    \subsection{Twierdzenie}
+    \[
+        \underbrace{\Delta^2 A}_{\ev{\hat{A}^2}{\Psi} - \ev{\hat{A}}{\Psi}^2} \cdot \Delta^2 B \geq \frac14 |\underbrace{\ev{[A, B]}}_{\ev{[A, B]}{\Psi}}|
+    \]
+    W szczególności"
+    \[
+        \hat{A} = \hat{x} \qc \hat{B} = \hat{p} \qc [\hat{x}, \hat{p}] = i \hbar \implies \Delta^2 x \Delta^2 p \geq \frac{\hbar^2}{4}
+    \]
+    Czyli stan Gaussowski wysyca zasadę nieoznaczoności
+    \subsection{Dowód}
+    Niech:
+    \[
+        \mqty{
+        \hat{A}' = \hat{A} - \ev{\hat{A}}\cdot\Id \\
+        \hat{B}' = \hat{B} - \ev{B}\cdot \Id}
+        \implies
+        \mqty{
+        \ev{\hat{A}'} = 0 & \Delta^2 A' = \Delta^2 A\\
+        \ev{\hat{B}'} = 0 & \Delta^2 B' = \Delta^2 B
+        }
+    \]
+    Teraz zdefiniujmy sobie operator $\hat{F} = \hat{A}' + i \lambda \hat{B}', \lambda \in \mathbb{R}$.\\
+    {\color{BrickRed} Rozważmy $F^\dagger F$ - ten operator (jest on \emph{Dowolny}) jest hermitowski i dodatni, bo $\forall_{\ket{\Psi}} \ev{F^\dagger F}{\Psi} \geq 0$}
+    W związku z tym możemy sobie zapisać:
+    \[
+        \forall_{\ket{\Psi}} \mqty{
+        \ev{(\hat{A}' - i \lambda \hat{B}')(\hat{A}' + i \lambda \hat{B}')}{\Psi} \geq 0\\
+        \ev{\hat{A}'^2 + \lambda^2\hat{B}'^2 + i \lambda (\hat{A}'\hat{B}' - \hat{B}'\hat{A}')} \geq 0
+        }
+    \]
+    Co daje nam:
+    \[
+        \mqty{
+        \Delta^2A' + \lambda^2 \Delta^2 B' + i \lambda \ev{[A', B']} \geq 0\\
+        \Delta^2 A + \lambda^2 \Delta^2 B + i \lambda \ev{[A, B]} \geq 0\\
+        }
+    \]
+    Co jest prawdziwe dla dowolnej $\lambda$, czyli $\Delta = b^2 - 4 a c \leq 0$, co daje:
+    \[
+        \underbrace{\qty(\underbrace{i \overbrace{\ev{[A, B]}}^{\text{czysto urojone}}}_{\text{czysto rzeczywiste}})^2}_{dodatnie} - 4 \Delta^2A\Delta^2B \leq 0
+    \]
+    Czyli pamiętając, że $\ev{[A, B]}^\ast = - \ev{[A, B]}$ finalnie dostajemy dowód na nierówność:
+    \[
+        \Delta^2 A \Delta^2 B \geq \frac14 \qty|\ev{[A, B]}|
+    \]
+    
+    {\color{SeaGreen}Z tym, że mamy nie myśleć o tym jak Heisenberg, że pomiar jednego zaburza drugie, a że nie ma stanów kwantowych w których wariancje obu obserwabli są jednocześnie małe.}
+\end{lecture}
 
 \tableofcontents
 
