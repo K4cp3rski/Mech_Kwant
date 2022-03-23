@@ -79,6 +79,14 @@
     \color{black}
     }
 
+\DeclareMathOperator*{\SumInt}{%
+\mathchoice%
+  {\ooalign{$\displaystyle\sum$\cr\hidewidth$\displaystyle\int$\hidewidth\cr}}
+  {\ooalign{\raisebox{.14\height}{\scalebox{.7}{$\textstyle\sum$}}\cr\hidewidth$\textstyle\int$\hidewidth\cr}}
+  {\ooalign{\raisebox{.2\height}{\scalebox{.6}{$\scriptstyle\sum$}}\cr$\scriptstyle\int$\cr}}
+  {\ooalign{\raisebox{.2\height}{\scalebox{.6}{$\scriptstyle\sum$}}\cr$\scriptstyle\int$\cr}}
+}
+
 \begin{document}
 
 \maketitle
@@ -127,7 +135,7 @@ Polecane podręczniki:
         \label{lec_1:eq:E_planck}
     \end{equation}
     \[\hbar = \frac{h}{2 \pi}, \omega = 2 \pi \nu\]
-    gdzie h - \ind{stała Plancka}, $h = 6.2626070150 \cdot 10^{-34} J\cdot s$, $\nu$ - częstotliwość promieniowania 
+    gdzie h - \subind{Stała Plancka}{Stała!Plancka}, $h = 6.2626070150 \cdot 10^{-34} J\cdot s$, $\nu$ - częstotliwość promieniowania 
     \begin{figure}[!ht]
         \centering
         \includegraphics[width=\linewidth]{Wyk_1_Rys_5.png}
@@ -297,7 +305,7 @@ Innymi słowy, jak mamy kilka wielkości fizycznych $A, B, C, \dots$, to w ogól
 \end{emph_box}
  Czyli też jak już raz dokonamy pomiaru na stanie kwantowym to on już nie wróci do możliwości interferencji, i za każdym kolejnym pomiarem już będziemy obserwować ten sam stan, tj. zacznie się zachowywać jakby był klasyczny.
     
-\ind{Observabl-a}:
+\ind{Obserwabla}:
 Z pomiarem wielkości A $\qty(\qty{\ket{a_i}})$ stowarzyszamy operator 
 \[
     \hat{A} = \sum_i a_i \ketbra{a_i}
@@ -407,7 +415,7 @@ Czyli widzimy, że $H^\dagger = H$ - jest Hermitowskie.
 \[
     \dv{\psket{t}}{t}\eval_{t=0} = - \frac{i}{\hbar} H \psket{0} \implies i \hbar \dv{\psket{t}}{t}\eval_{t=0} = H \psket{0}
 \]Ale zamiast pisać $\psket{\dd{t}} = U(\dd{t}) \psket{0}$ można ogólniej powiedzieć: $\psket{t + \dd{t}} = U(\dd{t}) \psket{t}$.\\
-Dostajemy krypto \ind{Równanie Schrödingera}:
+Dostajemy krypto \subind{Równanie Schrödingera}{Równanie!Schrödingera}:
 \begin{equation}
     i \hbar \dv{\psket{t}}{t} = H \psket{t}
     \label{eq:lec_3:krypto_schrodinger}
@@ -476,7 +484,7 @@ $\psket{0} = \sum_k c_k\footnote{$c_k = \braket{E_k}{\Psi(0)}$} \ket{E_k}$, z li
         \centering
         \includegraphics[width=\linewidth]{Wyk_4_Rys_1.jpeg}
         \caption{Schizofreniczna Ewolucja}
-        \label{lec_4:fig:tabelka}
+        \label{fig:lec_4:tabelka}
 \end{figure}
 
 \section{Kwantowy Efekt Zenona (z Elei)}
@@ -514,7 +522,7 @@ Wygodnie jest rozważyć granicę \emph{ciągłą}:
 Gdzie $\qty|\Psi(x)|^2$ - gęstość prawdopodobieństwa znalezienia cząstki w punkcie $x$. \\
 Skoro chcemy, żeby $\braket{\Psi} = 1^{(i)} \implies \int \dd{x} \qty|\Psi(x)|^2 = 1^{(ii)}$. Czyli:\\
 $\braket{\Psi} = \int \dd{x} \Psi^\ast(x) \bra{x} \int \dd{x} \Psi(x') \ket{x'} \implies \int \dd{x} \dd{x'} \Psi^\ast(x) \Psi(x) \braket{x}{x'} \stackrel{(i), (ii)}{\implies} \braket{x}{x'} = \delta(x-x')\footnote{Czyli o $\ket{x}$ można myśleć jako o pewnej bazie ortogonalnej, ale nie unormowanej, bo $\braket{x} = \infty$}$.
-\ind{Funkcja falowa} - funkcja gęstości prawdopodobieństwa $\Psi(x)$ o amplitudzie $\qty|\Psi(x)|^2$. Jest ona reprezentacją położeniową stanu $\ket{\Psi}$\\
+\subind{Funkcja falowa}{Funkcja!falowa} - funkcja gęstości prawdopodobieństwa $\Psi(x)$ o amplitudzie $\qty|\Psi(x)|^2$. Jest ona reprezentacją położeniową stanu $\ket{\Psi}$\\
 Zauważmy: $\ket{Psi} = \int \dd{x} \Psi \ket{x}$, $\ket{\varphi} = \int \dd{x'} \varphi(x') \ket{x'}$
 \[
     \braket{\Psi}{\varphi} = \int \dd{x} \dd{x'} \Psi^\ast(x) \varphi(x') \underbrace{\braket{x}{x'}}_{\delta(x-x')} = \int \dd{x} \Psi^\ast(x) \varphi(x)
@@ -584,7 +592,7 @@ Zachodzi również:
 
 \section{Równanie Schrödingera}
 
-\begin{emph_box}{\ind{Równanie Schrödingera}}
+\begin{emph_box}{\subind{Równanie Schrödingera}{Równanie!Schrödingera}}
 \begin{equation}
     i \hbar \pdv{\Psi(x, t)}{t} = - \frac{\hbar^2}{2m} \pdv[2]{x} \Psi(x) + V(x) \Psi(x, t)
     \label{eq:lec_5:schrodinger}
@@ -599,7 +607,7 @@ Wiemy, że ogólnie ewolucję liczymy:
 \end{align*}
 \footnotetext{Funkcja falowa stanu własnego $\hat{\HS}$ (stan stacjonarny)}
 Czyli wystarczy zmienić $\phi_{E_k}(x)$ i $E_k$, żeby znaleźć ewolucję $\hat{\HS} \qty[\phi_{E_k}(x)] = E_k \phi_{E_k}(x)$ co daje nam:
-\begin{emph_box}{\subind{Równanie Schrödingera bez czasu}{Równanie Schrödingera!bez czasu}}
+\begin{emph_box}{\subind{Równanie Schrödingera bez czasu}{Równanie!Schrödingera!bez czasu}}
 \begin{equation}
     \qty[- \frac{\hbar^2}{2m} \dv[2]{x} + V(x)] \phi_{E_k}(x) = E_k \phi_{E_k} (x)
     \label{eq:lec_5:schrodinger_nzal_czas}
@@ -629,6 +637,7 @@ Były dwie szkoły \sout{Falenicka i Otwocka} Heisenberga i Schrödingera:
     \item Heisenberg - Mechanika Macierzowa, opis poprzez obserwable
 \end{itemize}
 \section{Obraz Schrödingera i obraz Heisenberga}
+\label{sec:lec_5:schrodinger_heisenberg}
 \emph{Obraz Schrödingera}:\\
 $\ket{\Psi} = U(t) \psket{0}\qc U(t) = e^{- \frac{i \HS t}{\hbar}}$. Jeśli liczymy wartość oczekiwaną obserwabli w czasie $t$: $\ev{A}_t = \ev{\hat{A}}{\Psi(t)} = \ev{U^\dagger(t) \hat{A} U(t)}{\Psi(0)}$\\
 Możemy jednak spojrzeć na to jak na sytuację, gdzie stan układu nam się nie zmienia, a zmieniają się obserwable. Daje nam to:\\
@@ -640,12 +649,19 @@ Ewolucja obserwabli jest opisana przez równanie Heisenberga:\\
 \]
 Czyli finalnie dostajemy:
 
-\begin{emph_box}{\ind{Równanie Heisenberga}}
+\begin{emph_box}{\subind{Równanie Heisenberga}{Równanie!Heisenberga}}
     \begin{equation}
         \dv{\hat{A}^{(H)}(t)}{t} = \frac{i}{\hbar} \qty[\hat{\HS}, \hat{A}^{(H)}(t)]
         \label{eq:lec_5:heisenberg}
     \end{equation}
 \end{emph_box}
+
+Further reading:
+\begin{itemize}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/wyklad4-schroedinger.pdf}{Notatki Demko do wykładu}
+    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia4.pdf}{Zadania na ćwiczenia 4}
+    \item Tu będą Rozwiązania z ćwiczeń 4
+\end{itemize}
 
 \section{Propagator i całki po trajektoriach}
 Ewolucja w reprezentacji położeniowej:
@@ -655,17 +671,17 @@ Ewolucja w reprezentacji położeniowej:
 \[
     \Psi(x, t) = \int \dd{x_0} \qty(\sum_k \phi_k(x) \phi_k^\ast(x_0) e^{- \frac{i E_k (t-t_0)}{\hbar}}) \Psi(x_0, t_0)
 \]
-\begin{emph_box}{\ind{Propagator} \index{Funkcja Greena}}
+\begin{emph_box}{\subind{Propagator}{Funkcja!Greena} \index{Propagator}}
 Możemy powiedzieć, że $K(x, t, x_0, t_0)$ to \emph{Propagator}
 \begin{equation}
-    K(x, t, x_0, t_0) = \sum_k \phi_k(x) \phi_k^\ast(x_0) e^{- \frac{i E_k (t-t_0)}{\hbar}}
+    K(x, t, x_0, t_0) = \SumInt_k \phi_k(x) \phi_k^\ast(x_0) e^{- \frac{i E_k (t-t_0)}{\hbar}}
     \label{eq:lec_5:propagator}
 \end{equation}
 Jak można łatwo zauważyć, propagator kwacze jak kaczka, chodzi jak kaczka, wygląda jak kaczka, więc jest to szukana \emph{Funkcja Greena}\footnotemark.\\
 
 Ważna własność propagatora:
 \[
-    K(x, t_0, x_0, t_0) = \sum_k \phi_k(x) \phi_k^\ast(x_0)\footnotemark = \delta(x-x_0)
+    K(x, t_0, x_0, t_0) = \SumInt_k \phi_k(x) \phi_k^\ast(x_0)\footnotemark = \delta(x-x_0)
 \]
 \end{emph_box}
 \addtocounter{footnote}{-1}
@@ -686,14 +702,83 @@ Dostajemy:
 \]
 \footnotetext{W sensie dystrybucyjnym}
 
-Further reading:
-\begin{itemize}
-    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/wyklad4-schroedinger.pdf}{Notatki Demko do wykładu}
-    \item \link{http://studenci.fuw.edu.pl/~kc427902/Prezentacje_Kwanty/cwiczenia4.pdf}{Zadania na ćwiczenia 4}
-    \item Tu będą Rozwiązania z ćwiczeń 4
-\end{itemize}
 \end{lecture}
 
+% ----------------------------------------------------------------------
+% Wykład 18.03.2022
+
+\begin{lecture}{Propagator et al.}
+
+\section{Ad Propagator}
+Kolejna ciekawa obserwacja:
+\[
+    U\footnotemark(t - t_0) = U(t- t_1) U(t_1-t_0)
+\]
+\footnotetext{$U(t)$ jak w Sekcji \ref{sec:lec_5:schrodinger_heisenberg}}
+Teraz zapisując to na propagatorach dostajemy:
+\[
+    \Psi(x, t) = \int \dd{x_0} \dd{x_1} K(x, t, x_0, t_0) K(x_1, t_1, x_0, t_0) \Psi(x,t)
+\]
+To teraz możemy zagęścić atmosferę ($t_k$):
+\[
+    \Psi(x, t) = \int \dd{x_0} \dd{x_1} \dd{x_2} \dots K(x, t, x_n, t_n) K(x_n, t_n, x_{n-1}, t_{n-1}) \dots K(x_1, t_1, x_0, t_0)
+\]
+
+Teraz przechodzimy do granicy z $n\to\infty$ mamy de facto "sumowanie" po wszystkich drogach jakimi porusza się cząstka, trochę jak Zasada Huygensa dla optyki. Twochę jak przechodzenie z reprezentacji położeniowej na pędową.
+
+\begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.8\linewidth]{Wyk_6_Rys_1.jpeg}
+        \caption{Sumowanie po drogach dla cząstki kwantowej, liczona na propagatorach. Wyraża to też Feynmannowska \ind{Całka po trajektoriach}}
+        \label{fig:lec_6:sumowanie}
+\end{figure}
+
+\section{\ind{Całka po trajektoriach}}
+Wprowadzone do Mechaniki Kwantowej przez Feynmanna, jest to inny sposób na wyprowadzenie propagatora.\\
+Zauważamy:
+\[
+    K(x, t, x_0, t_0) = \SumInt_{x(\tau)\footnotemark, x(t_0) = x_0, x(t) = t} f\qty[x(\tau)]
+\]
+\footnotetext{Trajektoria}
+Intuicja: wiemy, że klasyczna trajektoria $\bar{x}(\tau)$ ekstremalizuje działanie:
+\[
+    S [x(\tau)] = \int_{t_0}^t \dd{\tau} L(\dot{x}(\tau), x(\tau))\qc L(\dot{x}, x) = \frac{m \dot{x}^2}{2} - V(x)
+\]
+Gdzie $L$ - Lagrangian. Weźmy więc $$f\qty[x(\tau)] = e^{\frac{i S [x(\tau)]}{\hbar}}$$
+Dzięki temu w pobliżu trajektorii klasycznej będzie konstruktywna interferencja tych amplitud które sumujemy. Chcemy uzyskać taki efekt, żeby to się zgadzało z obserwowanym światem - zachowującym się klasycznie na skali makro.
+
+\emph{Wniosek}: Wynika z tego fakt, że możemy wyprowadzić Mechanikę Kwantową wyprowadzić z Mechaniki Klasycznej!
+
+Chcemy pokazać, że tak skonstruowany propagator daje nam $\Psi(x, t)$ spełniającą równanie Schrödingera. Rozważamy teraz infintezymalny czas $4 = t_0 + \epsilon$, $K(x, t_0+\epsilon, x_0, t_0) \stackrel{\epsilon \to 0}{\approx} $const., $$e^{1/\hbar \epsilon L(\frac{x - x_0}{\epsilon}, \frac{x+x_0}{2})}$$
+Wtedy przeewoluowana funkcja falowa:
+\[
+    \Psi(x, t_0+\epsilon) = const. \int \dd{x_0} \Psi(x_0, t)e^{\frac{1}{\hbar} \qty(\frac{m(x - x_0)^2}{2\epsilon} - \epsilon V\qty(\frac{x+x_0}{2}))}
+\]
+Niech $\eta = x- x_0$, które jest małe i będziemy chcieli je rozwijać w $\epsilon$ i $\eta$, przy czym wkład do wyrażenia dadzą tylko $\eta \sim \sqrt{\epsilon}$. Wtedy:
+\[
+    \Psi(x, t_0) + \epsilon \pdv{t} \Psi(x, t)\eval_{t = t_0} \approx -const \int \dd{\eta} e^{\frac{i m \eta^2}{2 \hbar \epsilon}} \qty[\Psi(x, t_0) - \eta \pdv{x} \Psi(x, t_0) \frac{\eta^2}{2} \pdv[2]{x}\Psi] \qty[1 - \frac{i \epsilon}{\hbar} V(x - \frac{\eta}{2})]
+\]
+Pamiętajac o takiej przyjemnej własności:
+\color{BrickRed}
+\[ \int \dd{x} x^n e^{-ax^2} = \begin{cases}
+    0\qq{dla nieparzystych}\\
+    \frac{\sqrt{\pi}}{2^{n/2}} \cdot \frac{(n-1)!!}{a^{(n+1)/2}}\qq{dla parzystych}
+\end{cases}
+\]
+\color{black}
+\[
+    \Psi(x, t_0) + \epsilon \pdv{t} \Psi(x, t)\eval_{t = t_0} \approx -const \qty[\Psi(x, t_0)\cdot \sqrt{\frac{\pi}{\frac{-im}{2 \hbar \epsilon}}} + \frac12 \pdv[2]{x} \Psi(x, t_0) \cdot \frac{\sqrt{\pi}}{2}\qty(\frac{-2\hbar\epsilon}{i m})^{\frac32}]\qty[1 - \frac{i \epsilon}{\hbar} V(x)]
+\]
+W najniższym rzędzie w $\epsilon$:
+\[
+    \Psi(x, t_0) = - const \Psi(x, t_0) \sqrt{\frac{2 \pi \hbar \epsilon}{- i m}}
+\]
+Co pozwala nam wyznaczyć stałą $const$. Będzie ona miała interpretację miary przy całkach po trajektoriach. 
+\[
+    \implies 
+\]
+Zmierzamy do równania Schrödingera. \com{Dopisz potem z ostatnich paru minut wykładu}
+\end{lecture}
 
 
 \tableofcontents
@@ -715,6 +800,13 @@ Further reading:
 \chapter{Długaśne wyprowadzenia wzorów}
 
 \section{Lecture 6}
+
+\begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\linewidth]{App_6_Rys_1.JPG}
+        \caption{Uzasadnienie dla unitarnego operatora}
+        \label{fig:app_6:unitarny}
+\end{figure}
 
 
 \end{document}
