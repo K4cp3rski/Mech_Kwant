@@ -785,7 +785,7 @@ Zmierzamy do równania Schrödingera. \com{Dopisz potem z ostatnich paru minut w
 
 
 \begin{lecture}{Zasady nieoznaczoności}
-\section{Off to propafator once more}
+\section{Off to propagator once more}
     Jak pamiętamy propagator zdefiniowaliśmy jak w równaniu \eqref{eq:lec_5:propagator}, tj.
     \[
         K(x, t, x_0, t_0) = const \sum_{x(\tau)} e^{iS[x(\tau)]} = \int D\qty[x(\tau)] e^{i S[x(\tau)]}\qq{, gdzie } S\qty[x(\tau)] = \int_{t_0}^t \dd{\tau} L(\dot{x}(\tau), x(\tau))\footnote{Gdzie $x(t_0) = x_0$ i $x(t) = x$}
@@ -911,11 +911,90 @@ Zmierzamy do równania Schrödingera. \com{Dopisz potem z ostatnich paru minut w
         \underbrace{\qty(\underbrace{i \overbrace{\ev{[A, B]}}^{\text{czysto urojone}}}_{\text{czysto rzeczywiste}})^2}_{dodatnie} - 4 \Delta^2A\Delta^2B \leq 0
     \]
     Czyli pamiętając, że $\ev{[A, B]}^\ast = - \ev{[A, B]}$ finalnie dostajemy dowód na nierówność:
-    \[
-        \Delta^2 A \Delta^2 B \geq \frac14 \qty|\ev{[A, B]}|
-    \]
+    \begin{equation}
+        \Delta^2 A \Delta^2 B \geq \frac14 \qty|\ev{\comm{A}{B}}|
+        \label{eq:lec_7:heisenberg_robertson}
+    \end{equation}
     
     {\color{SeaGreen}Z tym, że mamy nie myśleć o tym jak Heisenberg, że pomiar jednego zaburza drugie, a że nie ma stanów kwantowych w których wariancje obu obserwabli są jednocześnie małe.}
+\end{lecture}
+
+% --------------------------------------------------------
+% Wykład 25.03.2022
+
+\begin{lecture}{Zasady nieoznaczoności C.D.}
+    Na ostatnim wykładzie wyprowadzilliśmy sobie ogólną zasadę nieoznaczoności Heisenberga - Robertsona. Ma postać jak w równaniu \eqref{eq:lec_7:heisenberg_robertson}:
+    \[
+        \Delta^2 A \Delta^2 B \geq \frac14 \qty|\ev{\comm{A}{B}}|
+    \]
+    \section{Jednoczesny pomiar komutujących obserwabli}
+    {\color{Orange} Fakt:} Jeśli $\comm{A}{B} = 0$, to możliwy jest jednoczesny pomiar $\hat{A}$ i $\hat{B}$.\\
+    {\color{Emerald} Dowód:} Chcemy pokazać, że istnieje baza ortonormalna $\qty{\ket{a_i, b_j}}$ taka, że $\hat{A}\ket{a_i, b_j} = a_i \ket{a_i, b_j}, \hat{B} \ket{a_i, b_j} = b_j \ket{a_i, b_j}$ (Wspólna baza wektorów własnych $\hat{A}$ i $\hat{B}$.)\\
+    Niech $\ket{a_i} \ket{a_2}$ będą wektorami własnymi $\hat{A}$, wtedy: $\mqty{\hat{A} \ket{a_1} = a_1 \ket{a_1} \\
+    \hat{A} \ket{a_2} = a_2 \ket{a_2}}$. Ale wtedy wiemy też, że $\comm{\hat{A}}{\hat{B}} = 0$, czyli:
+    \begin{align*}
+        \mel{a_1}{\comm{\hat{A}}{\hat{B}}}{a_2} =& 0\\
+        \mel{a_1}{\hat{A}\hat{B} - \hat{B}\hat{A}}{a_2} =& 0\\
+        \underbrace{\mel{a_1}{\hat{A}\hat{B}}{a_2}}_{\bra{a_1}a_1} - \underbrace{\mel{a_1}{\hat{B}\hat{A}}{a_2}}_{a_2\ket{a_2}} &= 0
+    \end{align*}
+    Czyli:
+    \[
+        (a_1 - a_2)\mel{a_1}{\hat{B}}{a_2} = 0
+    \]
+    I dzieje się tak dla dowolnych $\ket{a_i}$. Jeśli wszystkie $a_i$ są od siebie różne (Czyli $\hat{A}$ nie jest zdegenerowane) to mamy:
+    \[
+        (a_i - a_j) \mel{a_i}{\hat{B}}{a_j} = 0 \implies \mel{a_i}{\hat{B}}{a_j} = \delta_{ij}\mel{a_i}{\hat{B}}{a_i}
+    \]
+    Czyli dostajemy, że $\hat{B}$ jest diagonalny w bazie własnej $\hat{A}$.\\
+    Jeśli mamy degenerację, czyli $\forall i \in S_a, a_i = a \implies$ {\color{WildStrawberry} B ma postać \emph{blokowo diagonalną}, z każdym blokiem nad podprzestrzenią $\HS_a = \ev{\ket{a_i}, \ket{a_j}}$, a operator $\hat{A}$ nad przestrzenią $\HS_a$ działa jak $a \cdot \Id_{\HS_a}$.}\\
+    Czyli wynika z tego, że {\color{Plum} Możemy ramach bloku zdiagonalizować $\hat{B}$ nie zmieniając postaci $\hat{A}$ (Bo $U_a \Id_{\HS_a} U^\dagger = \Id_{\HS_a}$)}.\\
+    Czyli istnieje baza własna $\ket{a_i, b_j}$ taka, że $\mqty{
+    \hat{A}\ket{a_i, b_j} = a_i \ket{a_i, b_j}\\
+    \hat{B}\ket{a_i, b_j} = b_j \ket{a_i, b_j}}$ 
+    
+    {\color{Magenta} Wniosek:} Jeśli mamy więcej komutujących obserwabli $\hat{A}, \hat{B}, \hat{C}, \dots$, to możemy skonstruować bazę \\ $\ket{a_i, b_j, c_k, \dots}$ taką, że $\mqty{\hat{A}\ket{a_i, b_j, c_k, \dots} = a_i \ket{a_i, b_j, c_k, \dots}\\
+    \hat{B} \ket{a_i, b_j, c_k, \dots} = b_j \ket{a_i, b_j, c_k, \dots}\\
+    \hat{C} \ket{a_i, b_j, c_k, \dots} = c_k \ket{a_i, b_j, c_k, \dots}\\ \dots}$
+    {\color{Orange} Definicja:} Jak wartości własne jednocznacznie identyfikują jako wektor $\ket{a_i, b_j, c_k, \dots}$ \com{Zdj od Krzyśka}
+    
+    \section{Jednoczesny pomiar niekomutujących obserwabli (?)}
+    Niech $\comm{A}{B} \neq 0$, to {\color{red}nie istnieje baza własna}.
+    Dowód a.a.\\
+    Gdyby istniała baza ortogonalna $\mqty{
+    \hat{A}\ket{a_i, b_j} = a_i \ket{a_i, b_j}\\
+    \hat{B}\ket{a_i, b_j} = b_j \ket{a_i, b_j}} \implies \mel{a_i, b_j}{\comm{\hat{A}}{\hat{B}}}{a_i', b_j'}$ = $\qty(a_i b_j - a_{i'} b_{j'}) \delta_{jj'}\delta_{ii'}$ $= 0 \implies \comm{\hat{A}}{\hat{B}} = 0$ {\color{red}sprzeczność}.\\
+    Niemniej, mimo to można pytać się  o jednoczesny (ale rozmyty) pomiar niekomutujących obserwabli, np.$\hat{x}, \hat{p}$. Intuicja:
+    \begin{align*}
+        \Psi_{x_0, p_0} = \frac{1}{(2 \pi \sigma^2)^{\frac14}} \exp &\qty(- \frac{(x-x_0)^2}{4 \sigma^2} + \frac{i p_0 x}{\hbar})\\
+        \ev{\hat{x}} = x_0 &\qc \Delta^2 x = \sigma^2\\
+        \ev{\hat{p}} = p_0 &\qc \Delta^2 p = \frac{\hbar}{4\sigma^2}
+    \end{align*}
+    Ten stan ma jednoznacznie określone położenie i pęd najlepiej jak się da, bo: 
+    \[
+        \Delta^2 x \Delta^2 p = \frac{\hbar^2}{4}
+    \]
+    (Czyli wysyca \subind{zasadę nieoznaczoności Heisenberga-Robertsona}{Zasada Nieoznaczoności!Heisenberga-Robertsona}), gdzie $\ket{x_0, p_0}$ - stan odpowiadajacy $\Psi_{x_0, p_0}$. Czyli moglibyśmy stworzyć "siatkę" stanów o w miarę dobrze określonych $\hat{x}$ i $\hat{p}$, który byłyby prawie ortogonalne i moglibysmy to traktować jako bazę pomiarową.\\
+    Jeśli tak myślimy, to dostajemy wynik mówiący o położeniu cząstki z precyzją $\delta^2 x = \sigma^2$, $\delta^2p = \frac{\hbar^2}{4 \sigma^2}$.\\
+    Jeśli mamy jakiś stan $\ket{\phi}$, którego w ten sposób mierzymy położenia z rozrzutem
+    \[
+    \Delta^2 x' = \underbrace{\Delta^2}_{\footnotemark} x + \underbrace{\delta^2}_{\footnotemark} x, \Delta^2p' = \Delta^2 p + \delta^2 p
+    \]
+    \addtocounter{footnote}{-1}
+    \footnotetext{Wariancja dla idealnego pomiaru położenia}
+    \refstepcounter{footnote}
+    \footnotetext{Wariancja rozmycia 'linijki' którą mierzymy}
+    Możemy teraz napisać \subind{zasadę nieoznaczoności dla łącznego pomiaru}{Zasada Nieoznaczoności!łącznego pomiaru}$\hat{x}, \hat{p}$ (tak jak chciał Heisenberg).
+    \[
+        \Delta^2 x' \Delta^2 p' = \underbrace{\Delta^2x\Delta^2p}_{\geq \frac{\hbar^2}{4}} + \underbrace{\delta^2x\delta^2p}_{\geq \frac{\hbar^2}{4}} + \Delta^2x\delta^2p + \delta^2x\Delta^2p \geq \frac{\hbar^2}{4} + \frac{\hbar^2}{4}\underbrace{\qty(\frac{\Delta^2 x}{\delta^2 x} + \frac{\delta^2 x}{\Delta^2 x})}_{x+\frac{1}{x} \geq 2}
+    \]
+    Co daje nam finalnie:
+    \begin{equation}
+        \Delta^2 x' \Delta^2 p' \geq \hbar^2
+        \label{eq:lec_8:heisenberg_full}
+    \end{equation}
+    
+    \section{Zasada niezoznaczoności czas-energia \com{Dodaj indeks}}
+    $\hat{\HS}$ - operator energii, ale nie mamy operatora czasu $\hat{t}$, czyli nie możemy używać zasady nieoznaczoności Heisenberga-Robertsona, ale spodziewamy się, że coś podobnego powinno być, bo szybkość ewolucji stanów jest związana z rozrzutem Energii ($\Delta^2 \HS$)
 \end{lecture}
 
 \tableofcontents
