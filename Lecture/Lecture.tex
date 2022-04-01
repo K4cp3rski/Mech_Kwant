@@ -55,6 +55,10 @@
 
 \newcommand{\CS}{\mathcal{C}}
 
+\newcommand{\phat}{\hat{p}}
+
+\newcommand{\xhat}{\hat{x}}
+
 \newcommand{\psket}[1]{\ket{\Psi(#1)}}
 
 \newcommand{\Id}{\mathbb{1}}
@@ -612,6 +616,11 @@ Czyli wystarczy zmienić $\phi_{E_k}(x)$ i $E_k$, żeby znaleźć ewolucję $\ha
     \qty[- \frac{\hbar^2}{2m} \dv[2]{x} + V(x)] \phi_{E_k}(x) = E_k \phi_{E_k} (x)
     \label{eq:lec_5:schrodinger_nzal_czas}
 \end{equation}
+    Znane skrótowo jako:
+    \begin{equation}
+        \hat{H} \ket{\Psi} = E \ket{\Psi}
+        \label{eq:lec_5:schrodinger_bez_czasu}
+    \end{equation}
     Ta niezależna od czasu reprezentacja równania schrödingera de facto jest problemem szukania stanów własnych Hamiltonianu. Czyli rozwiązując ewolucję Hamiltonianu w czasie najpierw rozwiązujemy problem znajdywania stanów, a dopiero potem szukamy jego ewolucji czasowej, tj zgodnie z równaniem \eqref{eq:lec_5:schrodinger}.
 \end{emph_box}
 \subsection{Cząstka swobodna}
@@ -997,6 +1006,122 @@ Zmierzamy do równania Schrödingera. \com{Dopisz potem z ostatnich paru minut w
     $\hat{\HS}$ - operator energii, ale nie mamy operatora czasu $\hat{t}$, czyli nie możemy używać zasady nieoznaczoności Heisenberga-Robertsona, ale spodziewamy się, że coś podobnego powinno być, bo szybkość ewolucji stanów jest związana z rozrzutem Energii ($\Delta^2 \HS$)
 \end{lecture}
 
+
+% ------------------------------------------------------------------------
+% 30.03.22
+
+\begin{lecture}{Potencjał Kwadratowy}
+    \section{Off to zasady nieoznaczoności once more}
+    Na ostatnim wykładzie sobie powiedzieliśmy, że jest zasada nieoznaczoności czas-energia. Mówimy sobie tutaj, że propagacja błędu jest \emph{liniowa}, co pozwala nam na wyliczenie niepewności estymacji czasu na podstawie pomiaru $\hat{A}$. Wtedy niepewność pomiaru czasu naszego estymatora to:
+    \[
+        \Delta^2 t = \frac{\Delta^2 \hat{A}}{\abs{\dv{\ev{A}_t}{t}}^2}
+    \]
+    Chcąc wyznaczyć niepewność czasu z zasady heisenberga-robertsona musimy użyć tricku, bo explicite nie da się stamtąd czasu wyznaczyć. Ale już dla dowolnej obserwabli której wartość oczekiwana zależy od czasu już to zadziała, więc to dokładnie robimy. Pamiętająco tym, że $\psket{t} = e^{-i\hat{\HS}t /\hbar} \psket{0}$ możemy sobie zapisać:
+    \begin{equation}
+        \dv{\ev{\hat{A}}_t}{t} = - \frac{i}{\hbar} \ev{\comm{\hat{A}}{\hat{\HS}}}
+        \label{eq:lec_9:A_od_t}
+    \end{equation}
+    Możemy teraz to wstawić do standardowej zasady nieoznaczoności \eqref{eq:lec_7:heisenberg_robertson}, gdzie obserwabla $\hat{\mathrm{B}} = \hat{H}$:
+    \[
+        \Delta^2t \geq \frac{1}{\abs{\dv{\ev{A}_t}{t}}^2} \cdot \frac{\frac14\ev{\comm{\hat{A}}{\hat{H}}}^2}{\Delta^2 H} \stackrel{\eqref{eq:lec_9:A_od_t}}{=} \frac{\hbar^2}{4 \Delta^2\hat{H}} \implies
+    \]
+    \begin{emph_box}{\subind{Zasada nieoznaczoności czas-energia}{Zasada Nieoznaczoności!czas-energia}}
+    \begin{equation}
+        \Delta^2 t \Delta^2\hat{H} \geq \frac{\hbar^2}{4}
+        \label{eq:lec_9:nieoznaczonosc_czas_energia}
+    \end{equation}
+    \end{emph_box}
+    
+    \section{Kwantowy Oscylator Harmoniczny}
+    Dla kwantowego oscylatora harmonicznego mamy Hamiltonian:
+    \[
+        \hat{H} = \frac{\hat{p}^2}{2m} + \frac12 m \omega^2 \hat{x}^2
+    \]
+    {\color{TealBlue}
+    Co położeniowo by miało reprezentację:
+    \[
+        \hat{H} = - \frac{\hbar^2}{2m} \dv[2]{x} + \frac12 m \omega^2 \hat{x}^2
+    \]
+    Co aby rozwiązać musielibyśmy rozwiązać problem własny, tj. \eqref{eq:lec_5:schrodinger_bez_czasu} co dało by nam energie własne $E$ i odpowiadające im stany własne $\Psi_E(x)$
+    }
+    Rozwiązując ten problem podejdziemy do tego algebraicznie. Zdefiniujemy sobie dwa operatory:
+    \begin{emph_box}{\subind{Operatory kreacji i anihillacji}{Operator!Kreacji}\index{Operator!Anihillacji}}
+    \emph{Operator kreacji}
+        \begin{equation}
+            \hat{a} = \sqrt{\frac{m \omega}{2 \hbar}}\qty(\hat{x} + \frac{i \hat{p}}{m \omega})
+            \label{eq:lec_9:operator_anihillacji}
+        \end{equation}
+        \emph{Operator anihillacji}
+        \begin{equation}
+            \hat{a}^\dagger = \sqrt{\frac{m \omega}{2 \hbar}}\qty(\hat{x} - \frac{i \hat{p}}{m \omega})
+            \label{eq:lec_9:operator_kreacji}
+        \end{equation}
+        Mają one przyjemną własnośc taką, że $\comm{a}{a^\dagger} = 1\footnotemark$\\
+        \textbf{Cytat z Demko: operator $a$ jak knihillacji, a $a^\dagger$ krzyż jak kreacji}
+    \end{emph_box}
+    \footnotetext{Patrz Wyprowadzenie \ref{fig:app_9:comm_kreacji_anihillacji}}
+    Zauważamy teraz, że:
+    \[
+        a a^\dagger = \frac{m \omega}{2 \hbar} \qty(\hat{x} - \frac{i \hat{p}}{m \omega})\qty(\hat{x} + \frac{i \hat{p}}{m \omega}) = \frac{m\omega}{2\hbar} \hat{x}^2 + \frac{\phat^2}{2 \hbar m \omega} - \frac12
+    \]
+    Czyli widzimy, że:
+    \[
+        \hat{H} = \hbar \omega\qty(\hat{a}\hat{a}^\dagger + \frac12)
+    \]
+    Co oznacza, że szukamy stanów własnych $\hat{H}$, co jest równoważne szukaniu stanów własnych $\hat{a}\hat{a}^dagger$. W związku z tym możemy sobie oznaczyć $\hat{n} = \hat{a}\hat{a}^dagger$.
+    \subsection{Szukanie stanów własnych i wartości własnych $\hat{n}$}
+    Niech $\ket{n}$ będzie stanem własnym $\hat{n}$ o wartości własnej $n$:
+    \[
+        \hat{n} \ket{n} = n \ket{n}
+    \]
+    Teraz rozważmy sobie stan nieunormowany $\ket{\xi} = \hat{a} \ket{n}$ i rozważmy działanie $\hat{n}$ na $\ket{\xi}$. Dostaniemy, że:
+    \[
+        \hat{n} \ket{\xi} = (n-1)\ket{\xi}
+    \]
+    Czyli $\hat{a}\ket{n}$ jest też stanem własnym $\hat{n}$ o wartości własnej $(n-1)$.\\
+    W ten sposób stwierdzamy, że $a^k \ket{n}$ będzie wektorem własnym nieunormowanym o wartości własnej $n-k$\footnote{Patrz wyprowadzenie \ref{fig:app_9:stany_wlasne_n}} ($k\in\mathbb{N}$).\\
+    Spróbujmmy je teraz unormować. Zauważmy, że $\braket{\xi} = \ev{\hat{a}^\dagger\hat{a}}{n} = n \braket{n} = n$.\\
+    Oznacza to, że unormowany stan własny $\ket{n - 1} = \frac{1}{\sqrt{n}} \hat{a} \ket{n}$ itd. czyli $\ket{n-k} = \frac{1}{\sqrt{n \cdot(n-1) \dots  (n-k+1)}} a^k \ket{n}$
+    
+    Ta konstrukcja urwała by się tylko jak $n \in \mathbb{N}$, bo dla $\hat{a}\ket{a} = 0$. W przeciwnym razie byśmy wygenerowali stany własne $\ket{n}$ o dowolnie ujemnym $n$.\\
+    Ale zauważmy, że operator $\hat{n} = \hat{a}\hat{a}^\dagger$ jest operatorem dodatnim, czyli nie moze mieć wartości własnych ujemnych. Czyli jedyna możliwość to, że $n\in\mathbb{N}$. To oznacza, że mamy stan $\ket{0}$ taki, żę $\hat{a}\ket{0} = 0$ i zauważamy, że $\ket{n-1} = \frac{1}{\sqrt{n}} \hat{a} \ket{n} \implies a^\dagger\ket{n-1} = \frac{1}{\sqrt{n}} \hat{a}^\dagger \hat{a} \ket{n}$ co oznacza, że
+    \[
+        \hat{a}^\dagger \ket{n-1} = \sqrt{n}\ket{n}
+    \]
+    Co pokazuje działanie operatora kreacji, bo podnosi on wartość stałej normalizującej. Mamy również: $\ket{n} = \frac{1}{\sqrt{n}} a^\dagger \ket{n-1}\qc\ket{n+1} = \frac{1}{\sqrt{n+1}} \hat{a}^\dagger \ket{n}$\\
+    Widzimy teraz, że znając stan $\ket{0}$ mamy wszystkie inne stany ze wzoru 
+    \[
+    \ket{n} = \frac{1}{\sqrt{n!}} \qty(\hat{a}^\dagger)^n\ket{0}
+    \]
+    To są stany własne $\hat{H} = \hbar \omega (\hat{a}\hat{a}^\dagger + \frac12) = \hbar \omega (\hat{n} + \frac12)$ z energią $E_n = \hbar \omega (n + \frac12)\qc n = 0, 1, 2, \dots$\\
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\linewidth]{Wyk_9_Rys_1.JPG}
+        \caption{Rysunek studni potencjału dla kwantowego oscylatora harmonicznego \com{Przerysuj i wstaw}}
+        \label{fig:lec_9:studnia_osc}
+    \end{figure}
+    Teraz zobaczmy czym jest $\ket{0}$\\
+    Zapiszmy warunek $\hat{a}\ket{0}$ w reprezentacji położeniowej:
+    \[
+        \sqrt{\frac{m \omega}{2 \hbar}} \qty(x + \frac{\hbar}{m\omega}\dd{x}) \Psi_0(x) = 0\qc\frac{\hbar}{m\omega} \dv{\Psi}{x} = - x \Psi \qc \frac{1}{\Psi} \dv{\Psi}{x} = - \frac{m\omega}{\hbar} x = \dd{x}(\ln \Psi)\qc \ln\Psi = - \frac{m\omega}{2\hbar} x^2 + C
+    \]
+    Czyli stan podstawowy:
+    \[
+        \Psi_0(x) = e^{- \frac{m\omega}{2 \hbar} x^2 + C} \approx A e^{- \frac{m\omega}{2 \hbar} x^2} \stackrel{\footnotemark}{=} \qty(\frac{m\omega}{\pi \hbar})^{\frac14} e^{- \frac{m\omega}{2 \hbar} x^2}
+    \]
+    \footnotetext{Normalizacja}
+    Co daje nam Gaussa, o szerokości $\sigma = \sqrt{\frac{\hbar}{2 m \omega}}$ i fluktuacje $\xhat, \phat$ w stanie podstawowym:\\
+    \[
+        \Delta^2 x = \frac{\hbar}{2 m \omega}\qc\Delta^2p = \frac{\hbar m \omega}{2}
+    \]
+    I z tych fluktuacji daleko dalej będą wynikać bardzo fundamentalne wnioski, np to, że w próżni nie może być absolutne 'nic', ponieważ i tak będą się kreować i anihillować pola $E$ i $B$, żeby zasada nieoznaczoności Heisenberga była spełniona.
+\end{lecture}
+
+
+
+% ------------------------------------------------------------------------
+% Appendix
+
 \tableofcontents
 
 \listoffigures
@@ -1010,7 +1135,7 @@ Zmierzamy do równania Schrödingera. \com{Dopisz potem z ostatnich paru minut w
 \appendix
 \setcounter{table}{0}
 \captionsetup[table]{name=Załącznik}
-\captionsetup[figure]{name=Załącznik}
+\captionsetup[figure]{name=Wyprowadzenie}
 \captionsetup[section]{name=Lecture}
 
 \chapter{Długaśne wyprowadzenia wzorów}
@@ -1022,6 +1147,22 @@ Zmierzamy do równania Schrödingera. \com{Dopisz potem z ostatnich paru minut w
         \includegraphics[width=\linewidth]{App_6_Rys_1.JPG}
         \caption{Uzasadnienie dla unitarnego operatora}
         \label{fig:app_6:unitarny}
+\end{figure}
+
+\section{Lecture 9}
+
+\begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\linewidth]{App_9_Rys_1.JPG}
+        \caption{Uzasadnienie dla wartości komutatora $\hat{a}\hat{a}^\dagger$}
+        \label{fig:app_9:comm_kreacji_anihillacji}
+\end{figure}
+
+\begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\linewidth]{App_9_Rys_2.JPG}
+        \caption{Wyprowadzenie stanu własnego $\hat{n}$}
+        \label{fig:app_9:stany_wlasne_n}
 \end{figure}
 
 
