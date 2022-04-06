@@ -59,11 +59,17 @@
 
 \newcommand{\xhat}{\hat{x}}
 
+\newcommand{\ahat}{\hat{a}}
+
 \newcommand{\psket}[1]{\ket{\Psi(#1)}}
+
+\newcommand{\tpsi}{\tilde{\Psi}}
 
 \newcommand{\Id}{\mathbb{1}}
 
 \renewcommand{\emph}{\textbf}
+
+\newcommand{\fft}[1]{\frac{1}{\sqrt{2\pi\hbar}} \int \dd{x} #1 e^{-\frac{ixp}{\hbar}}}
 
 \newenvironment{lecture}[1]{\par\medskip
    \noindent\chapter{#1} \rmfamily}{\medskip}
@@ -1010,7 +1016,7 @@ Zmierzamy do równania Schrödingera. \com{Dopisz potem z ostatnich paru minut w
 % ------------------------------------------------------------------------
 % 30.03.22
 
-\begin{lecture}{Potencjał Kwadratowy}
+\begin{lecture}{\subind{Potencjał Kwadratowy}{Potencjał!Kwadratowy}}
     \section{Off to zasady nieoznaczoności once more}
     Na ostatnim wykładzie sobie powiedzieliśmy, że jest zasada nieoznaczoności czas-energia. Mówimy sobie tutaj, że propagacja błędu jest \emph{liniowa}, co pozwala nam na wyliczenie niepewności estymacji czasu na podstawie pomiaru $\hat{A}$. Wtedy niepewność pomiaru czasu naszego estymatora to:
     \[
@@ -1115,6 +1121,212 @@ Zmierzamy do równania Schrödingera. \com{Dopisz potem z ostatnich paru minut w
         \Delta^2 x = \frac{\hbar}{2 m \omega}\qc\Delta^2p = \frac{\hbar m \omega}{2}
     \]
     I z tych fluktuacji daleko dalej będą wynikać bardzo fundamentalne wnioski, np to, że w próżni nie może być absolutne 'nic', ponieważ i tak będą się kreować i anihillować pola $E$ i $B$, żeby zasada nieoznaczoności Heisenberga była spełniona.
+\end{lecture}
+
+% --------------------------------------------------------
+% Wykład 01.04.2022
+
+\begin{lecture}{Prima Aprilis}
+\section{W poprzednim odcinku...}
+Zdefiniowaliśmy stany energetyczne $E_n = \hbar \omega (n+\frac12), n \in {0, 1, 2, \dots}$\\
+Oraz operatory kreacji i anihillacji: 
+$\ket{n} = \frac{1}{\sqrt{n}} (\hat{a}^\dagger)^n \ket{0}$, tj.:
+\[
+    \hat{a} \ket{n} = \sqrt{n} \ket{n-1}\qc\hat{a}^\dagger \ket{n} = \sqrt{n+1} \ket{n+1}
+\]
+Definiując po drodze jeszcze, że $\hat{a}\ket{0} = 0, \hat{a} = \sqrt{\frac{m \omega}{2 \hbar}} \qty(\hat{x} + \frac{i \phat}{m \omega})$\\
+Zdefiniowalismy też stan podstawowy, który okazał się być funkcją Gaussa:
+\[
+    \Psi_0(x) = \qty(\frac{m \omega}{\pi \hbar})^{\frac14} e^{-\frac{m \omega}{2 \hbar} x^2}
+\]
+\section{Wyznaczanie kolejnych stanów $\Psi_n$}
+Znając stan podstawowy $\Psi_0$ możemy sobie teraz zadań pytanie jak będa wyglądać kolejne stany wzbudzeń? Otóż stan $n$-ty zdefiniujemy jako:
+\[
+    \Psi_n(x) = \frac{1}{\sqrt{n!}}\qty[\sqrt{\frac{m \omega}{2 \hbar}} \qty(x - \frac{\hbar}{m \omega} \dv{x})]^n \qty(\frac{m \omega}{\pi k})^{\frac14} e^{-\frac{m \omega}{2 \hbar} x^2}
+\]
+
+Teraz zmieńmy zmienne na $q = \sqrt{\frac{m \omega}{\hbar}}x$ i po znormalizowaniu na nowo funkcji \com{Zdjęcie tego i rysunek stanów własnych} dostajemy:
+\begin{equation}
+    \Psi_n'(q) = \frac{1}{\sqrt{\sqrt{\pi} n! 2^n}} \underbrace{H_n}_{\footnotemark} \qty(q - \dv{q})^n e^{-\frac{q^2}{2}}
+    \label{eq:lec_10:stany_n}
+\end{equation}
+\footnotetext{Pewien wielomian od $q$}
+Gdzie ten wielomian okazuje się być wzorem z nazwiskiej, czyli jest to 
+Wielomian Hermite'a:
+\begin{emph_box}{\subind{Wielomiany Hermite'a}{Wielomiany!Hermite'a}}
+    \begin{equation}
+        H_n = e^{\frac{q}{2}} \qty(q - \dv{q})^n e^{-\frac{q^2}{2}}
+        \label{eq:lec_10:wielomiany_hermita}
+    \end{equation}
+    W ogólności:
+    \begin{itemize}
+        \item dla n nieparzystych $H_n$ - wielomian nieparzysty $\implies \Psi_n(x) = -\Psi_n(-x)$ antysymetryczne
+        \item dla n parzystych $H_n$ - parzysty $\implies \Psi_n(x) = \Psi_n(-x)$
+    \end{itemize}
+\end{emph_box}
+\subsection{Własności wielomianów Hermite'a}
+    Pierwsze kilka tych wielomianów to:
+    \begin{align*}
+        H_0(q) &= 1\\
+        H_1(q) &= 2q\\
+        H_2(q) &= 4q^2 - 2\\
+        \dots
+    \end{align*}
+    Dalej, z ortogonalności $\Psi_n(x)$:
+    \[
+        \int_{-\infty}^{\infty}\dd{x} \Psi_n(x)^\ast \Psi_m(x) = \delta_{n,m} \implies \int_{-\infty}^{\infty} \dd{q} H_n(q) H_m(q) e^{-q^2} = \delta_{n,m} 
+    \]
+    Czyli Wielomiany Hermite'a też \subind{są ortogonalne!}{Ortogonalność}
+    \section{Stany Koherentne}
+    Chcielibyśmy znaleźć stany, które by w pewnucm przybliżeniu reprezentowały klasyczny ruch w oscylatorze harmonicznym. Takie stany to właśnie \subind{stany koherentne}{Stany!Koherentne}. \\
+    {\color{Orange} Definicja:} Stanem koherentnym nazywamy unormowane stany własne operatora anihillacji:
+    \[
+        \hat{a}\ket{\alpha} = \alpha \ket{\alpha}
+    \]
+    Widzimy z tego równania, że $\alpha$ to wartość własna, która może być zespolona, a $\ket{alpha}$ to unormowany stan własny.\\
+    {\color{teal} Fakt}:
+    \[
+        \ket{\alpha} = e^{- \frac{\abs{\alpha}^2}{2}} \sum_{n=0}^{\infty} \frac{\alpha^n}{\sqrt{n!}} \ket{n}
+    \]
+    {\color{Emerald} Dowód:}
+    \[
+        \braket{\alpha} = e^{- \abs{\alpha}^2} \sum_{n,m} \frac{(\alpha^\ast)^n}{\sqrt{n!}}\frac{\alpha^n}{\sqrt{m!}} \braket{n}{m} = e^{- \abs{\alpha}^2} \sum_{n} \frac{(\alpha^2)^n}{n!} = 1
+    \]
+    Dowód definicji w Załączniku \com{Wstaw tam zdjęcie i tu referencję}.\\
+    Dzięki temu, że $\ket{\alpha}$ są stanami własnymi $\hat{a}$, bardzo łatwo liczyć $\ev{\hat{x}}, \ev{\hat{x}}, \Delta^2 x, \Delta^2 p$:
+    \[
+        \begin{cases}
+        \hat{a} = \sqrt{\frac{m \omega}{2 \hbar}}\qty(\xhat + \frac{i \phat}{m\omega})\\
+        \hat{a}^\dagger = \sqrt{\frac{m \omega}{2 \hbar}}\qty(\xhat - \frac{i \phat}{m\omega})
+        \end{cases}
+        \implies
+        \mqty{
+        \xhat = \sqrt{\frac{\hbar}{2 m \omega}}(\hat{a} + \hat{a}^\dagger)\\
+        \phat = \sqrt{\frac{\hbar m \omega}{2}}\qty(\frac{\hat{a} - \hat{a}^\dagger}{i})
+        }
+    \]
+    Łatwo z tego teraz policzyć 
+    \[
+    \ev{\xhat} = \sqrt{\frac{\hbar}{2 m \omega}}\ev{\hat{a} + \hat{a}^\dagger}{\alpha} = \sqrt{\frac{\hbar}{2 m \omega}} \qty(\ev{\hat{a}}{\alpha} + \ev{\hat{a}^\dagger}{\alpha}) = \sqrt{\frac{\hbar}{2 m \omega}} (\alpha + \alpha^\ast) = \sqrt{\frac{\hbar}{2 m \omega}} \Re(\alpha)
+    \]
+    \[
+        \ev{\phat} = \sqrt{\frac{\hbar m \omega}{2}} \frac{1}{i} \qty(\ev{\hat{a}}{alpha} - \ev{\hat{a}^\dagger}{\alpha}) = \sqrt{2 \hbar m \omega} \Id m \alpha 
+    \]
+    Gdzie dla stanu koherentnego $\alpha = \frac{1}{\sqrt{2}}\qty(\sqrt{\frac{m \omega}{\hbar}} \ev{x} + i \frac{1}{\sqrt{m\omega\hbar}}\ev{p})$. Pamiętając o przyjemnej własności, że $\comm{\hat{a}, \hat{a}^\dagger} = 1 \implies \hat{a}\hat{a}^\dagger = \Id - \hat{a}^\dagger\hat{a}$ liczymy sobie $\Delta^2 x$:
+    \[
+        \Delta^2 x = \ev{\xhat^2}{\alpha} - \ev{\xhat}{\alpha}^2
+    \]
+    Gdzie:
+    \begin{align*}
+        \frac{\hbar}{2m\omega} \ev{(\hat{a}+\hat{a}^\dagger)^2}{\alpha} &= \frac{\hbar}{2 m \omega} \ev{\ahat^2 + \ahat\ahat^\dagger + \ahat^\dagger\ahat + (\ahat^\dagger)^2}{\alpha} = \\
+        &= \frac{\hbar}{2m\omega}\qty(\ev{\ahat^2}{\alpha} + \ev{(\ahat^\dagger)^2}{\alpha} + 1 + 2 \abs{\alpha}^2) = \frac{\hbar}{2 m \omega}\qty((\alpha + \alpha^\ast)^2 + 1)
+    \end{align*}
+    Co daje nam:
+    \[
+        \Delta^2 x = \frac{\hbar}{2m\omega} \qty[4 (\Re\alpha)^2 + 1] - \frac{2 \hbar}{m \omega}(\Re\alpha)^2 = \frac{\hbar}{2 m \omega}
+    \]
+    Analogicznie dla pędów mamy:
+    \[
+        \Delta^2 p = \frac{\hbar m \omega}{2}
+    \]
+    Czyli widzimy, że $\ket{\alpha}$ jest stanem wysycającym zasadę nieoznaczoności:
+    \[
+        \Delta^2x\Delta^2p = \frac{\hbar^2}{4}
+    \]
+    Czyli jest to stan Gaussowski, bo:
+    \[
+        \hat{\alpha}\ket{\alpha} = \alpha\ket{\alpha} \qq{w reprezentacji położeniowej } \frac{1}{\sqrt{2}}\qty(\sqrt{\frac{m \omega}{\hbar}} x + \dv{x} \sqrt{\frac{\hbar}{m \omega}}) \Psi_\alpha(x) = \alpha\Psi(x)
+    \]
+    Daje nam to:
+    \[
+        \sqrt{\frac{\hbar}{m\omega}} \dv{\Psi}{x} = (\alpha\sqrt{2} - \sqrt{\frac{m \omega}{\hbar}} x) \Psi(x) 
+    \]
+    Przeliczając żeby potwierdzić, że to Gauss:
+    \[
+        \frac{1}{\Psi} \dv{\Psi}{x} = \alpha \dots
+    \]
+    \com{Dopisz od kogoś}
+    
+\end{lecture}
+
+% ----------------------------------------------------------------------
+% Wykład 06.04.2022
+
+\begin{lecture}{Potencjał liniowy i przybliżenie WKB}
+Rozwiązaliśmy już oscylator harmoniczny (potencjał kwadratowy), to teraz możemy sobie zdefiniować \emph{\subind{potencjał liniowy}{Potencjał!Liniowy}}, tj.:
+\[
+    V(X) = - \vb{F}\cdot \vb{x}
+\]
+Szukamy teraz stanów własnych, więc rozwiązujemy równanie Schrödingera bez czasu:
+\[
+    - \frac{\hbar^2}{2m} \dv[2]{\Psi(x)}{x} - F\cdot x \cdot \Psi(X) = E \cdot \Psi(x)
+\]
+Chcemu teraz przejść sobie z tym do reprezentacji pędowej, tj. stronami to tranfourierujemy:
+\[
+    -\frac{\hbar^2}{2m} \fft{\dv[2]{\Psi}{x}} - F \fft{x \Psi(x)} = E \underbrace{\fft{\Psi(x)}}_{\tilde{\Psi}(p)}
+\]
+Czyli całkując przez części i znikając wyrazy brzegowe dostajemy:
+\[
+    - \frac{\hbar^2}{2m} \qty(-\frac{p^2}{\hbar^2}) \underbrace{\fft{\Psi(x)}}_{\tilde{\Psi}(p)} - F \qty(- \frac{\hbar}{i}) \dv{p} \qty[\underbrace{\fft{\Psi(x)}}_{\tilde{\Psi}(p)}] = E \tilde{\Psi}(p)
+\]
+Czyli teraz dostajemy:
+\[
+    \frac{p^2}{2m} \tpsi(p) + \frac{F\hbar}{i} \dv{p} \tpsi(p) = E \tpsi(p)
+\]
+{\color{BrickRed}Czyli dostaliśmy równanie pierwszego rzędu!} Przekształcając dalej:
+\[
+    \frac{1}{\tpsi} \dv{\tpsi}{p} = \frac{i\qty(E - \frac{p^2}{2m})}{F\hbar} \implies \ln \tpsi = \frac{i}{F\hbar} \qty(Ep - \frac{p^3}{6m}) + C\qc \tpsi(p) = A e^{\frac{i}{F\hbar} \qty(Ep-\frac{p^3}{6m})}
+\]
+Wynika z tego, że {\color{OrangeRed} mamy rozwiązanie \textbf{każdego} E!} Czyli widmo Energii jest {\color{JungleGreen}\textbf{ciągłe}}!\\
+Spróbujmy to teraz znormalizować. Dostaniemy Deltę Diraca:
+\[
+    \int \dd{p} \tpsi_E^\ast(p) \tpsi_{E'}(p) = A^2 \int \dd{p} e^{\frac{i}{F\hbar} p ]\qty(E' - E)} = A^2 2 \pi F \hbar \delta(E'-E)\implies A = \frac{1}{\sqrt{2 \pi F \hbar}}
+\]
+Mamy tu również warunek zupełności:
+\[
+    \int \dd{E} \tpsi_E^\ast(p) \tpsi_E(p') = \delta(p'-p)
+\]
+Co można sprawdzić: $\int \dd{E} \frac{1}{2\pi F\hbar} e^{-\frac{i}{F\hbar} \qty(Ep - \frac{p^3}{6m}) + \frac{i}{F\hbar} \qty(Ep' - \frac{p'^3}{6m})} = \frac{1}{2\pi\hbar F} \int \dd{E} e^{\frac{iE}{F\hbar}(p'-p) + \frac{i}{6 F \hbar m} \qty(p^3-p'^3)} = \delta(p-p')$\\
+Po wróceniu do reprezentacji położeniowej:
+\begin{align*}
+    \Psi_E(x) &= \frac{1}{\sqrt{2\pi\hbar}} \cdot \int \dd{p} \tpsi(p) e^{\frac{ipx}{\hbar}} = \frac{1}{2 \pi \hbar \sqrt{F}} \int_{-\infty}^{\infty} \dd{p} e^{\frac{ip}{\hbar} \qty(x + \frac{E}{F}) - \frac{i p^3}{6mF\hbar}}=\\
+    &=\frac{1}{\pi \hbar \sqrt{F}} \int_0^\infty \dd{p} \cos\qty[\frac{p}{\hbar}\qty(x + \frac{E}{F}) - \frac{p^3}{6 m F \hbar}]
+\end{align*}
+Czyli to, co zrobiliśmy, to rozwiązaliśmy \subind{równanie Airy'ego}{Równanie!Airy} które ma postać:
+\[
+    \dv[2]{\Psi}{y} - y \Psi = 0\qq{,rozwiązaniem jest funkcja Airy'ego} A_i(y) = \frac{1}{\pi} \int_0^\infty \dd{s} \cos(sy + \frac{s^3}{3})
+\]
+
+Znane jest asymptotyczne zachowanie funkcji $A_i(y)$:
+\[
+    A_i(y) = \begin{cases}
+        \frac{1}{2 \sqrt{\pi} y^{\frac14}} e^{-\frac23 y^{\frac23}}\qc y\to\infty\\
+        \frac{1}{\sqrt{\pi} (-y)^{\frac14}} \cos\qty[\frac23 (-y)^{\frac23} - \frac{\pi}{4}]\qc y\to-\infty
+    \end{cases}
+\]
+Czyli wracając do $x$:
+\[
+    \Psi_E(x) \approx \begin{cases}
+        \frac{A}{2(-(x+\frac{E}{F}))^\frac14} e^{-\frac23 \qty[-(x+\frac{E}{F})]^{\frac23} \sqrt{\frac{2 m F}{\hbar^2}}}\qc x\to\infty\\
+        \frac{1}{\sqrt{\pi} (x+\frac{E}{F})^{\frac14}} \cos\qty[\frac23(x+\frac{E}{F})^{\frac23} \sqrt{\frac{2 m F}{\hbar^2}} - \frac{\pi}{4}]\qc x\to-\infty
+    \end{cases}
+\]
+Gdzie bierzemy $A = \qty(\frac{\hbar^2}{2mF\pi^6})^{\frac{1}{12}}$. Rozumiemy to rozwiązanie tak, że \emph{zmiany E są równoważne przesunięciu funkcji w x o $\frac{E}{F}$}.\\
+\com{Wstaw rysunek z Goodnotes}
+
+
+{\color{SkyBlue} Uwaga:} Robiąc transformatę Fouriera zgubiliśmy jedno liniowo niezależne rozwiązanie (bo przeszliśmy z równania II rzędu na równanie I rzędu). Ogólniej należałoby rozważyć ogólną transformatę całkową na płaszczyźnie zespolonej $\Psi(x) = \int_C \dd{z} \tpsi(z) e^{z\cdot x}$, gdzie trans. Fouiera odpowiadałaby $C_1 = \qty[-i\infty, +i\infty]$ czyli biorąc inny kontur $C$ dostalibyśmy liniowo niezależne rozwiązanie i rozwiązalibyśmy drugą funkcję Airy'ego:
+\[
+    B_i(y) = \frac{1}{\pi} \int_0^\infty \dd{s} e^{-\frac{s^3}{3} + sy} + \sin\qty(\frac{s^3}{3} - sy)
+\]
+Zaś asymptotyczne własności tej funkcji to:
+\[
+    B_i(y) = \begin{cases}
+        \frac{1}{\sqrt{\pi} y^{\frac14}} e^{\frac23 y^{\frac23}}\qc y\to\infty\\
+        \frac{1}{\sqrt{\pi} (-y)^{\frac14}} \cos\qty[\frac23 (-y)^{\frac23} + \frac{\pi}{4}]\qc y\to-\infty
+    \end{cases}
+\]
+Rozwiązanie to odrzucamy tylko i wyłącznie kiedy mamy nieskończony potencjał bo idąc do nieskończoności ona wybucha. Kiedy potencjał jest skończony, to jest ona legirtą funkcją bazową.
 \end{lecture}
 
 
