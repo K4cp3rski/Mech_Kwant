@@ -1,3 +1,4 @@
+
 \documentclass[12pt,a4paper]{report}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -68,6 +69,10 @@
 \newcommand{\Id}{\mathbb{1}}
 
 \renewcommand{\emph}{\textbf}
+
+\newcommand{\rket}{\ket{\va{r}}}
+
+\newcommand{\pd}[1]{\partial_{#1}}
 
 \newcommand{\fft}[1]{\frac{1}{\sqrt{2\pi\hbar}} \int \dd{x} #1 e^{-\frac{ixp}{\hbar}}}
 
@@ -1329,6 +1334,284 @@ Zaś asymptotyczne własności tej funkcji to:
 Rozwiązanie to odrzucamy tylko i wyłącznie kiedy mamy nieskończony potencjał bo idąc do nieskończoności ona wybucha. Kiedy potencjał jest skończony, to jest ona legirtą funkcją bazową.
 \end{lecture}
 
+% ----------------------------------------------------------------------
+% Wykład 08.04.2022
+
+\begin{lecture}{Przybliżenie WKB}
+\com{Notatki by Zuzia}
+
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\linewidth]{Wykład-8-Apr-2022 str-1.pdf}
+        \caption{Notatki strona 1}
+        \label{fig:lec_12:not_str_1}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\linewidth]{Wykład-8-Apr-2022 str-2.pdf}
+        \caption{Notatki strona 2}
+        \label{fig:lec_12:not_str_2}
+    \end{figure}
+
+\end{lecture}
+
+% ----------------------------------------------------------------------
+% Wykład 13.04.2022
+
+\begin{lecture}{Off to przybliżenie WKB once more}
+\section{Zszywanie rozwiązań WKB}
+Biorąc $p(x) = \sqrt{2 m (E - V(x))}$:
+\[
+    \Psi_{I}(x) = \frac{A}{\sqrt{\abs{p(x)}}} e^{-\frac{1}{\hbar} \int_x^{x_1} \dd{x'} \abs{p(x')}}
+\]
+\[
+    \Psi_{II}(x) = \frac{B}{\sqrt{\abs{p(x)}}} \cos\qty(\frac{1}{\hbar} \int^x_{x_1} \dd{x'} p(x') + \delta)
+\]
+\[
+    \Psi_{III}(x) = \frac{C}{\sqrt{\abs{p(x)}}} e^{-\frac{1}{\hbar} \int_{x_2}^{x} \dd{x'} \abs{p(x')}}
+\]
+Co jest rozwiązaniami dla potencjału postaci na rysowanej na tablicy \com{foto}. Wiążąc to z tym co było na poprzednim wykładzie:\\
+Zauważamy, że w punkcie powrotu możemy zszyć używając asymptotycznych postaci rozwiązań ($A_i(y)$) w potencjale liniowym, które są (dla $V(x) = - Fx$):
+\[
+    \Psi_E(x) = \begin{cases}
+        \frac{A'}{2 \sqrt{\abs{p(x)}}} e^{-\frac{1}{\hbar} \int_x^{-E/F} \dd{x'} \abs{p(x')}}\\
+        \frac{A'}{\sqrt{\abs{p(x)}}} \cos\qty[\frac{1}{\hbar} \int_x^{-E/F} \dd{x'} p(x') - \frac{\pi}{4}]
+    \end{cases}
+\]
+Czyli zszywając $\Psi_{I}$ i $\Psi_{II}$ dostajemy $A = \frac{B}{2}\qc\delta=-\frac{\pi}{4}$\\
+Aby zszyć $\Psi_{II}$ i $\Psi_{III}$ zapiszemy sobie $\Psi_{II}$ inaczej:
+\[
+    \Psi_{II}'(x) = \frac{B'}{\sqrt{\abs{p(x)}}} \cos\qty(\frac{1}{\hbar} \int_x^{x_2} \dd{x'} p(x') + \delta')
+\]
+Wynika z tego, że $C = \frac{B'}{2}\qc\delta' = -\frac{\pi}{4}$. Pamiętamy jednak, że $\Psi_{II}(x) = \Psi_{II}'(x)$ czyli daje nam to warunek, że:
+\[
+    \frac{B'}{\sqrt{\abs{p(x)}}} \cos\qty(\frac{1}{\hbar} \int_x^{x_2} \dd{x'} p(x') -\frac{\pi}{4}) = \frac{B}{\sqrt{\abs{p(x)}}} \cos\qty(\frac{1}{\hbar} \int^x_{x_1} \dd{x'} p(x') -\frac{\pi}{4})
+\]
+Teraz oznaczmy sobie $z = \frac{1}{\hbar} \int_{x_1}^x p(x') \dd{x'} - \frac{\pi}{4}$ a $\eta = \frac{1}{\hbar} \int_x^{x_1} \dd{x'} p(x') -\frac{\pi}{4}$ co daje nam:
+\[
+    B \cos z = B' \qty(\cos(\eta-\frac{\pi}{2}) \cos z - \sin (\eta - \frac{\pi}{2}) \sin (-z))
+\]
+\[
+    B \cos z = B' \cos z \cos(\eta - \frac{\pi}{2}) + B' \sin z \sin(\eta- \frac{\pi}{2}) \implies \sin(\eta - \frac{\pi}{2}) = 0 \implies \color{red} \eta = n \pi + \frac{\pi}{2}
+\]
+Oraz
+\[
+    \frac{B}{B'} = \pm 1 \implies \frac{1}{\hbar} \int_{x_1}^{x_2} \dd{x'} p(x') = n \pi + \frac{\pi}{2}
+\]
+Podsumowując
+\begin{emph_box}{Warunek na energie $E_n$}
+\[
+    \int_{x_1}^{x_2} \dd{x'} p(x') = \hbar \cdot \pi(n+ \frac{1}{2}) = \frac{h}{2}(n + \frac12)
+\]
+gdzie $n = 0,1, 2 \dots$ daje nam warunek na dostępne energie $E_n$ układu kwantowego.\\
+Alternatywnie można to zapisać jako:
+\[
+    \oint p(x) \dd{x} = h(n + \frac12)
+\]
+Co ma interpretację całki po zamkniętym konturze w przestrzeni fazowej pomiędzy punktami przestrzeni.
+\end{emph_box}
+
+\section{Wchodzimy w trzeci wymiar}
+Analogicznie jak w 1D, niech stan $\ket{\va{r}}$ oznacza stan cząstki zlokalizowanej w punkcie $\va{r} = (x,y,z)$. Ogólny stan cząstki w 3D:
+\[
+    \Psi(x) = \int \dd[3]{\va{r}} \Psi(\va{r}) \ket{\va{r}}\qc \int \dd[3]{\va{r}} \abs{\Psi(\va{r}}^2 = 1
+\]
+Gdzie $\abs{\Psi(\va{r}}^2$ to znowu gęstość prawdopodobieństwa w 3D znalezienia cząstki w punkcie $\va{r}$. Teraz z tego, że 
+\[
+\braket{\Psi} = 1 \implies \braket{\va{r}'}{\va{r}} = \delta^{(3)}(\va{r}'-\va{r}) = \delta(x - x') \delta(y - y')\delta(z-z')
+\]
+Jest to analogicznie jak w 1D:
+\[
+    \Psi(x) = \braket{\va{r}}{\Psi}
+\]
+Zaś operatory współrzędnych i pędów:
+\begin{align*}
+    \hat{x} \rket &= x \rket & \hat{p}_x &= \frac{\hbar}{i} \pdv{x}\\
+    \hat{y} \rket &= y \rket & \hat{p}_y &= \frac{\hbar}{i} \pdv{y}\\
+    \hat{z} \rket &= z \rket & \hat{p}_z &= \frac{\hbar}{i} \pdv{z}\\
+\end{align*}
+Zaś warunki komutacyjne:
+\[
+    \hat{x} = {\hat{x}, \hat{y} ,\hat{z}}\qc \color{BrickRed} \qty[\hat{x}_j, \hat{p}_k] = \i \hbar \delta_{jk}
+\]
+\emph{Równanie Schrödingera w 3D}
+\[
+    \hat{H} = \frac{\sum_i \hat{p_i}^2}{2m} + V(\hat{\va{r}})
+\]
+Co w reprezentacji położeniowej da nam:
+\[
+    \hat{H} = -\frac{\hbar^2}{2m} \laplacian + V(\va{r})
+\]
+\begin{emph_box}{\subind{Równanie Schrödingera w 3D}{Równanie!Schrödingera!W 3D}}
+Wersja z czasem:
+\begin{equation}
+    i \hbar \pdv{t} \Psi(\va{r}, t) = - \frac{\hbar^2}{2m} \laplacian \Psi(\va{r}, t) + V(\va{r}) \Psi(\va{r}, t)
+\label{eq:lec:13:schrodinger_3D}
+\end{equation}
+Wersja bez czasu:
+\begin{equation}
+    E \Psi = - \frac{\hbar^2}{2m} \laplacian \Psi + V \Psi
+\label{eq:lec:13:schrodinger_3D_b_czasu}
+\end{equation}
+\end{emph_box}
+Równanie w 3D łatwo się rozwiązuje jesli potencjał się separuje tj. jest postaci $V(\va{r}) = V_x(x) + V_y(y) + V_z(z)$ mamy:
+\[
+    \qty[-\frac{\hbar^2}{2m} \pdv[2]{x} + V_x(x) -\frac{\hbar^2}{2m} \pdv[2]{y} + V_y(y) -\frac{\hbar^2}{2m} \pdv[2]{z} + V_z(z)]\Psi(\va{r}) = E \Psi(\va{r})
+\]
+Wtedy szukamy rozwiązań postaci $\Psi(\va{r}) = X(x) Y(y)Z(z)$. Po podzieleniu przez $\Psi$ dostajemy \textit{Równania Schrödingerka} gdzie każdy z kawałków będzie się równać jakiejś stałej:
+\[
+    -\frac{\hbar^2}{2m} \frac{1}{X} \pdv[2]{x} + V_x(x) -\frac{\hbar^2}{2m} \frac{1}{Y} \pdv[2]{y} + V_y(y) -\frac{\hbar^2}{2m} \frac{1}{Z} \pdv[2]{z} + V_z(z) = E
+\]
+Daje nam to 1D równania schródingera postaci:
+\begin{align*}
+    -\frac{\hbar^2}{2m} \frac{1}{X} \pdv[2]{x} + V_x(x) &= E_x \implies X_{n_x}(x), E_{n_x}\\
+    -\frac{\hbar^2}{2m} \frac{1}{Y} \pdv[2]{y} + V_y(y) &= E_y \implies Y_{n_y}(y), E_{n_y}\\
+    -\frac{\hbar^2}{2m} \frac{1}{Z} \pdv[2]{z} + V_z(z) &= E_z \implies Z_{n_z}(z), E_{n_z}\\
+\end{align*}
+Daje nam to pełen zestaw rozwiązań w 3D:
+\[
+    \Psi_{n_x, n_y, n_z}(\va{r}) = X_{n_x}(x) \cdot Y_{n_y}(y) \cdot Z_{n_z}(z)\qc E_{n_x, n_y, n_z} = E_{n_x} + E_{n_y} + E_{n_z}
+\]
+Dygresja: Wyprowadziliśmy iloczyn tensorowy, dający nam superpozycję rozłącznych przestrzeni nie mieszając ich ze sobą. 
+\com{Zdjęcie}
+
+\end{lecture}
+
+% ----------------------------------------------------------------------
+% Wykład 20.04.2022
+
+\begin{lecture}{Cząstka w 3D, moment pędu}
+Przypominamy sobie równanie Schrödingera w 3D:
+\[
+    -\frac{\hbar}{2m} \delta \Psi + V \Psi = E \Psi
+\]
+Teraz dla cząstki swobodnej w 3D, tj gdzie $V = 0$:\\
+Rozwiązania to \emph{fale płaskie}, tj. postaci:
+\[
+    \ket{\vb{p}} \equiv \phi_{\vb{p}}(\vb{r}) = \frac{1}{\qty(2 \pi \hbar)^{\frac32}} e^{\frac{i \vb{p}\cdot\vb{r}}{\hbar}}\qc E_{\vb{p}} = \frac{\vb{p}^2}{2 m}
+\]
+Bo pamiętamy, że $\ket{\Psi}$ w reprezentacji położeniowej i pędowej wygląda \com{Jak na zdjęciu, wstaw.}
+
+\section{Moment pędu}
+
+Chcielibyśmy sobie zdefiniować kwantowy moment pędu. Spróbujmy czy zdaszkowanie wzoru klasycznego:
+\[
+    \vb{\hat{L}} = \vb{\hat{r}} \cross \vb{\hat{p}}
+\]
+Aka sprawdzamy, czy komutują:
+\begin{align*}
+    \vb{\hat{L}_x} &= \hat{y} \cdot \phat_z - \hat{z}\cdot\phat_y\\
+    \vb{\hat{L}_y} &= \hat{z} \cdot \phat_x - \hat{z}\cdot\phat_z\\
+    \vb{\hat{L}_z} &= \hat{x} \cdot \phat_y - \hat{z}\cdot\phat_x\\
+\end{align*}
+Otóż komutują i możemy sobie z tego wyciągnąć \subind{związki komutacyjne}{Związek!Komutacyjny}:
+\[
+    \comm{\vb{\hat{L}_i}}{\vb{\hat{L}_j}} = i \epsilon_{i, j,k}\vb{\hat{L}_k}
+\]
+\emph{Fakt (który będzie) z ćwiczeń}:
+\[
+    \vb{\hat{L}}^2 = \vb{\hat{L}}_x^2 + \vb{\hat{L}}_y^2 + \vb{\hat{L}}_z^2
+\]
+Co jest kwadratem całkowitego momentu pędu, którego komutator:
+\[
+    \comm{\vb{\hat{L}^2}}{\vb{\hat{L}_i}} = 0
+\]
+\textit{Opuszczam pisanie wektorków boldem i z daszkiem bo tak za dużo pisania.} \com{Do edycji w wersji finalnej}
+W reprezentacji położeniowej:
+\begin{align*}
+    L_x &= \frac{\hbar}{i}\qty(y \pdv{z} - z \pdv{y})\\
+    L_y &= \frac{\hbar}{i}\qty(z \pdv{x} - x \pdv{z})\\
+    L_z &= \frac{\hbar}{i}\qty(x \pdv{y} - y \pdv{x})\\
+\end{align*}
+Chcielibyśmy sobie tu przejść do współrzędnych sferycznych:
+\begin{align*}
+    x = r \sin\theta\cos\phi &\qc \pdv{x} = \pdv{r}{x}\pdv{r} + \pdv{\theta}{x}\pdv{\theta} + \pdv{\phi}{x}\pdv{\phi}\\
+    y = r \sin\theta\sin\phi &\qc \pdv{y} = \pdv{r}{y}\pdv{r} + \pdv{\theta}{y}\pdv{\theta} + \pdv{\phi}{y}\pdv{\phi}\\
+    z = r \cos\theta &\qc \pdv{z} = \pdv{r}{z}\pdv{r} + \pdv{\theta}{z}\pdv{\theta} + \pdv{\phi}{z}\pdv{\phi}\\
+\end{align*}
+Czyli inaczej myśląc:
+\[
+    \mqty[\pdv{x}\\\pdv{y}\\\pdv{z}] = A \mqty[\pdv{r}\\\pdv{\theta}\\\pdv{\phi}]
+    \qc A = \mqty[
+    \sin\theta\cos\phi & \frac{\cos\theta\cos\phi}{r} & - \frac{\sin\theta}{r\sin\theta}\\
+    \sin\theta\sin\phi & \frac{\cos\theta\sin\phi}{r} & - \frac{\cos\theta}{r\sin\theta}\\
+    \cos\theta & \frac{\sin\theta}{r} & 0\\
+    ]
+\]
+Ale łatwiej o tym myśleć jako o:
+\[
+    \mqty[\pdv{r}\\\pdv{\theta}\\\pdv{\phi}] = B \mqty[\pdv{x}\\\pdv{y}\\\pdv{z}]
+    \qc B = A^{-1}
+\]
+Dostajemy wtedy:
+\begin{align*}
+    L_x &= -\frac{\hbar}{i}\qty(\sin\phi\pdv{\theta} + \cot\theta\cos\phi\pdv{\phi})\\
+    L_y &= \frac{\hbar}{i}\qty(\cos\phi\pdv{\theta} i \cot\theta\sin\phi\pdv{\phi})\\
+    L_z &= \frac{\hbar}{i}\qty(\pdv{\phi})\\
+\end{align*}
+I teraz jeśli obliczymy sobie $\vb{\hat{L}^2}$, to dostajemy:
+\[
+    \vb{\hat{L}}^2 = \vb{\hat{L}}_x^2 + \vb{\hat{L}}_y^2 + \vb{\hat{L}}_z^2 = -\hbar^2\qty[\frac{1}{\sin\theta} \pdv{\theta} \qty(\sin\theta\pdv{\theta}) + \frac{1}{\sin^2\theta} \pdv[2]{\theta}]
+\]
+{\color{JungleGreen} Czyli widzimy, że ma to strukturę kątowej części laplasjanu we współrzędnych sferycznych}
+\section{Potencjały sferyczne}
+Czyli bierzemy potencjały postaci:
+\[
+    V(\vb{r}) = V(r)
+\]
+Oraz zapisujemy równanie schrödingera we współrzędnych sferycznych, gdzie laplasjan we współrzędnych sferycznych ma postać:
+\[
+    \laplacian = \frac{1}{r^2}\pd{r}\qty(r^2\pd{r}) + \frac{1}{r^2}\underbrace{\qty(\frac{1}{\sin\theta}\pd{\theta}\qty(\sin\theta\pd{\theta}) + \frac{1}{\sin^2\theta}\pd{\phi}^2)}_{=-\frac{\hat{L}^2}{\hbar^2}}
+\]
+Czyli równanie Schrödingera ma postać:
+\[
+    \overbrace{\qty[-\frac{\hbar^2}{2m} \frac{1}{r^2} \pd{r}\qty(r^2 \pd{r}) + V(r) + \frac{\hat{L}^2}{2mr^2} ]}^{\hat{H}}\Psi = E \Psi
+\]
+
+Teraz obserwacja:
+\[
+    \comm{\hat{H}}{\hat{L}^2} = 0
+\]
+Czyli możemy szukać stanów własnych $\hat{H}$ w ramach stanów własnych $\hat{L}^2$, czyli możemy szukać rozwiązań postaci $\Psi_E(r,\theta,\phi) = R(r)\cdot Y(\theta, \phi)$, gdzie $Y$ jest stanem własnym $\hat{L}^2$, tj. $\hat{L}^2 Y = \lambda Y$, gdzie $\lambda$ to wartość własna odopwiadająca stanowi $Y(\theta, \phi)$.\\
+Wstawmy i dzielimy przez $\Psi$, mnożymy przez $2 m r^2$. Dostajemy:
+\[
+    -\frac{\hbar^2}{R(r)} \pd{r} \qty(r^2\pd{r}R(r)) + 2 m r^2\qty[V(r) - E] + \underbrace{\frac{1}{Y} \hat{L}^2 Y}_{\lambda} = 0
+\]
+Chcemy zrozumieć problem własny $\hat{L}^2 Y = \lambda Y$, korzystając z własności algebraicznych $\comm{\hat{L}_i}{\hat{L}_j} = i \hbar \epsilon_{i,j,k}\hat{L}_k$. Ponieważ $\comm{\hat{L}^2}{\hat{L}_z} = 0$, możemy szykać jednocześnie stanów własnych $\hat{L}^2$ i $\hat{L}_z$.\\
+Niech $\ket{a,b}$ będą takimi stanami własnymi:
+\begin{align*}
+    \hat{L}^2 \ket{a,b} &= a \ket{a,b}\\
+    \hat{L}_z \ket{a,b} &= b \ket{a,b}\\
+\end{align*}
+Zdefiniujmy:
+\[
+    \hat{L}_{\pm} = \hat{L}_x \pm i \hat{L}_y
+\]
+Możemy je technicznie nazwać operatorami drabinkowymi, bo będą coś opusczać i podnosić. Zauważamy jakie są dla nich \subind{związki komutacyjne}{Związek!Komutacyjny}:
+\[
+    \comm{\hat{L}_{+}}{\hat{L}_{-}} = 2 \hbar \hat{L}_z \qc \comm{\hat{L}_{z}}{\hat{L}_{\pm}} = \pm \hbar\hat{L}_{\pm}
+\]
+Rozważmy:
+\[
+    \hat{L}_z \qty(\hat{L}_{\pm}\ket{a,b}) = \qty(\pm \hbar \hat{L}_{\pm} + \hat{L}_{\pm}\hat{L}_z)\ket{a,b} = \hat{L}_{\pm}\qty(\pm\hbar + b)\ket{a,b} = \qty(b \pm \hbar) \hat{L}_{\pm}\ket{a,b}
+\]
+Czyli widzimy, że $\hat{L}_\pm\ket{a,b}$ jest (nieunormowanym) wektorem własnym $\hat{L}_z$ z wartością własną $b \pm \hbar$. Wiemy, że $\hat{L}^2$ komutuje z $\hat{L}_{i} \implies \comm{\hat{L}^2}{\hat{L}_\pm} = 0$\\
+Czyli $\hat{L}_\pm \ket{a,b} = const. \cdot \ket{a,b\pm \hbar}$\\
+Chcemy teraz znaleźć jakieś ograniczenia na maksymalny i minimalny $b$, co nam pozwoli uzyskać skwantowanie $b$ i skończoną liczbę dopuszczalnych wartości.\\
+Rozważmy taki operator:
+\[
+    \hat{W} = \hat{L}^2 - \hat{L}_z^2 = \hat{L}_x^2 + \hat{L}_y^2 \geq 0 \qq{tj. jest to operator dodatni}
+\]
+Przypomnienie, każdy operator Hermitowski jest dodatnio określony, tj.obłożone z obu stron dowolnym wektorem daje liczbę dodatnią. Pamiętamy, że $\hat{L}^2 \ket{a,b} = a \hat{L}_\pm\ket{a,b}$.\\Daje nam to tutaj:
+\[
+    \mel{a,b}{\hat{W}}{a,b} \geq 0\qc a - b^2 \geq 0 \implies \color{BrickRed} a > 0, \abs{b} \leq \sqrt{a}
+\]
+Żeby to była prawda musi istnieć jakieś $b_{max}$ i $b_{min}$, takie że:
+\[
+        \hat{L}_{+} \ket{a, b_{max}} = 0 \qc \hat{L}_{-} \ket{a, b_{min}} = 0 
+\]
+\end{lecture}
 
 
 % ------------------------------------------------------------------------
