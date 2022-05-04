@@ -1,4 +1,3 @@
-
 \documentclass[12pt,a4paper]{report}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -73,6 +72,12 @@
 \newcommand{\rket}{\ket{\va{r}}}
 
 \newcommand{\pd}[1]{\partial_{#1}}
+
+\renewcommand{\rho}{\varrho}
+
+\renewcommand{\phi}{\varphi}
+
+\newcommand{\linediv}{{\color{RubineRed} \rule{\linewidth}{0.5mm}}}
 
 \newcommand{\fft}[1]{\frac{1}{\sqrt{2\pi\hbar}} \int \dd{x} #1 e^{-\frac{ixp}{\hbar}}}
 
@@ -1608,9 +1613,350 @@ Przypomnienie, każdy operator Hermitowski jest dodatnio określony, tj.obłożo
     \mel{a,b}{\hat{W}}{a,b} \geq 0\qc a - b^2 \geq 0 \implies \color{BrickRed} a > 0, \abs{b} \leq \sqrt{a}
 \]
 Żeby to była prawda musi istnieć jakieś $b_{max}$ i $b_{min}$, takie że:
-\[
+\begin{equation}
         \hat{L}_{+} \ket{a, b_{max}} = 0 \qc \hat{L}_{-} \ket{a, b_{min}} = 0 
+        \label{eq:lec_14:L_pm}
+\end{equation}
+\end{lecture}
+
+% ----------------------------------------------------------------------
+% Wykład 20.04.2022
+
+\begin{lecture}{Cząstka w 3D, moment pędu C.D.}
+Ciągnąc dalej zależności wypisane na ostatnim wykładzie , tj równanie \eqref{eq:lec_14:L_pm} mamy:
+\[
+    L_{-}L_{+} \ket{a,b_{max}} = 0
 \]
+Gdzie wiemy, że:
+\[
+    L_{-}L_{+} = (L_x-iL_y)(L_x+iL_y) = L_x^2+L_y^2 - iL_yL_x + iL_xL_y = L_2 - L_z^2 + i\comm{L_x}{L_y} = L_2-L_z^2 -\hbar L_z
+\]
+Co daje nam:
+\[
+    \qty(L_2 = L_z^2 - \hbar L_z) \ket{a, b_{max}} = 0 \implies \qty(a - b^2_{max} - \hbar b_{max})\ket{a, b_{max}} = 0 \implies a = b_{max}^2 +\hbar b_{max}
+\]
+Korzystając z drugiej zależności wypisanej jako równanie \eqref{eq:lec_14:L_pm} mamy:
+\[
+    L_{+}L_{-}\ket{a, b_{min}} = 0 \implies \qty(L_2 - L_z^2 + \hbar L_z)\ket{a, b_{min}} = 0 \implies a = b_{min}^2 - \hbar b_{min}
+\]
+Co po połączeniu tych dwóch wniosków daje nam zależność:
+\[
+    b_{max}^2 + \hbar b_{max} = b_{min}^2 - \hbar b_{min} \implies \color{Red} \qty(b_{max} + b_{min})\qty(b_{max} + \hbar - b_{min}) = 0
+\]
+Ale jako, że przyjęliśmy, że $b_{max} > b_{min}$, to widzimy, że ta równość może się zerować $\iff b_{max} = - b_{min}$\\
+\com{Rysunek z Goodnotes}
+Czyli jak widać na rysunku, żeby ta drabinka nam się zgodziła, tj. urywała na $b_{max}$ musi zachodzić:
+\[
+    b_{max} - b_{min} = n \cdot \hbar \qc n\in\qty{0, 1, 2, \dots} \implies 2 b_{max} = n \cdot \hbar \implies b_{max} = \hbar \cdot \frac{n}{2} = \hbar \cdot j\qc j\in\qty{0, \frac12, 1,\frac32,\dots}
+\]
+Co daje nam:
+\[
+    a = \hbar^2 j (j+1)
+\]
+
+\linediv
+
+Podsumowując, stany własne to będą:
+\[
+    \ket{a,b} \stackrel{\stackrel{a = \hbar^2 j (j+1)}{b = \hbar m}}{\to} \ket{j,m}\qc j\in \qty{0, \frac12, 1, \frac32,\dots}\qc m\in\qty{-j, -j+1, \dots, j-1, j}
+\]
+Co jawnie zapisując daje:
+\begin{align*}
+    \hat{L}^2 \ket{j,m} &= \hbar^2 j (j+1) \ket{j,m}\\
+    \hat{L}_z \ket{j,m} &= \hbar m \ket{j,m}\\
+\end{align*}
+
+\linediv
+
+Pomyślmy o $\hat{L}^2$ i $\hat{L}_z$ jako operatorach/macierzach w przestrzeni rozpinanej przez $\ket{j,m}$
+\begin{align*}
+    \mel{j',m'}{\hat{L}^2}{j,m} &= \delta{jj'}\delta{mm'}\hbar^2 j (j+1)\\
+     \mel{j',m'}{\hat{L}_z}{j,m} &= \delta{jj'}\delta{mm'}\hbar m
+\end{align*}
+
+Chcemy znaleźć postać operatora $L_x$ i $L_y$ w bazie $\ket{j,m}$
+Pamiętając, że $L_{\pm} \ket{j,m} = \underbrace{c_{j,m}^{\pm}}_{\footnotemark} \ket{j , m\pm1}$
+\footnotetext{Współczynnik wynikający z braku normalizacji}
+Chcemy wyznaczyć $c_{j,m}^{\pm}$. Biorąc normę stronami:
+\begin{align*}
+    \ev{L_{\pm}^\dagger L_{\pm}}{j,m} &= \abs{c_{j,m}^{\pm}}^2\\
+    \ev{L^2 - L_z^2 \mp \hbar L_z}{j,m} &= \abs{c_{j,m}^{\pm}}^2\\
+    \implies \hbar^2\qty(j(j+1) - m^2 \mp m) &= \hbar^2 \qty(j \mp m) \qty(j \pm m + 1)
+\end{align*}
+Co daje nam:
+\[
+    L_{\pm}\ket{j,m} = \hbar \sqrt{\qty(j \pm m)\qty(j \pm m + 1)} \ket{j, m\pm1}
+\]
+Oraz:
+\[
+    \mel{j',m'}{L_{\pm}}{j,m} = \hbar \sqrt{\qty(j\mp m)\qty(j \pm m +1)} \delta_{jj'}\delta_{m\pm1,m'}
+\]
+\com{Wstaw tu zdjęcie z dygresją o postaci tych macierzy}\\
+Wynika z tego, że:
+\[
+    L_x = \frac{L_{+} + L_{-}}{2}\qc L_y = \frac{L_{+} - L_{-}}{2i}
+\]
+
+\section{Wracamy do Schrödingera we współrzędnych sferycznych}
+\[
+    \Psi(\vb{r}) = R(r)Y(\theta, \phi)
+\]
+Pamiętajmy, że chieliśmy znaleźć $Y(\theta, \phi)$ - stany własne $\hat{L}^2$. Teraz już wiemy jakie wartości własne mogą być: $Y_{l,m}(\theta, \phi)$ - stany własne $\ket{l,m}$. Daje nam to:
+\begin{align}
+    \hat{L}^2 Y_{l,m}(\theta, \phi) &= \hbar^2 l (l+1) Y_{l,m}(\theta, \phi) \label{eq:lec_15:gwiazdka_1}\\
+    \hat{L}_z Y_{l,m}(\theta, \phi) &= \hbar m Y_{l,m}(\theta, \phi) \label{eq:lec_15:gwiazdka_2}
+\end{align}
+
+Teraz z równania \eqref{eq:lec_15:gwiazdka_2} wynika nam:
+\[
+    \frac{\hbar}{i} \pd{\phi} Y_{l,m}(\theta, \phi) = \hbar m Y_{l,m}(\theta, \phi) \implies Y_{l,m}(\theta, \phi) = \Theta_{l,m}(\theta)e^{i m\phi}
+\]
+\uwaga $Y_{l,m}\qty(\theta, \phi) = Y_{l,m}\qty(\theta, \phi + 2\pi) \implies e^{2 \pi i m} = 1 \implies m$ jest całkowite $\implies l$ jest całkowite (wykluczamy połówkowe momenty pędu). Opisuje nam to \subind{Orbitalny Moment Pędu}{Moment Pędu!Orbitalny}.\\
+Czyli szukamy rozwiązań $Y_{l,m}(\theta, \phi)\qc l=0,1,2,\dots\qc m\in\qty{-l, l+1, \dots, l-1,l}$. Znajdźmy najpierw $Y_{l,l}$:
+\[
+    \hat{L}_{+} Y_{l,l} = 0 \implies - i \hbar e^{i\phi} \qty(i \pd{\theta} - \cot\theta\pd{\theta}) \Theta_{l,l}(\theta) e^{i l \phi} = 0
+\]
+Co po rachunkach daje nam:
+\begin{align*}
+    \qty(i \pd{\theta} - i l \cot \theta) \Theta_{l,l} &= 0\\
+    \frac{1}{\Theta_{l,l}} \dv{\Theta_{l,l}}{\theta} &= l \cot\theta\\
+    \Theta_{l,l} = c_{l,l}\qty(\sin\theta)^l &\implies Y_{l,l} c_{l,l} \sin^l\theta e^{il\phi}
+\end{align*}
+Pamiętamy, że chcemy normalizować te funkcje tak, aby:
+\[
+    \int \dd{\phi} \sin\theta\abs{Y(\theta, \phi)}^2 = 1 \implies \abs{c_{l,l}}^2 = \frac{(2l+1)(2l)!}{4 \pi} \frac{1}{\qty(2^l l!)^2}
+\]
+Daje nam to:
+\[
+    Y_{l,l} = \frac{\overbrace{(-1)^l}^{\footnotemark}}{2^l l!} \sqrt{\frac{(2l+1)(2l)!}{4\pi}} \sin^l\theta e^{i l \phi}
+\]
+\footnotetext{Konwencja znaku}
+Pozostałe $Y_{l,l}$ znajdziemy działając ileś razy $\hat{L}_{-} = \hbar e^{-i\phi} \qty(-\pd{\theta} + i \cot\theta\pd{\phi})$ i po normalizowaniu dostajemy ogólne wyrażenie:
+\begin{equation}
+    Y_{l,m} (\theta, \phi) = (-1)^{\qty(m+\abs{m})/2} \sqrt{\frac{2l+1}{4\pi}\cdot\frac{(l-\abs{m})}{l_\abs{m}}} P^m_l(\cos\theta) e^{i m\phi}
+\end{equation}
+Gdzie $P_l^m$ to \emph{stowarzyszony Wielomian Legendre'a}
+\end{lecture}
+
+% ----------------------------------------------------------------------
+% Wykład 20.04.2022
+
+\begin{lecture}{Wchodzą Harmoniki Sferyczne}
+
+\com{Przepisz od kogoś pierwszą godzinę}
+Zdefiniowaliśmy sobie funkcję falową 
+\begin{equation}
+    \Psi(\vb{r}) = R(\vb{r})Y_{l,m}(\theta, \phi)
+    \label{eq:lec_16:Psi_harm}
+\end{equation}
+Ale teraz sobie nazywamy, że $Y_{l,m}$ to \subind{harmoniki sferyczne}{Harmonika Sferyczna}.
+Przykładowe Harmoniki sferyczne:
+\[
+    Y_{0,0} = \frac{1}{\sqrt{4 \pi}} \qc 
+    \mqty{
+    Y_{1,0} = \sqrt{\frac{3}{4 \pi}} \cos\theta \\
+    Y_{2,0} = \sqrt{\frac{5}{16 \pi}} (3\cos^2\theta - 1)
+    }\qc
+    \mqty{
+    Y{1, \pm 1} = \mp \sqrt{\frac{3}{8 \pi}} \sin\theta e^{\pm i \phi}\\
+    Y{2, \pm 1} = \mp \sqrt{\frac{15}{8 \pi}} \sin\theta\cos\theta e^{\pm i \phi}\\
+    Y{2, \pm 2} = \mp \sqrt{\frac{15}{32 \pi}} \sin^2\theta e^{\pm 2i \phi}\\
+    }
+\]
+
+Teraz jak wrócimy z tym do Równania Schrödingera z potencjałem sferycznie symetrycznym, to wiemy, że możemy szukać rozwiązań postaci jak w Równaniu \eqref{eq:lec_16:Psi_harm} i dostajemy:
+\[
+    - \frac{\hbar^2}{R} \pd{r}(r^2\pd{r}R) + 2 m r^2(V(r)-E) + \overbrace{\frac{1}{Y}(L^2 Y)}^{\hbar^2l(l+1)} = 0
+\]
+Co sprowadza się do:
+\begin{equation}
+    - \frac{\hbar^2}{2mr^2R}\dv{r}(r^2 \dv{r}R) + V(r) + \underbrace{\frac{\hbar^2l(l+1)}{2 m r^2}}_{\footnotemark} - E = 0
+    \label{eq:lec_16:schrodinger_harm}
+\end{equation}
+\footnotetext{Element 'odśrodkowy' potencjału}
+
+\linediv
+
+\emph{Przykłady}
+\begin{enumerate}
+    \item Cząstka swobodna ($V(r) = 0$):\\
+    Wprowadźmy $k$ takie, że $E = \frac{\hbar^2 k^2}{2 m}$. To daje nam:
+    \[
+        -\frac{1}{R} \dv{r}(r^2\dv{r}R) - k^2r^2 + l(l+1) = 0
+    \]
+    Co łatwo rozwiązać dla $l = 0$:
+    \begin{align*}
+        -\frac{1}{R} \dv{r}(r^2\dv{r}R) - k^2r^2 &= 0\\
+        -\frac{1}{Rr} \dv[2]{r}(rR) - k^2 &= 0\\
+        \dv[2]{r}(rR) = -k^2(rR)
+    \end{align*}
+    Co daje nam:
+    \[
+        R = A\frac{\sin kr}{r} + B\frac{\cos k r}{r} \qc rR = A\sin k r + B \cos k r
+    \]
+    Gdzie dla dowolnego $k>0$ to ma interpretację 'fal kulistych'\\
+    Ogólne rozwiązanie dla dowolnego $l$ to będzie:
+    \[
+        \dv[2]{r}R + \frac{2}{r} \dv{r}R + \qty(k^2 - \frac{l(l+1)}{r^2})R = 0
+    \]
+    Co po wprowadzeniu zmiennej $\rho = k r$ daje nam \subind{kuliste równanie Bessela}{Równanie!Bessela!Kuliste}
+    \begin{equation}
+        \dv[2]{\rho} R + \frac{2}{\rho} \dv{\rho}R + \qty(1 - \frac{l(l+1)}{\rho^2})R = 0
+        \label{eq:lec_16:bessel_kulisty}
+    \end{equation}
+    Którego rozwiązaniem ku wielkiemu zdziwieniu naszemu są \subind{kuliste funkcje Bessela}{Funkcja!Bessela!Kulista}:
+    \[
+        R_l(\rho) = A j_l(\rho) + B n_l(\rho)
+    \]
+    Gdzie $j_l$ i $n_l$ to rozwiązania sferycznych funkcji Bessela postaci:
+    \[
+        j_l(\rho) = (\rho)^l \qty(\frac{1}{\rho} \dv{\rho})^l \qty(\frac{\sin\rho}{\rho})\qc n_l(\rho) = - (-\rho)^l \qty(\frac{1}{\rho} \dv{\rho})^l \qty(\frac{\cos\rho}{\rho})
+    \]
+    Dla małych $\rho$ zachowuje się to tak:
+    \[
+        j_l(\rho) \approx \frac{2^l l!}{(2l+1)!} \varrho^l \qc n_l(\rho) = - \frac{(2l)!}{2^l l!}\rho^{-(l+1)}
+    \]
+    \emph{Podsumowując:}\\
+    \begin{equation}
+    \Psi_{k,l,m}(r,\theta,\phi) = \qty[A j_l(k r) + B n_l (k r)]Y_{l,m}(\theta, \phi)
+    \label{eq:lec_16:Psi_sferycznie}
+    \end{equation}
+    Gdzie:
+    \[
+        k = \sqrt{\frac{2 m E}{\hbar^2}}\qc E = \frac{\hbar^2 k^2}{2 m}
+    \]
+    \item Potencjał Coulombowski (myślimy o jednej cząstce w potencjale)\\
+    \[
+        V(r) = - \frac{z e^2}{4 \pi \epsilon_0 r}
+    \]
+    Gdzie bierzemy:
+    \begin{itemize}
+        \item $q = z e$ - ładunek jądra
+        \item Elektron $e$
+    \end{itemize}
+    Wprowadzamy zmienne:
+    \[
+        \rho = \alpha r \qc \alpha = \sqrt{\frac{2 m \abs{E}}{\hbar^2}}
+    \]
+    Teraz wstawiamy to do Równ. Schrödingera:
+    \[
+        -\frac{4 \abs{E}}{\rho^2} \dv{\rho} \qty(\rho^2 \dv{\rho}R) - \frac{ze^2}{\rho 4 \pi \epsilon_0} \sqrt{8 m \abs{E}}\hbar^2 + \frac{4\abs{E} l (l+1)}{\rho^2} - E = 0
+    \]
+    Co po wstawieniu parametru $\lambda = \frac{z e^2}{4 \pi \epsilon_0 \hbar} \sqrt{\frac{m}{2E}}$ da nam:
+    \[
+        \frac{1}{\rho} \dv[2]{\rho}(\rho R) + \qty[\frac{\lambda}{\rho} - \frac14 - \frac{l(l+10)}{\rho^2}]R = 0
+    \]
+\end{enumerate}
+
+\end{lecture}
+
+% ----------------------------------------------------------------------
+% Wykład 29.04.2022
+
+\begin{lecture}{Wykład n+1}
+\section{W poprzednim odcinku...}
+Wzięliśmy sobie potencjał Coulombowski:
+\[
+    V(r) = - \frac{Z e^2}{4 \pi \epsilon_0 r}
+\]
+Gdzie bierzemy też:
+\[
+    \rho = \alpha r \qc \alpha = \sqrt{\frac{8 m \abs{E}}{\hbar^2}}
+\]
+
+\[
+    \lambda = \frac{Z e^2}{4 \pi \epsilon_0 \hbar} \sqrt{\frac{m}{2 \abs{E}}}
+\]
+Zaś równanie Schrödingera doprowadziliśmy do postaci:
+\[
+    \frac{1}{\rho} \dv[2]{\rho}(\rho R) + \qty[\frac{\lambda}{\rho} - \frac14 - \frac{l(l+10)}{\rho^2}]R = 0
+\]
+
+\section{Metoda Frobeniusa}
+% \begin{itemize}
+
+% \end{itemize}
+
+\com{Zdjęcie}
+Zauważmy, że jak weźmiemy $R(\rho) = F(\rho)e^{-\frac12\rho}$ to dostaniemy równanie na $F(\rho)$:
+\begin{align*}
+    \dv[2]{\rho}F + \qty(\frac{2}{\rho} - 1) \dv{\rho}F + \qty[\frac{\lambda - 1}{\rho} - \frac{l(l+1)}{\rho^2}] &= 0\\
+    F(\rho) = \rho^2 \cdot L(\rho) \qc L(\rho) = \sum_{v=0}a_v\rho^v\qc a_0 &\neq 0\\
+    \rho^2 \dv[2]{\rho}L + \rho\qty[2(s+1) - \rho] \dv{L}{\rho} + \qty[\rho(\lambda - s - 1) + s(s+1) - l(l+1)] L &= 0
+\end{align*}
+W granicy $\rho \to \infty$:
+\[
+    \frac{1}{\rho} \dv[2]{\rho}(\rho R) - \frac14 R = 0 \implies \dv[2]{\rho} (\rho R) = \frac14 \rho R \implies \rho R = A e^{\frac12 \rho} + B e^{-\frac12 \rho}
+\]
+Spójrzmy teraz w najniższym rzędzie $\rho$: (zerowym); $(\rho = 0)$:
+\[
+    s(s+1) - l(l+1) = 0 \implies s = l \lor s = -(l+1)
+\]
+
+\linediv\\
+Dla małych $\rho \to 0$:
+\[
+    R(\rho) \sim \frac{1}{\rho^l + 1}
+\]
+Wtedy normalizacja części radialnej:
+\[
+    \int_0^{\infty} \dd{r} r^2 (R(\rho))^2 = 1
+\]
+Widzimy, że dla $l \geq 1$ nie normalizuje się. Teoretycznie dla $l = 0$ się normalizuje, ale wtedy $R(\rho) \approx \frac{1}{\rho}$ dla małych $\rho$.\\
+Wtedy $\Psi(r, \theta, \phi) \stackrel{r \to 0}{\sim} \frac{1}{r}$, bo $Y_{0,0} = \frac{1}{\sqrt{4 \pi}}$ ale $\Delta(1/r) \sim \delta^{(3)}(\vb{r})$, więc nie może spełnić naszego równania Schrödingera, bo w $V(\rho)$ nie mamy żadnych $\delta^{(3)}(r)$.\\
+\linediv\\
+Czyli bierzemy $s = l$:
+\[
+    \rho^2 \dv[2]{L}{\rho} + \rho\qty[2(l+1) - \rho]\dv{L}{\rho} + \rho\qty(\lambda - l - 1)L = 0
+\]
+Wstawiając $L = \sum_{v = 0} a_v\rho^v$:
+\begin{align*}
+    \rho \sum_{v=0}^\infty a_v v(v-1)\rho^{v-2} + \qty[2(l + 1) - \rho] \sum_v a_v v \rho^{v-1} + \sum_v (\lambda - l - 1) a_v\rho^v = 0\\
+    \sum_{v=0}^\infty a_v\rho^{v-1}\qty[v(v-1) + 2(l+1)v]+ \sum_v (\lambda - l - 1 - v) a_v\rho^v = 0\\
+    \sum_{v=0}^\infty a_{v+1}\rho^{v}\qty[v(v+1) + 2(l+1)(v+1)]+ (\lambda - l - 1 - v) a_v\rho^v = 0\\
+\end{align*}
+Patrzymy na kolejne $\rho^v$:
+\[
+    \frac{a_{v+1}}{a_v} = \frac{l+1+v-\lambda}{(v+1)(2l + 2 +v)}
+\]
+Jeśli rekurencja nie urwie się, to dla $v \to \infty$:
+\[
+    \frac{a_{v+1}}{a_v} \stackrel{v \to \infty}{\to} \frac{1}{r} \implies a_v \sim \frac{1}{v!}
+\]
+czyli $F(\rho) \stackrel{\rho \to \infty}{\to} \rho^k e^{\rho} \implies R(\rho) \sim \rho^k e^{\rho} e^{-\frac12\rho} \sim \rho^k e^{\frac12\rho}$ czyli wybuchające rozwiązanie, które chcieliśmy odrzucić.\\
+Wynika z tego, że aby znaleźć rozwiązanie znormalizowane, rekurencja musi się urwać:
+\[
+    l + 1 + v_{max} - \lambda = 0 \implies \lambda = v_{max} + l + 1 = n \in \qty{1, 2, 3, \dots}
+\]
+Przypominamy sobie, że $\lambda = \frac{Z e^2}{4 \pi \epsilon_0 \hbar} \sqrt{\frac{m}{2 \abs{E}}}$. Po wstawieniu $E = - \abs{E}$ daje nam to:
+\[
+    E_n = \frac{Z^2 e^4 m}{32 \pi^2 \epsilon_0^2 \hbar^2} \cdot \frac{1}{n^2} = -R_0 \frac{Z^2}{n^2}
+\]
+Gdzie 
+\[
+R_0 = \frac{m e^4}{32 \pi^2 \epsilon_0^2 \hbar^2} = 13,6\,eV
+\]
+to \subind{stała Rydberga}{Stała!Rydberga}, a $n \in \qty{1, 2, 3, \dots}$ to numeracja stanów.\\
+Zaś czynnik normalizacyjny $\alpha$, który wcześniej ciągnęliśmy to:
+\[
+    \alpha = \sqrt{\frac{8 m \abs{E}}{\hbar^2}} = \frac{2 \cdot Z}{n \cdot a_0}, \qc a_0 = \frac{4 \pi \epsilon_0 \hbar^2}{me^2} = 0,52 \,\text{\AA}
+\]
+Gdzie wielkość $a_0$ nazywamy \subind{promieniem Bohra}{Promień Bohra}.\\
+Dla ustalonego $n$ mogę mieć $l = 0, 1, 2, \dots, n-1$. Rozwiązując rekurencję dla danego $n$ i $l$, dostaniemy wielomian:
+\[
+    L^{2l+1}_{n+l}(\rho) = \sigma_{m=0}^{n-l-1} (-1)^{m + 2l + 1} \frac{\qty[(n+l)!]^2}{(n - l - 1 - m)!(2l+1+m)!m!}\rho^m
+\]
+Gdzie $L^q_l(x)$ - \subind{stowarzyszony wielomian Laguerre'a}{Wielomiany!Laguerre, Stowarzyszone}
+\section{Podsumowując}
+\emph{Stany własne}:
+\[
+\Psi_{n, l ,m}(r, \theta, \phi) = R_{n,l}(r)Y_{l,m}(\theta, \phi)\]\[R_{n,l}(r) = N_{m,l}\qty(\frac{2 Z r}{n a_0}) L_{n+l}^{2l+1} \qty(\frac{2 Z r}{n a_0}) e^{-\frac{Zr}{n a_0}}\]\[N_{m,l} = \qty(\frac{2Z}{na_0})^{\frac32} \sqrt{\frac{(n-l-1)!}{2n(n+l^3)}}\]\[E_n = -R_0 \frac{Z^2}{n^2}
+\]
+Gdzie $n = 1, 2, 3, \dots$, $l = 0, 1, \dots, n-1$, $m = -l, -l+1, l$\\
+\emph{Atom wodoru to tak naprawdę problem dwóch ciał}
+\(
+    \Psi(\vb{r}_1, \vb{r}_2)
+\) - Funkcja falowa protonu i elektronu
 \end{lecture}
 
 
