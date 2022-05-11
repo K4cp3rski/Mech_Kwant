@@ -43,6 +43,8 @@
 
 \newcommand{\uwaga}[1]{{\color{violet} Uwaga:} #1}
 
+\newcommand{\wniosek}[1]{{\color{Apricot} Wniosek:} #1}
+
 \newcommand{\phys}{\stackrel{\text{F}}{\equiv}}
 
 \newcommand{\E}{\mathcal{E}}
@@ -72,10 +74,6 @@
 \newcommand{\rket}{\ket{\va{r}}}
 
 \newcommand{\pd}[1]{\partial_{#1}}
-
-\renewcommand{\rho}{\varrho}
-
-\renewcommand{\phi}{\varphi}
 
 \newcommand{\linediv}{{\color{RubineRed} \rule{\linewidth}{0.5mm}}}
 
@@ -108,6 +106,18 @@
 }
 
 \begin{document}
+
+$\rho\varrho$
+\let\temp\rho
+\let\rho\varrho
+\let\varrho\temp
+$\rho\varrho$
+
+$\phi\varphi$
+\let\temp\phi
+\let\phi\varphi
+\let\varphi\temp
+$\phi\varphi$
 
 \maketitle
 
@@ -1957,6 +1967,193 @@ Gdzie $n = 1, 2, 3, \dots$, $l = 0, 1, \dots, n-1$, $m = -l, -l+1, l$\\
 \(
     \Psi(\vb{r}_1, \vb{r}_2)
 \) - Funkcja falowa protonu i elektronu
+\end{lecture}
+
+% ----------------------------------------------------------------------
+% Wykład 29.04.2022
+
+\begin{lecture}{Moment pędu jako genearator grupy obrotów w 3D}
+Gruba obrotów w 3D to $SO(3)$. Właściwości:
+\begin{itemize}
+    \item $R \in SO(3)$, gdzie $R$ - macierz rzeczywista
+    \item $R^\dagger R = \Id$ - co symbolizuje ortogonalność
+    \item $det\,R = 1$ - czyli wyrzucamy obicia.
+\end{itemize}
+Najważniejsze cechy:
+\begin{itemize}
+    \item Obroty wokół różnych osi \emph{nie komutują}!
+    \item Żeby zrozumieć strukturę grupy, warto rozważyć infintezymalne obroty. Np.:\\
+    \[
+        R_x(\phi) = \mqty[
+        1 & 0 & 0\\
+        0 & \cos\phi & - \sin\phi\\
+        0 & \sin\phi & \cos\phi
+        ]
+        \qc
+        R_y(\phi) = \mqty[
+        \cos\phi & 0 & \sin\phi\\
+        0 & 1 & 0\\
+        -\sin\phi & 0 & \cos\phi
+        ]
+        \qc
+        R_z(\phi) = \mqty[
+        \cos\phi & - \sin\phi & 0\\
+        \sin\phi & \cos\phi & 0\\
+        0 & 0 & 1
+        ]
+    \]
+    \item Rozważmy sobie dwa infintazymalne obroty o kąt $\epsilon$ wokół osi $x$, potem $y$ i odwrotnie. \\
+    Obroty tworzą nam grupę Liego (z działaniem mnożenia), ale rozpatrując je jako macierze możemy właściwie patrzeć na to jak na Algebrę, tj mamy też działanie dodawania.
+    \begin{align*}
+        R_y(\epsilon)R_x(\epsilon) &- R_x(\epsilon)R_y(\epsilon) =\\ 
+        =\mqty[
+        1 - \frac{\epsilon^2}{2} & 0 & \epsilon\\
+        0 & 1 & 0\\
+        - \epsilon & 0 & 1 - \frac{\epsilon^2}{2}
+        ]
+        \mqty[
+        1 & 0 & 0\\
+        0 & 1-\frac{\epsilon^2}{2} & 0\\
+        0 & \epsilon & 1 - \frac{\epsilon^2}{2}
+        ]
+        &-
+        \mqty[
+        1 & 0 & 0\\
+        0 & 1-\frac{\epsilon^2}{2} & 0\\
+        0 & \epsilon & 1 - \frac{\epsilon^2}{2}
+        ]
+        \mqty[
+        1 - \frac{\epsilon^2}{2} & 0 & \epsilon\\
+        0 & 1 & 0\\
+        - \epsilon & 0 & 1 - \frac{\epsilon^2}{2}
+        ]\\
+        \stackrel{\order{\epsilon^2}}{=}
+        \mqty[
+        0 & \epsilon^2 & 0\\
+        -\epsilon^2 & 0 & 0\\
+        0 & 0 & 0
+        ]
+    \end{align*}
+    \begin{equation}
+        \mqty[
+        0 & \epsilon^2 & 0\\
+        -\epsilon^2 & 0 & 0\\
+        0 & 0 & 0
+        ]
+        \stackrel{\order{\epsilon^2}}{=}
+        - R_z(\epsilon^2) + \Id
+        \label{eq:lec_18:R_z_gwiazdka}
+    \end{equation}
+    Patrząc na to wyciągamy wniosek, że możemy zapisać:\\
+    \[
+        R_i(\phi) = e^{-i\phi L_i/\hbar } \stackrel{\order{\phi^2}}{\approx} \Id - \frac{i \phi L_i}{\hbar} - \frac{\phi^2 L_i^2}{2\hbar^2}
+    \]
+    Gdzie tak zdefiniowane $L_i$ to generator obrotu.\\
+    Co po rozwinięciu daje:
+    \begin{align*}
+        \qty(\Id - \frac{i \phi L_y}{\hbar} - \frac{\phi^2 L_y^2}{2\hbar^2})\qty(\Id - \frac{i \phi L_x}{\hbar} - \frac{\phi^2 L_x^2}{2\hbar^2}) &- \qty(\Id - \frac{i \phi L_x}{\hbar} - \frac{\phi^2 L_x^2}{2\hbar^2})\qty(\Id - \frac{i \phi L_y}{\hbar} - \frac{\phi^2 L_y^2}{2\hbar^2})\\
+        &\stackrel{\order{\phi^2}}{\approx} - \frac{\phi^2}{\hbar^2} \qty(L_yL_x - L_yL_x)
+    \end{align*}
+    Co pamiętając o własności:
+    \[
+        -R_z(\epsilon^2) = \mqty[
+        -1 & \epsilon^2 & 0 \\
+        -\epsilon^2 & -1 & 0\\
+        0 & 0 & -1
+        ]
+    \]
+    Oraz równaniu \eqref{eq:lec_18:R_z_gwiazdka} dostaniemy:
+    \[
+        - \frac{\phi^2}{\hbar^2} \qty(L_yL_x - L_yL_x) \stackrel{\order{\phi^2}}{\approx} - \qty(\Id - \frac{i L_z\phi^2}{\hbar}) + \Id \implies \comm{L_x}{L_y} = i\hbar L_z
+    \]
+    Ogólnie dostalibyśmy:
+    \[
+        \color{Aquamarine} \comm{L_j}{L_k} = i \hbar \varepsilon_{jkl}L_l
+    \]
+    \wniosek Generatory grupy obrotów spełniaja te same związki komutacyjne co operator momentu pędu
+    \item Żeby opisać działanie obrotów na stany kwantowe potrzebujemy reprezentacje (unitarne) działające w przestrzeni Hilberta, gdzie 'żyją' stany kwantowe.\\
+    Reprezentacja grupy:
+    \[
+        R \stackrel{\pi}{\to} \mathcal{U}_r
+    \]
+    Gdzie $\mathcal{U}$ to macierze unitarne nad przestrzenią Hilberta $\mathcal{H}$.\\
+    Muszą one spełniać warunki:
+    \[
+        \begin{cases}
+            \mathcal{U}_{R_1\cdot R_2} = \mathcal{U}_{R_1} \cdot \mathcal{U}_{R_2}\\
+            \mathcal{U}_{R^{-1}} = \mathcal{U}^{-1}_R = \mathcal{U}_R^{\dagger}
+        \end{cases}
+    \]
+\end{itemize}
+    \emph{Przykład}\\
+    Rozważmy funkcję falową $\Psi(\vb{r})$ w 3D. Niech $\ket{\Psi}_R = \mathcal{U}_R \ket{\Psi}$, gdzie $\ket{\Psi}_R$ to stan układu po obrocie R.\\
+    Dostaniemy:
+    \[
+        \Psi_R(\vb{r}) = \Psi(R^{-1} \vb{r})
+    \]
+    Weźmy sobie infintezymalny obrót wokół osi $\vb{n}$ o kąt $\epsilon$. Wtedy w pierwszym rzędzie ruszamy się prostopadle do osi obrotu, czyli zapisalibyśmy to sobie jako:
+    \[
+        R^{-1}\vb{r} \stackrel{\order{\epsilon}}{\approx} \vb{r} - \epsilon \vb{n} \cross \vb{r}
+    \]
+    Czyli:
+    \[
+        \Psi_R(\vb{r}) = \Psi(\vb{r} - \epsilon \vb{n} \cross \vb{r}) = \Psi(\vb{r}) - \epsilon(\vb{n}\cross\vb{r}) \vdot \grad{\Psi(\vb{r})} = \qty(\Id - \epsilon(\vb{n}\cp \vb{r})\vdot \grad) \Psi(\vb{r})
+    \]
+    Co biorąc przyjemny związek $\qty(A\cp B)\vdot C = A\vdot (B\cp C)$:
+    \[
+        \Psi_R(\vb{r}) = \qty[\Id - \epsilon \vb{n} \vdot \qty(\vb{r} \cross \grad)]\Psi(\vb{r})
+    \]
+    Co podstawiając związek $\vb{\hat{p}} = \frac{\hbar}{i} \grad$ daje:
+    \[
+        \qty[\Id - \frac{i\epsilon}{\hbar}\vb{n} \vdot (\vb{r}\cp\vb{\hat{p}})]\Psi(\vb{r}) \stackrel{\vb{L} = \vb{r} \cp \vb{\hat{p}}}{=} \underbrace{\qty[\Id - \frac{i \epsilon}{\hbar}\vb{n} \vdot \vb{\hat{L}}]}_{\mathcal{U}_R = \mathcal{U}_{\vb{n}(\epsilon)}}\Psi(\vb{r})
+    \]
+    Gdzie:\\
+    $\mathcal{U}_R$ - reprezentacja obrotu $R$ w przestrzeni Hilberta funkcji falowych w 3D\\
+    $\mathcal{U}_{\vb{n}}(\epsilon)$ - obrót wokół osi $\vb{n}$ o $\epsilon$.\\
+    Daje to::
+    \[
+        \mathcal{U}_{\vb{n}}(\phi) = \lim_{N\to\infty}\qty(\Id - \frac{i}{\hbar}\frac{\phi}{N} \vb{n}\vdot \vb{L})^N = e^{-\frac{i}{\hbar} \phi \vb{n} \vdot \vb{\hat{L}}}
+    \]
+    W szczególności obrót wokół osi $z$ o kąt $\phi$:
+    \[
+        \mathcal{U}_z(\varphi) = e^{-\frac{i}{\hbar} \varphi \vb{\hat{L}_z}} \stackrel{\vb{\hat{L}_z} = \frac{\hbar}{i} \pdv{\phi}}{=} e^{\varphi \pdv{\phi}}
+    \]
+    \[
+        \implies \Psi_R(r, \theta, \phi) = e^{-\varphi\pdv{\phi}}\Psi(r, \theta, \phi) = \sum_{n} \frac{(-\varphi)^n (\pdv{\phi})^n}{n!} \Psi(r, \theta, \phi) = \Psi(r, \theta, \phi-\varphi)
+    \]
+    Analogicznie dostalibyśmy:
+    \[
+        e^{- i \frac{\hat{p} x_0}{\hbar}} = e^{-x_0 \pdv{x}}
+    \]
+    \wniosek Każdą reprezentację grupy obrotów w przestrzeni Hilberta będzie można zapisać jako $U_{\vb{n}}(\phi) = e^{-\frac{i}{\hbar} \phi \vb{n}\vdot\vb{J}}$, gdzie $\vb{J}_i$ - operatory spełniające związek $\comm{\vb{\hat{J}_j}}{\vb{\hat{J}_k}} = i \hbar \varepsilon_{jkl}\vb{\hat{J}_l}$\\
+    
+    {\color{Orchid}
+    Znamy wszystkie możliwości $J_i$, w przestrzeniach o różnych wymiarach - dla danego 'j' mieliśmy przestrzeń $\qty{\ket{j,m}\qc{gdzie } m = --j,\dots, j}$.\\
+    Wymiar przestrzeni $\mathcal{H}_j \qc dim\mathcal{H}_j = 2j + 1$\\
+    Znaleźliśmy reprezentacje \emph{Algebry Liego} grupy obrotów ($so(3)$)\\
+    Mając reprezentacje $so(3)$, możemy użyć wyrażenia $\mathcal{U}_{\vb{n}}(\phi) = e^{- \frac{i \phi \vb{n}\vdot\vb{L}}{\hbar}}$ żeby dostać reprezentację grupy $SO(3)$\footnote{Nie do końca precyzyjne}
+    }
+    \emph{Przykład:}\\
+    \begin{itemize}
+        \item $j = 0 \qc \mathcal{H}_j = 1 \qc J_i = 0 \implies \mathcal{U}_{\vb{n}}(\phi) = \Id$
+        \item $j = \frac12 \qc \mathcal{H}_j = 2 \qty{\ket{\frac12, \frac12}, \ket{\frac12, -\frac12}}$. Teraz powstające macierze obrotów to:
+        \[
+            J_z = \frac{\hbar}{2}\mqty[1 & 0 \\ 0 & -1] \qc J_x = \frac{\hbar}{2}\mqty[0 & 1 \\ 1 & 0] \qc J_y = \frac{\hbar}{2}\mqty[0 & -i \\ 1 & 0] \implies J_i = \frac{\hbar}{2} \sigma_i
+        \]
+        Gdzie $\sigma_i$ jest \subind{macierzą Pauliego}{Macierz Pauliego}, zaś:
+        \[
+            \mathcal{U}_{\vb{n}}(\phi) = e^{- \frac{i \phi}{\hbar} \vdot \vb{n} \vdot \frac{\hbar}{2} \vb{\sigma}} = e^{-\frac12i \phi \vb{n} \vdot \vb{\sigma}}
+        \]
+        jest odpowiednio obrotem sfery Blocha!\\
+        \uwaga Zauważmy, że da $j = \frac12$:\\
+        \[
+            \mathcal{U_z}(2\pi) = e^{-\frac12 i 2 \pi \sigma_z} = e^{-i\pi \sigma_z} = \mqty[e^{-i \pi} & 0 \\ 0 & e^{i \pi}] = - \Id
+        \]
+        Gdzie jeśli by to była reprezentacja $SO(3)$ to powinniśmy dostać $+\Id$, bo $R = 1$
+        Wynika to z tego, że de facto znaleźliśmy wszystkie reprezentacje grupy $SU(2)$, która jest tzw. grupą nakrywającą grupę $SO(3)$ i tylko dla całkowitych $j$ mamy reprezentację $SO(3)$, a dla połówkowych mamy reprezentację $SU(2)$
+        \com{Zdjęcie}
+    \end{itemize}
+
 \end{lecture}
 
 
