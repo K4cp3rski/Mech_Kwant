@@ -1970,7 +1970,7 @@ Gdzie $n = 1, 2, 3, \dots$, $l = 0, 1, \dots, n-1$, $m = -l, -l+1, l$\\
 \end{lecture}
 
 % ----------------------------------------------------------------------
-% Wykład 29.04.2022
+% Wykład 9.04.2022
 
 \begin{lecture}{Moment pędu jako genearator grupy obrotów w 3D}
 Gruba obrotów w 3D to $SO(3)$. Właściwości:
@@ -2156,6 +2156,89 @@ Najważniejsze cechy:
 
 \end{lecture}
 
+
+
+% ----------------------------------------------------------------------
+% Wykład 11.05.2022
+
+\begin{lecture}{Rachunek Zaburzeń}
+    \section{Dygresja o spinie $\frac12$}
+    Mamy sobie qubit, o spinie $\frac12$, co daje stany $\qty{\ket{+\frac12}, \ket{-\frac12}}$, gdzie bierzemy $j=\frac12\qc m = \pm \frac12$. 
+    \com{Przepisz ze zdjęcia z pierwszej tablicy}
+    \section{Rachunek Zaburzeń}
+    Powiedzmy sobie, że Hamiltonian który rozważamy ma postać:
+    \[
+        H = H_0 + V
+    \]
+    Gdzie $H_0$ potrafimy rozwiązać ściśle, a $V$ to jest małe zaburzenie. Stany własne $H_0$ to będą:
+    \[
+        H_0 \ket{n^{(0)}} = E^{(0)}_n \ket{n^{(0)}}  
+    \]
+    A my chcemy znaleźć rozwiązanie:
+    \begin{equation}
+        \qty(H_0 + \lambda V) \ket{n} = E_n \ket{n}  
+        \label{eq:lec_19:rownanie_ham}
+    \end{equation}
+    Gdzie $\lambda$ to będzie parametr, który pozwoli śledzić rzędy rachunku. Finalnie go położymy $\lambda = 1$.\\
+    Zakładamy, że widmo $H_0$ jest nezdegenerowane (czyli, że $E_n^{(i)}$ są różne). Szukamy rozwiązań rozwijając w szereg with respect to $\lambda$:
+    \begin{align*}
+        \ket{n} &= \ket{n^{(0)}} + \lambda\ket{n^{(1)}} + \lambda^2\ket{n^{(2)}} + \dots\\
+        E_n &= E_n^{(0)} + \lambda E_n^{(1)} + \lambda E_n^{(2)} + \dots
+    \end{align*}
+    Wstawiamy to teraz do \eqref{eq:lec_19:rownanie_ham} i patrzymy na równanie w kolejnych rzędach $\lambda$.
+    \begin{align*}
+        (0) &\to \qty(H_0 - E_n^{(0)}) \ket{n^{(0)}} = 0\\
+        (1) &\to \qty(H_0 - E_n^{(0)}) \ket{n^{(1)}} =  \qty(E_n^{(1)} - V) \ket{n^{(0)}}\\
+        (2) &\to \qty(H_0 - E_n^{(0)}) \ket{n^{(2)}} =  \qty(E_n^{(1)} - V) \ket{n^{(1)}} + E_n^{(2)}\ket{n^{(0)}}\\
+    \end{align*}
+    \uwaga{Dla wszystkich $\ket{n^{(i)}}$ możemy zawsze dodać coś proporcjonalnego do $\ket{n^{(0)}}$ tak, żeby mieć $\braket{n^{(0)}}{n^{(i)}}  \stackrel{i\geq1}{=}0$}
+    Poprawka na energię w k-tym rzędzie uzyskamy obkładając równanie $(k)$ z lewej strony stanem $\bra{n^{(0)}}$. Daje nam to:
+    \[
+      0 = - \mel{n^{(0)}}{V}{n^{(k-1)}} + E_n^{(k)}  
+    \] 
+    Czyli po przekształceniu:
+    \[
+      E_n^{(k)} = \mel{n^{(0)}}{V}{n^{(k-1)}}
+    \]
+    Czyli w szczególności pierwsza poprawka:
+    \[
+        E_n^{(1)} = \mel{n^{(0)}}{V}{n^{(0)}}  
+    \]
+    A teraz chcemy wiedzieć czym jest $\ket{n^{(1)}}$. Otóż:
+    \[
+        \ket{n^{(1)}} = \sum_{k\neq n} a_k^{(n,1)} \ket{k^{(0)}}
+    \]
+    A suma jest takiej postaci ponieważ założyliśmy, że $\braket{n^{(0)}}{n^{(1)}} = 0$. Za to wektory $\ket{k^{(i)}}$ są zdefiniowane jako baza własna Hamiltonianu, tj. takie, że:
+    \[
+         H_0 \ket{k^{(0)}} = E_k^{(0)} \ket{k^{(0)}}  
+    \]
+    Teraz jak podstawimy to do równania na poprawkę $(1)$:
+    \begin{align*}
+        (H_0 - E_n^{(0)}) \sum_{k \neq n} a_k^{(n, 1)} \ket{k^{(0)}} &= \qty(E_n^{(1)} - V) \ket{n^{(0)}} \qc{obkładamy przez }\ket{k^{(0)}}\\
+        \qty(E_k^{(0)} - E_n^{(0)}) a_k^{(n, 1)} &= -\mel{k^{(0)}}{V}{n^{(0)}}\\
+        a_k^{(n, 1)} &= \frac{\mel{k^{(0)}}{V}{n^{(0)}}}{E_n^{(0)} - E_k^{(0)}}
+    \end{align*}
+    Teraz możemy znaleźć $E_n^{(2)}$:
+    \[
+        E_n^{(2)} = \mel{n^{(0)}}{V}{n^{(1)}} = \mel{n^{(0)}}{V \sum_{k \neq n} \frac{\mel{k^{(0)}}{V}{n^{(0)}}}{E_n^{(0)} - E_k^{(0)}}}{k^{(0)}} = \sum_{k \neq n} \frac{\abs{\mel{k^{(0)}}{V}{n^{(0)}}}^2}{E_n^{(0)} - E_k^{(0)}}  
+    \]
+    Widzimy zatem, że jakby była degenracja to byłoby to problemem, bo mamy w mianowniku $E_n^{(0)} - E_k^{(0)}$.\\
+    \emph{Intuicja dlaczego to jest problemem}\\
+    Wyobraźmy sobie, że $H_0  = E_0 \cdot \mqty[1 & 0 \\ 0 & 1]$, weźmy sobie teraz jakieś zaburzenie $V = \lambda \mqty[0 & 1 \\ 1 & 0] = \lambda\qty(\ketbra{+} - \ketbra{-})$, 
+    $\ket{\pm} = \frac{1}{\sqrt{2}} \qty(\ket{0} \pm \ket{1})$.\\
+    Z racji zdegenerowania nasz Hamiltonian $H_0$ nie ma jednoznacznie określonych wektorów własnych bo to bedzie dowolna kombinacja wektorów z tej przestrzeni 
+\end{lecture}
+
+% ----------------------------------------------------------------------
+% Wykład 13.05.2022
+
+\begin{lecture}{Zaburzeń ciąg dalszy}
+    \emph{Gdy mamy degenreację:}\\
+    \[
+        \ket{n_i^{(0)}} := \ket{n_1^{(0)}},\dots,\ket{n_g^{(0)}}  
+    \]
+    Co oznacza, że $\ket{n^{(0)}}$ muszą być wybrane jako wektory własne macierzy $V_{ij}$ i wtedy odpowiednie wartości własne dają $E_n^{(1)}$ co oznacza pierwszą poprawkę.
+\end{lecture}
 
 % ------------------------------------------------------------------------
 % Appendix
