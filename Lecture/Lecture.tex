@@ -1726,6 +1726,11 @@ Czyli szukamy rozwiązań $Y_{l,m}(\theta, \phi)\qc l=0,1,2,\dots\qc m\in\qty{-l
 \[
     \hat{L}_{+} Y_{l,l} = 0 \implies - i \hbar e^{i\phi} \qty(i \pd{\theta} - \cot\theta\pd{\theta}) \Theta_{l,l}(\theta) e^{i l \phi} = 0
 \]
+\begin{equation}
+    - i \hbar e^{i\phi} \qty(i \pd{\theta} - \cot\theta\pd{\theta}) \Theta_{l,l}(\theta) e^{i l \phi} = 0
+    \label{eq:lec_15:schrodinger_sferyczny}
+\end{equation}
+Równanie \eqref{eq:lec_15:schrodinger_sferyczny} to \subind{równanie Schrödingera we współrzędnych sferycznych dla części kątowej}{Równanie!Schrödingera!Sferyczne}
 Co po rachunkach daje nam:
 \begin{align*}
     \qty(i \pd{\theta} - i l \cot \theta) \Theta_{l,l} &= 0\\
@@ -2238,6 +2243,76 @@ Najważniejsze cechy:
         \ket{n_i^{(0)}} := \ket{n_1^{(0)}},\dots,\ket{n_g^{(0)}}  
     \]
     Co oznacza, że $\ket{n^{(0)}}$ muszą być wybrane jako wektory własne macierzy $V_{ij}$ i wtedy odpowiednie wartości własne dają $E_n^{(1)}$ co oznacza pierwszą poprawkę.
+    Pamiętajmy również, że równania, które musimy spełnić w rachunku zaburzeń, to:
+    \begin{align*}
+        \qty(H_0 - E_n^{(0)}) \ket{n_i^{(0)}} &= 0\\
+        \qty(H_0 - E_n^{(0)}) \ket{n^{(1)}} &= \qty(E_n^{(1)} - V) \ket{n^{(0)}}
+    \end{align*}
+    Gdzie ogólny stan $\ket{n^{(0)}}$ w postaci zdegenerowanej to:
+    \[
+        \ket{n^{(0)}} = \sum_{i=1}^{g} a_i \ket{n_i^{(0)}}  
+    \]
+    Co po obłożeniu wektorem $\bra{n_j^{(0)}}$ daje nam:
+    \begin{align*}
+        \mel{n_j^{(0)}}{\qty(E_n^{(1)} - V)a_i}{n_i^{(0)}} &= 0\\
+        \forall_j \sum_{i=1}^{g} \qty[E_n^{(1)} \delta_{ij} - \mel{n_j^{(0)}}{V}{n_i^{(0)}}]a_i &= 0\\
+    \end{align*}
+    Co nam da:
+    \begin{align*}
+        \ket{n^{(1)}} &= \sum_{k \neq \qty{n_1, \dots, n_g}} a_k^{(n, 1)} \ket{k^{(0)}}\\
+        E_n^{(2)} &= \sum_{k \neq \qty{n_1, \dots, n_g}} \frac{\abs{\mel{n^{(0)}}{V}{k^{(0)}}}^2}{E_n^{(0)} - E_k^{(0)}}\\
+        a_k^{(n, 1)} &= \frac{\mel{k^{(0)}}{V}{n^{(0)}}}{E_n^{(0)} - E_k^{(0)}}
+    \end{align*}
+    Co będzie ok, jeśli w 1-szym rzędzei usunie się degeneracja (czyli wartości własne $E_n^{(1)}$ w ramach przestrzeni zdegenerowanej będą różne). 
+    \section{Metoda Wariacyjna}
+    {\color{CornflowerBlue} Fakt:} Dla dobrego stanu $\ket{\tilde{O}}$ zachodzi $\ev{H}{\tilde{O}} \geq E_0$ gdzie $E_0$ to energia stanu podstawowego
+    {\color{green} Dowód:}\\
+    \begin{align*}
+        \ket{\tilde{O}} &= \sum_{n=0}^{\infty} a_n \ket{n}\\
+        H_n \ket{n} &= E_n \ket{n}\\
+        \ev{H}{\tilde{O}} = \sum_{n,m} a^\ast a \mel{n}{H}{m} = \sum \abs{a_n}^n E_n \geq \sum_n \abs{a_n}^2 E_0 = E_0
+    \end{align*}
+    Metoda: Rozważamy sobie klasę stanów $\ket{\tilde{0}_\lambda}$ gdzie $\lambda$ - parametru stanu. Wiemy wtedy, że:
+    \[
+        E_0 \leq \min_\lambda \frac{\ev{H}{\bar{O}_\lambda}}{\braket{\bar{O}_\lambda}}  
+    \]
+    \section{Dynamiczny rachunek zaburzeń}
+    Zdefiniujmy sobie hamiltonian z zaburzeniem zmiennym w czasie:
+    \[
+        H(t) = H_0 + V(t)  
+    \]
+    Gdzie $H_0$ to Hamiltonian dla którego znamy rozwiązanie, a $V(t)$ - zaburzenie zależne od czasu. Wtedy:
+    \[
+        H_0 \ket{n} = E_n \ket{n}  
+    \]
+    \subsection{Obraz Diraca (oddziaływania)}
+    Jeśli stan w obrazie Schrödingera ewoluuje jako:
+    \[
+        \psket{t} = \tau \qty[e^{-\frac{i}{\hbar} \int_0^t \dd{t'} H(t')}] \psket{0}  
+    \]
+    Gdzie $\tau$ symbolizuje uporządkowanie czasowe.\\
+    W obrazie Diraca:
+    \[
+       \psket{t}_D := e^{\frac{i}{\hbar} H_0 \cdot t} \psket{t} 
+    \]
+    Co możemy rozumieć intuicyjnie jako 'usuwanie' ewolucji związanej z trywialnym Hamiltonianem $H_0$.
+    Dostajemy też
+    \[
+        \hat{A}_D :=   e^{\frac{i}{\hbar} H_0 t} \hat{A} e^{-\frac{i}{\hbar} H_0 t}
+    \]
+    Dzięki temu mamy:
+    \[
+        \ev{\hat{A}_D}{\Psi(t)}_D = \bra{\Psi(t)} e^{-\frac{i}{\hbar} H_0 t} e^{\frac{i}{\hbar} H_0 t} \hat{A} e^{-\frac{i}{\hbar} H_0 t} e^{\frac{i}{\hbar} H_0 t} \ket{\Psi(t)} = \ev{\hat{A}}{\Psi(t)}
+    \]
+    Przy czym zauważamy również, że:
+    \begin{align*}
+        i \hbar \dv{t} \qty(\psket{t}_D) &= i \hbar \dv{t} \qty(e^{\frac{i}{\hbar} H_0 t} \psket{t}) = - H_0 e^{\frac{i}{\hbar} H_0 t} \psket{t} + i \hbar e^{\frac{i}{\hbar} H_0 t} \dv{t} \psket{t}  = - H_0 \psket{t}_D + e^{\frac{i}{\hbar}} H(t) \psket{t}    
+        &= - H_0 \psket{t}_D + e^{\frac{i}{\hbar} H_0 t} \qty(H_0 + V(t)) e^{-\frac{i}{\hbar} H_0 t} \psket{t}_D = \underbrace{e^{\frac{i}{\hbar} H_0 t} V(t) e^{-\frac{i}{\hbar} H_0 t}}_{V_D(t)} \psket{t}_D
+    \end{align*} 
+    Co daje nam finalnie wzór:
+    \begin{equation}
+        i \hbar \dv{t} \psket{t}_D = V_D(t) \psket{t}_D
+    \end{equation}
 \end{lecture}
 
 % ------------------------------------------------------------------------
