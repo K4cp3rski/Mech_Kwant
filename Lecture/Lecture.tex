@@ -22,6 +22,17 @@
 \usepackage{makeidx}
 \usepackage{hyperref}
 \usepackage[normalem]{ulem}
+\usepackage{xparse}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\DeclareDocumentCommand{\hcancel}{mO{0pt}O{0pt}O{0pt}O{0pt}}{%
+    \tikz[baseline=(tocancel.base)]{
+        \node[inner sep=0pt,outer sep=0pt] (tocancel) {#1};
+        \draw[red] ($(tocancel.south west)+(#2,#3)$) -- ($(tocancel.north east)+(#4,#5)$);
+    }%
+}%
+
 
 \title{Mechanika Kwantowa R 2021/2022}
 \author{Kacper Cybiński}
@@ -2313,6 +2324,111 @@ Najważniejsze cechy:
     \begin{equation}
         i \hbar \dv{t} \psket{t}_D = V_D(t) \psket{t}_D
     \end{equation}
+\end{lecture}
+
+% ----------------------------------------------------------------------
+% Wykład 18.05.2022
+
+\begin{lecture}{Zaburzenia w czasie}
+    \section{W poprzednim odcinku}
+    Zdefiniowaliśmy sobie:
+    \[
+        H = H_0 + \lambda V(t)  
+    \]
+    Oraz 
+    \[
+        \psket{t}_D  = e^{\frac{i}{\hbar} H_0 t} \psket{t} \qc \psket{t}_D = U_D (t) \psket{0}
+    \]
+    Czyli mmay też:
+    \[
+       A_D = e^{\frac{i}{\hbar} H_0 t} A  e^{-\frac{i}{\hbar} H_0 t} \qc i \hbar \dv{U_D(t)}{t} = \lambda V_D(t) U_D(t)
+    \]
+
+    Widzimy też, że:
+    \[
+        U_D(t) = \underbrace{\Id}_{U_D^{(0)}} + \lambda \underbrace{\qty[- \frac{i}{\hbar} \int_0^t \dd{t'} V_D(t')]}_{U_D^{(1)}} + \lambda^2 \qty(-\frac{i}{\hbar})^2 \int_0^t \dd{t'} \int_0^{t'} \dd{t''} V_D(t') V_D(t'') + \dots 
+    \]
+
+    \linediv \\
+
+    Zazwyczaj w chwili $t=0$ będziemy również rozważać $\psket{0} = \ket{i}$, gdzie to $i$ oznacza 'initial', $H_0 \ket{i} = E_i \ket{i}$
+    Ewoluujemy przez czas $t$ i chcemy wiedzieć jakie jest prawdopodobieństwo, że w wyniku zaburzenia $V(t)$ układ znajdzie się w stanie $\ket{n}$. Zapiszmy:
+    \[
+        \underbrace{\psket{t}_D}_{U_D(t) \ket{i}} = \sum_n c_n(t) \ket{n} \qc  \mel{m}{U_D(t)}{i} = \braket{n}{\Psi(t)}_D = c_n(t)^{(0)} + \lambda c_n^{(1)}(t) + \lambda^2 c_n^{(2)}(t) + \dots
+    \]
+
+    Zdjęcie objaśniające $c_n^{(i)}$ \com{Wstaw}
+
+    \section{Wracamy to obrazu Schrödingera}
+    \[
+      \psket{t} = \sum_n a_n(t) \ket{n} = e^{- \frac{i H_o t}{\hbar}} \psket{t}_D = \sum_D \underbrace{c_n(t) e^{-\frac{i E_n t}{\hbar}}}_{a_n} \ket{n}  
+    \]
+
+    \[
+        \mel{n}{V_D(t')}{m} = \mel{n}{e^{\frac{i H_0 t'}{\hbar}}}{m} = e^{\frac{i (E_n - E_m) t'}{\hbar}} \mel{n}{V(t')}{m} 
+    \]
+
+    Gdzie kolejne elementy $a^{(i)}$:
+    \begin{align*}
+        a_n^{(0)} &= \delta_{n i} e^{-\frac{i E_n t}{\hbar}}\\
+        a_n^{(1)} &= - \frac{i}{\hbar} \int \dd{t'} e^{-\frac{i E_n (t-t')}{\hbar}} \mel{n}{V(t')}{i} e^{-\frac{E_i t'}{\hbar}} \\
+        a_n^{(2)} &=  \sum_m \qty(\frac{i}{\hbar})^2 \int_0^t \dd{t'} \int_0^{t'} \dd{t''} e^{-\frac{i E_n (t - t')}{\hbar}} \mel{n}{V(t')}{m} e^{- \frac{i E_m (t' - t'')}{\hbar}} \mel{m}{V(t'')}{i} e^{- \frac{i E_i t''}{\hbar}}
+    \end{align*}
+    Teraz prawdopodobieństwo przejścia to:
+    \[
+        P_{i \to n} (t) \abs{a_n(t)}^2 = \abs{c_n(t)}^2  
+    \]
+
+    \emph{Przykład}: Zaburzenie harmoniczne\\
+    \[
+        \hat{V}(t) = 2 \cdot \hat{V} \cdot \sin(\omega t)  
+    \]
+    Liczymy:
+        \[
+            a_n^{(1)}(t) = \qty(-\frac{i}{\hbar}) e^{- \frac{i E_n t}{\hbar}} \mel{n}{V}{i} \underbrace{2 \int \dd{t'} \sin(\omega t') e^{\frac{i t' (E_n - E_i)}{\hbar}}}_{A} 
+        \]
+    Zaś $\omega_{ni} = \frac{(E_n - E_i)}{\hbar}$
+    
+    Teraz $A$ policzymy też jako:
+    \[
+        A = \dots = 2 i \qty[e^{\frac{i (\omega_{ni} + \omega) t}{2}} \frac{\sin(\frac{\omega_{ni} + \omega}{2} t)}{\omega_{ni} + \omega} - e^{\frac{i (\omega_{ni} - \omega) t}{2}} \frac{\sin(\frac{\omega_{ni} - \omega}{2} t)}{\omega_{ni} - \omega}]  
+    \]
+
+    Duże amplitudy będą w okolicach $\omega_{ni} = \pm \omega$.\\
+    Jeśli $\omega_{ni} = \omega$ (absorpcja) to dominujący człon w prawdopodobieństwie to 
+    \[
+        \abs{a_n^{(1)}(t)} \approx \frac{4}{\hbar^2} \abs{\mel{n}{V}{i}}^2 \frac{\sin^2\qty(\frac{\omega_{ni} - \omega}{2} t)}{\qty(\omega_{ni} - \omega)^2}
+    \]
+    Czyli możemy wprowadzić sobie szybkość przejścia:
+    \[
+        W_{i\to n} = \frac{2 \pi}{\hbar^2} \abs{\mel{m}{V}{i}}^2 \delta(\omega_{ni} - \omega)  
+    \]
+    Co jest znane jako \subind{złota reguła Fermiego}{Złota Reguła Fermiego}
+
+    \section{\subind{Twierdzenie Adiabatyczne}{Twierdzenie!Adiabatyczne}}
+    $H(t)$ - bardzo wolno zmienny w czasie i pytamy jak będzie ewoluował $\psket{t}$?\\
+    Oznaczamy stany i energie własne w chwili $t$ jako: $H(t) \ket{n(t)} = E_n(t) \ket{n(t)}$.\\
+    Dwolone rozwiązanie możemy zawsze zapisać jako: $\psket{t} = \sum_n c_n(t) e^{9 \theta_n(t)} \ket{n(t)}$, $\theta_n(t) = - \frac{1}{\hbar} \int_0^t \dd{t'} E_n(t')$.\\
+    Wstawmy sobie to teraz do równania Schrödingera:
+    \[
+        i \hbar \dv{t} \psket{t} = H(t) \psket{t}  
+    \]
+    Co daje dalej:
+    \begin{align*}
+        i \hbar \sum_n \qty[\dot{c}_n \ket{n(t)} \hcancel{$- \frac{i}{\hbar E_n(t) c_n(t) \ket{n(t)}}$} + c_n(t) \ket{\dot{n}(t)}]e^{- \theta_n(t)} &= \hcancel{$\sum_n c_n(t) e^{\theta_n(t)} E_n(t) \ket{n} $} \\
+        \sum_n \dot{c}_n e^{\theta_n(t)} \ket{n(t)} + c_n(t) e^{i \theta_n(t)} \ket{\dot{n}(t)} &= 0 \\
+        \dot{c}_m(t) &= - \sum_n c_n (t) \braket{m(t)}{\dot{n}(t)} e^{i(\theta_n(t) - \theta_m(t))} \\
+        H(t) \ket{n(t)} &= E_n(t) \ket{n(t)} / \dv{t} \\
+        \bra{m(t)} | \dot{H}(t){n(t)} + H(t) \ket{\dot{n}(t)} &= \hcancel{$\dot{E}_n (t) \ket{n(t)}$} + E_n (t) \ket{\dot{n}(t)} \\
+        \mel{m(t)}{\dot{H}(t)}{n(t)} + \underbrace{\mel{m(t)}{H(t)}{\dot{n}(t)}}_{E_n(t) \braket{m(t)}{n(t)}} = E_n(t) \braket{m(t)}{\dot{n}(t)}
+    \end{align*}
+    Gdzie $m \neq n$ oraz 
+    $$\braket{m(t)}{\dot{n}(t)} = \frac{\mel{m(t)}{\dot{H}}{n(t)}}{E_n(t) - E_m(t)}$$
+    Pamiętając, że
+    \[
+       \dot{c}_m(t) = - c_m(t) \braket{m(t)}{\dot{m}(t)} - \sum_{m \neq n} c_n(t) e^{i \qty[\theta_n(t) - \theta_m(t)]} \cdot \frac{\mel{m(t)}{\dot{H}}{n(t)}}{E_n(t) - E_m(t)}
+    \]
+    Gdzie ten drugi człon odpowiada za 'przeskoki' pomiędzy poziomami energetycznymi. Jeśli jest to bardzo małe,, to jeśli stan początkowy był stanem własnym $\psket{0} = \ket{m=0}$, to pozostanie cały czas stanem własnym $H(t): \psket{t} = \ket{m(t)}$
 \end{lecture}
 
 % ------------------------------------------------------------------------
