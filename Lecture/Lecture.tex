@@ -24,6 +24,7 @@
 \usepackage[normalem]{ulem}
 \usepackage{xparse}
 \usepackage{tikz}
+\usepackage[shortlabels]{enumitem}
 \usetikzlibrary{calc}
 
 \DeclareDocumentCommand{\hcancel}{mO{0pt}O{0pt}O{0pt}O{0pt}}{%
@@ -2429,6 +2430,249 @@ Najważniejsze cechy:
        \dot{c}_m(t) = - c_m(t) \braket{m(t)}{\dot{m}(t)} - \sum_{m \neq n} c_n(t) e^{i \qty[\theta_n(t) - \theta_m(t)]} \cdot \frac{\mel{m(t)}{\dot{H}}{n(t)}}{E_n(t) - E_m(t)}
     \]
     Gdzie ten drugi człon odpowiada za 'przeskoki' pomiędzy poziomami energetycznymi. Jeśli jest to bardzo małe,, to jeśli stan początkowy był stanem własnym $\psket{0} = \ket{m=0}$, to pozostanie cały czas stanem własnym $H(t): \psket{t} = \ket{m(t)}$
+\end{lecture}
+
+
+% ----------------------------------------------------------------------
+% Wykład 18.05.2022
+
+\begin{lecture}{Zaburzenia w czasie vol.2}
+    Mamy sobie stany energetyczne w postaci:
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width = 0.4\linewidth]{Wyk_22_Rys_1.JPG}
+    \end{figure}
+    Jeśli spełnimy warunki tw. Adiabatycznego, to:
+    \begin{align*}
+        \dot{c}_n(t) &= -c_m(t) \braket{m(t)}{\dot{m}(t)} + \hcancel{$\sum_{m\neq n}  \dots$} \implies\\
+        c_m(t) &= \underbrace{e^{-\int_0^t\dd{t'} \braket{m(t')}{\dot{m}_t'}}}_{e^{i \gamma(t)}} c_m(0)
+    \end{align*}
+    Gdzie:
+    \[
+        \gamma(t) := i \int_0^t\dd{t'}  \braket{m(t')}{\dot{m}_t'}
+    \]
+    Uwaga:
+    \[
+        \braket{m(t')}{\dot{m}_t'} \in \mathbb{R}  
+    \]
+
+    Czyli ostatecznie dostajemy, że:
+    \[
+        \psket{t} = \underbrace{e^{i \theta_m(t)}}_{\footnotemark} \underbrace{e^{i \gamma(t)}}_{\footnotemark} \ket{m(t)}
+    \]
+    \addtocounter{footnote}{-1}
+    \footnotetext{Faza Dynamiczna}
+    \refstepcounter{footnote}
+    \footnotetext{Faza Geometryczna}
+    Z warunkiem, że $\psket{0} = \ket{m(0)}$. Człon pierwszy to \subind{faza dynamiczna}{Faza!Dynamiczna}, a drugi to \subind{faza geometryczna}{Faza!Geometryczna}.
+    Fazę Geometryczną nazywamy inaczej \emph{Fazą Berry'ego}, ale do tego jeszcze dojdziemy.\\
+    Uwaga ad fazy:\\
+    Jeśli przedefiniujemy stany własne:
+    \[
+        \ket{m(t)} \to e^{i \chi(t)} \ket{m(t)}
+    \]
+    Oraz wiemy też, że przechodzi to jak:
+    \[
+        \gamma(t) \to \gamma(t) + i \int_0^t \dd{t'} \mel{m(t')}{i\dot{\chi}(t)}{m(t')} = \gamma(t) - \int_0^t \dd{t'} \dot{\chi}(t') 
+    \]
+    Teraz usuwamy sobie bezpośrednia zależność od czasu z Hamiltonianu i dostajemy:
+    \[
+        H(\vb{R}(t))  
+    \]
+    Gdzie $\vb{R}(t)$ to zestaw zależnych od czasu parametrów Hamiltonianu.
+    Dajemy sobie warunek:
+    \[
+        \vb{R}(t) = \vb{R}(0)    
+    \]
+    Rozpiszmy sobie $\gamma$:
+    \begin{equation} \label{eq:lec_21:berry_phase}
+        \gamma(t) = i\int_0^t \dd{t'} \braket{m(t)}{\dot{m}(t)} = i \int_{\vb{R}(0)}^{\vb{R}(t)} \dd{\vb{R}} \mel{m(\vb{R})}{\grad_{\vb{R}}}{m(\vb{R})} \stackrel{\vb{R(t)} = \vb{R(0)}}{=} i \oint_C \dd{\vb{R}} \mel{m(\vb{R})}{\grad_{\vb{R}}}{m(\vb{R})} =: \gamma_C
+    \end{equation}
+    Gdzie teraz konkretnie sformułowanie $\gamma_C$ nazywamy \subind{fazą Berry'ego}{Faza!Berry'ego}.
+    Wiemy o niej też, że jak idziemy sobie po zamkniętej trajektorii w przestrzeni parametrów, to ona ewoluuje jak:
+    \[
+        \gamma_C \to \gamma_C - \oint_C \dd{\vb{R}} \cdot \grad{\chi(\vb{R})}    
+    \]
+    Ale $\oint_C \dd{\vb{R}} \cdot \grad{\chi(\vb{R})} $ jest po konturze zamkniętym, więc $\oint_C \dd{\vb{R}} \cdot \grad{\chi(\vb{R})}  = 0$
+
+    \section{Macierz Gęstości, stany splątane i dekoherencja}
+
+    $\ket{\psi}$ - stan czysty (pełna wiedza o układzie), $\ket{\Psi} \in \HS$.\\
+    Chcemy opisać układ o którym nie mamy pełnej wiedzy.\\
+    Załóżmy, że wiemy, że układ znajduje się w stanie $\ket{\Psi_i}$ z prawdopodobieństwem $q_i$, $\sum_i q_i = 1$\\
+    W mechanice Kwantowej prawdopodobieństwa, wartości oczekiwane liczymy zawsze jako $\ev{\hat{A}}{\Psi}$.
+    Jeśli prawdopodobieństwo, że wynik pomiaru odpowiada stanowi $\ket{a}, \hat{A} = \ketbra{a}$.\\
+    Dla niepełnej wiedzmy możemy liczyć prawdopodobieństwo: $\sum_i q_i \ev{\hat{A}}{\Psi} = \sum_i q_i \Tr (\hat{A} \ketbra{\Psi_i})$
+
+    Dowód:
+    Weźmy bazę ortonotmalną $\qty{\ket{\psi}, \ket{e_2}, \ket{e_3}, \dots}$
+    \[
+        \Tr (\hat{A} \ketbra{\phi}) = \sum_i \ev{A \ketbra{\phi}}{e_i} = \ev{A}{e_1} = \ev{A}{\phi}   
+    \]
+    Teraz oznacza to, że możemy sobie wciągnąć sumę pod $\Tr$:
+    \[
+        \Tr\qty(\hat{A} \underbrace{\sum_i q_i \ketbra{\Psi_i}}_{\rho})    
+    \]
+    Gdzie $\rho$ - macierz gęstości stanów, która nam wystarczy do wszystkich obliczeń.\\
+
+    Mamy $\rho$ i wykonujemy pomiar rzutujący w bazie $\ket{e_j}$, macierz prawdopodobieństw, to $P_j = \ketbra{e_i}$.
+    Możemy sobie na dwa sposoby policzyć:
+    \begin{itemize}
+        \item Podejście podstawowe - $P_j = \sum_i q_i \abs{\braket{e_j}{\Psi_i}}^2$
+        \item Podejście sprytne, z macierzą gęstości stanów: $P_j = \Tr (\rho P_j) = \ev{\rho}{e_j}$ jeśli $\rho = \sum_i q_i \ketbra{\Psi_i}$
+    \end{itemize}
+
+    \linediv\\
+
+    \emph{Przykład} (spin $\frac12$)
+    \begin{enumerate}[a)]
+        \item dostajemy stany $\ket{\pm \frac12}_z$ z $p_{\pm} = \frac12$, gdzie na quibicie pamiętamy, że stany $\ket{\pm \frac12}_z$ to rzuty na oś $z$, oznaczaliśmy jako $\ket{0}$ i $\ket{1}$.
+        \item dostajemy stany $\ket{\pm \frac12}_x = \frac{1}{\sqrt{2}} \qty(\ket{+\frac12}_z \pm \ket{- \frac12}_z) = \frac{1}{\sqrt{2}} \mqty[1 \\ \pm 1]$ czyli prawdopodobieństwo $p_{\pm} = \frac12$
+    \end{enumerate}
+    Teraz policzymy sobie macierze gęstości dla przypadków $a$ i $b$:
+    \begin{enumerate}[a)]
+        \item
+        \[
+            \rho_a = \frac12 \ket{+\frac12}_z \bra{+\frac12_z}_z + \ket{-\frac12}_z \bra{-\frac12_z}_z = \frac12 \mqty[1 & 0 \\ 0 & 1]
+        \]
+        W bazie $\ket{\pm \frac12}_z$
+        \item
+        \[
+            \rho_b = \frac12 \ket{+\frac12}_x \bra{+\frac12_z}_x + \ket{-\frac12}_x \bra{-\frac12_z}_x = \frac14 \mqty[1 & 1 \\ 1 & 1] + \frac14 \mqty[1 & -1 \\ -1 & 1]= \frac12 \mqty[1 & 0 \\ 0 & 1]
+        \]
+        W bazie $\ket{\pm \frac12}_x$
+    \end{enumerate}
+    Co prowadzi nas do wniosku, że gęstości stanów $\rho_a = \rho_b$, czyli jest ona niezależna od tego w jakiej osi sygnał został wysłany.\\
+    Czyli rozkład:
+    \[
+        \rho = \sum_i q_i \ketbra{\psi_i}    
+    \]
+    \emph{nie jest} jednoznaczny. Można zawsze znaleźć stan własny $\rho = \sum_i \lambda_i \ketbra{e_i}\qc \lambda_i \geq 0\qc \sum_i \lambda_i = 1$, ale to nie jest jedyna możliwość.
+
+    \linediv \\
+    \emph{Definicja} \subind{Stany Mieszane}{Stan!Mieszany}\\
+    Jeśli $\rho = \ketbra{\Psi}$ to mówimy, że stan jest \subind{czysty}{Stan!Czysty}, a jeśli nie, to $\rho$ nazywamy stanem mieszanym (czyli jeśli $\rho$ ma więcej niż jedną niezerową wartość własną).\\
+    \linediv \\
+    \emph{Przykład}\\
+    Jeśli w double slit experiment nie mierzymy którą drogą leci:
+    \[
+        \ket{\Psi} = \frac{1}{\sqrt{2}} \qty(\ket{0} + \ket{1})    
+    \]
+    \[    
+        \rho_\Psi = \ketbra{\Psi} = \frac12 \mqty[1 & 1\\ 1 & 1]
+    \]
+    Gdzie jedynka na w lewym dolnym rogu odpowiada za koherencję.\\
+    Jeśli ktoś mierzył to, ale zapomniał powiedzieć nam, to mamy:
+    \[
+        \rho = \frac12 \ketbra{a} + \frac12 \ketbra{1} = \frac12 \mqty[1 & 0 \\ 0 & 1]    
+    \]
+\end{lecture}
+
+\begin{lecture}{Do uzupełnienia}
+    
+\end{lecture}
+
+\begin{lecture}{Dodawanie momentów pędu, spin elektronu...}
+    \section{Dekoherencja}
+    \emph{Przykład} (Interferencja w dwóch szczelinach)
+    \com{Rysunek}
+    W chwili początkowej:
+    \[
+        \ket{\Psi}_{AB} = \ket{\Psi}_A \bigotimes \ket{0}_B = \frac{1}{\sqrt{2}} \qty(\ket{0}_A + \ket{1}_A) \bigotimes \ket{0}_B 
+    \]
+    Oddziaływanie detektora z cząstką:
+    \begin{align*}
+        \ket{0}_A \bigotimes \ket{0}_B &\stackrel{\mathcal{U}}{\to} \ket{0}_A \bigotimes \ket{D_0}_B\\
+        \ket{1}_A \bigotimes \ket{0}_B &\stackrel{\mathcal{U}}{\to} \ket{1}_A \bigotimes \ket{D_1}_B
+    \end{align*}
+    Pamiętamy przy tym, że:
+    \[
+        \mathcal{U} = e^{-\frac{i H t}{\hbar}} \qc H = \ketbra{0}_A \bigotimes H_0 + \ketbra{1}_A \bigotimes H_1  
+    \]
+    W związku z tym mamy, że:
+    \[
+        e^{-\frac{i}{\hbar} t \qty(\ketbra{0}_A \bigotimes H_0 + \ketbra{1}_A \bigotimes H_1)}  
+    \]
+    Z czego wynika, że:
+    \[
+        \ket{D_0}_B = e^{-\frac{i}{\hbar} H_0 t} \ket{0}_B \qc  \ket{D_1}_B = e^{-\frac{i}{\hbar} H_0 t} \ket{0}_B
+    \]
+    Po oddziaływaniu cząstki z detektorem:
+    \[
+        \ket{\Psi'}_{AB} = \mathcal{U} \ket{\Psi}_{AB} = \mathcal{U} \frac{1}{\sqrt{2}}\qty(\ket{0}_A \bigotimes \ket{0}_B + \ket{1}_A \bigotimes \ket{0}_B) = \frac{1}{\sqrt{2}} \qty(\ket{0}_A \bigotimes \ket{D_0}_B + \ket{1}_A \bigotimes \ket{D_1}_B)  
+    \]
+    Efektywny stan cząstki:
+    \begin{align*}
+      \rho_A' = \Tr_B\qty(\ketbra{\Psi'}_{AB}) &= \frac12 \Tr_B (\ketbra{0}_A \bigotimes \ketbra{D_0}_B + \ketbra{1}_A \bigotimes \ketbra{D_1}_B \\
+      &+ \ketbra{0}{1}_A \bigotimes \ketbra{D_0}{D_1}_B + \ketbra{1}{0}_A \bigotimes \ketbra{D_1}{D_0}) = \ev{rho_{AB}'}{D_0}_B + \sum_{i=1} \ev{\rho_{AB}'}{e_i} \\
+      &= \frac12 (\ketbra{0}_A + \ketbra{1}_A + \ketbra{0}{1}_A \cdot \braket{D_1}{D_0} + \ketbra{1}{0} \cdot \braket{D_0}{D_1}) 
+    \end{align*}
+    Rozłożyliśmy to w bazie B:
+    \[
+        B \quad = \quad \qty{\ket{D_0}, \ket{e_1}, \ket{e_2}, \dots}    
+    \]
+    Gdzie wektory $\qty{\ket{e_1} ,\ket{e_2}, \dots }$ są ortogonalne do $\ket{D_0}$
+    Daje nam to macierz:
+    \[
+        \rho_A' = \mqty[1 & \braket{D_1}{D_0} \\
+        \braket{D_0}{D_1} & 1]    
+    \]
+    Która jest powiązana z macierzą $\rho_A$:
+    \[
+        \rho_A = \ketbra{\Psi_A} = \frac12 \mqty[1 & 1 \\ 1 & 1]    
+    \]
+    Gdzie tutaj $\braket{D_0}{D_1}$ to efekt oddziaływania detektora, czyli zmniejszenie wyrazów pozadiagonalnych. Im bardziej rozróżnialne $D_0, D_1$, tym bardziej tym bardziej niszczona superpozycja. \\
+    W szczególności $\braket{D_0}{D_1} = 0 \implies \rho_A' = \frac12 \mqty[1 & 0 \\ 0 & 1]$ czyli stan mieszany reprezentujący cząstkę idącą górą lub dołem z $p = \frac12$. Czyli pełna \emph{dekoherencja}.
+
+    \section{Dodawanie momentów pędu}
+    Mamy reprezentację grupy SU(2), $\mathcal{U}_{\vb{n}}(\phi) = e^{-\frac{i}{\hbar} \phi \vb{n} \cdot \vb{J}}$, numerowane przez $j = 0, \frac12, 1, \dots$ nad przestrzeniami $(2j + 1)$ wymiarowymi.\\
+    Np dla spinu $\frac12$ mamy $\vb{J} = \vb{S}$, mamy wtedy:
+    \[
+        S_x = \frac{\hbar}{2} \mqty[0 & 1 \\ 1 & 0]\qc S_y = \frac{\hbar}{2} \mqty[0 & -i \\ i & 0]\qc S_z = \frac{\hbar}{2}\mqty[1 & 0 \\ 0 & -1] \qc \mathcal{U}_{\vb{n}}(\phi) e^{-\frac{i}{\hbar} \phi \vb{n} \cdot \vb{S}} \ket{\Psi'} = \mathcal{U}_{\vb{n}}(\phi) \ket{\Psi}
+    \]
+    Baza $\ket{j,m} = \qty{\ket{\frac12, \frac12}, \ket{\frac12, -\frac12}}$. Rozważmy dwa spiny $\frac12$, $\mathcal{H} = \mathcal{H}_{\frac12} \otimes \mathcal{H}_{\frac14}$\\
+    Ogólny stan w $\mathcal{H}$ ma postać:
+    \[
+        \ket{\Psi} = \sum_{m_1, m_2 = -\frac12}^{\frac12} c_{m_1, m_2} \ket{\frac12, m_1} \otimes \ket{\frac12, m_2}    
+    \]
+    Chcemy wiedzieć jak w przestrzeni $\mathcal{H}$ działa reprezentacja grupy SU(2) postaci:
+    \[
+        \mathcal{U}_{\vb{n}} (\phi) \otimes \mathcal{U}_{\vb{n}}(\phi)    
+    \]
+    Co nam da stan:
+    \[
+        \ket{\Psi'} = \mathcal{U}_{\vb{n}}(\phi) \otimes \mathcal{U}_{\vb{n}} (\phi) \ket{\phi} =  e^{-\frac{i}{\hbar} \phi \vb{n \cdot \vb{S}}} \otimes e^{-\frac{i}{\hbar} \phi \vb{n \cdot \vb{S}}} \ket{\Psi} = e^{-\frac{i}{\hbar} \phi \vb{n}\qty(\vb{S} \otimes \Id) -\frac{i}{\hbar} \phi \vb{n} \qty(\Id \otimes \vb{S})} \ket{\Psi} = e^{-\frac{i}{\hbar} p \vb{n} \otimes \vb{J}}
+    \]
+    Gdzie mówimy sobie, że jest to $\vb{J} = \vb{S} \otimes \Id + \Id \otimes \vb{S} = \vb{S}_1 + \vb{S}_2$, $\vb{J}$ - sumaryczny operator momentu pędu (spinu). Piszemy tu $S_1$ i $S_2$, ale one tak naprawdę działają na innych przestrzeniach, co warto pamiętać.\\
+    Chcemy wiedzieć jakie stany $\ket{j, m_j}$ istnieją w przestrzeni $\mathcal{H}$, gdzie te liczby oznaczają: $j$- wartość sumarycznego momentu pędu $\vb{J}$, zaś $m_j$ - wartość własna $\vb{J}_z$.\\
+    Aby znaleźć stany własne: $\vb{J}_x$ i $\vb{J}_z$ w przestrzeni $\mathcal{H}$ i wyrazić je w bazie $\ket{\frac12, m_1} \otimes \ket{\frac12, m_2}$. Np:
+    $J_z = S_z \otimes \Id + \Id \otimes S_z$. Jaka może być maksymalna wartość własna $J_z$? \\
+    Maksymalna to: $\frac{\hbar}{2} + \frac{\hbar}{2} = \hbar$\\
+    Takim kandydatem byłby $J_z \ket{\frac12, +\frac12} \otimes \ket{\frac12, +\frac12} = \hbar \ket{\frac12, + \frac12} \otimes \ket{\frac12, +\frac12}$.\\
+    Sprawdziliśmy, że faktycznie $\ket{\frac12, \frac12} \otimes \ket{\frac12, \frac12} = \ket{j=1, m_j = + 1}$\\
+    Czyli musimy jeszzcze pokazać, że: $J^2 \ket{j = 1, m_j = +1} = \hbar^2 j(j+1) \ket{j=1, m_j = +1} = 2\hbar^2 \ket{j=1, m_j = 1}$.\\
+    {\color{Cyan} Pamiętamy, że poniżej są jeszcze $\Id$, których nie piszemy dla wygody.}
+    \[
+        \vb{J}^2 = \qty(\vb{S}_1 + \vb{S}_2)^2 = \vb{S}_1^2 + \vb{S}_2^2 + 2 \vb{S}_1 \vb{S}_2 = \hbar^2 \frac12 \cdot \frac32    
+    \]
+    Wynika też to z tego, że na przestrzeni odpowiadającej spinowi $\frac12$ mamy:
+    \[
+        \qty{\ket{\frac12, +\frac12}, \ket{\frac12, -\frac12}}    
+    \]
+    I tutaj widzimy, że kwadrat momentu pędu jest \emph{jedynką}.
+    \[
+        \vb{S}_x^2 + \vb{S}_y^2 + \vb{S}_z^2 = \vb{S}^2 = \frac34 \hbar^2 \Id    
+    \]
+    Wtedy dla przestrzeni ogólnej mamy dalej, że:
+    \[
+        \vb{J}^2 = \hbar^2 \frac12 \frac34 \Id + \frac34 \hbar^2 \Id + 2 \qty(S_x\otimes S_x + S_y \otimes S_y + S_z \otimes S_z)    
+    \]
+    \begin{align*}
+        J^2 \ket{\frac12, \frac12} \otimes \ket{\frac12, \frac12} &= \frac32 \hbar^2 \ket{\frac12, \frac12} \otimes \ket{\frac12, \frac12}\\
+         &+ 2 \qty(\frac{\hbar^2}{4} \ket{\frac12, -\frac12} \otimes \ket{\frac12, -\frac12} - \frac{\hbar^2}{4} \ket{\frac12, -\frac12} \otimes \ket{\frac12, -\frac12} + \frac{\hbar^2}{4} \ket{\frac12, \frac12} \otimes \ket{\frac12, \frac12})\\
+         &= \qty(\frac32 \hbar^2 + 2 \frac{\hbar^2}{4}) \ket{\frac12, \frac12} \otimes \ket{\frac12, \frac12} = \hbar^2 1(1 + 1) \ket{\frac12, \frac12} \otimes \ket{\frac12, \frac12}
+    \end{align*}
+    Wniosek: $\ket{j=1, m_j = 1} = \ket{\frac12, \frac12} \otimes \ket{\frac12, \frac12}$  
 \end{lecture}
 
 % ------------------------------------------------------------------------
